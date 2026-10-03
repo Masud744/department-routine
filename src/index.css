@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Professional neutral palette */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-tertiary: #f1f3f5;
+  --color-bg-elevated: #ffffff;
+  
+  --color-text-primary: #1a1d21;
+  --color-text-secondary: #495057;
+  --color-text-tertiary: #868e96;
+  --color-text-muted: #adb5bd;
+  
+  --color-border-default: #dee2e6;
+  --color-border-light: #e9ecef;
+  --color-border-dark: #ced4da;
+  
+  /* Accent — a professional blue-slate */
+  --color-accent: #3b5bdb;
+  --color-accent-light: #edf2ff;
+  --color-accent-dark: #364fc7;
+  --color-accent-text: #ffffff;
+  
+  /* Status colors — accessible and meaningful */
+  --color-status-occupied: #e03131;
+  --color-status-occupied-bg: #fff5f5;
+  --color-status-occupied-border: #ffc9c9;
+  
+  --color-status-available: #2b8a3e;
+  --color-status-available-bg: #f4fcf0;
+  --color-status-available-border: #b2f2bb;
+  
+  --color-status-upcoming: #e67700;
+  --color-status-upcoming-bg: #fff9db;
+  --color-status-upcoming-border: #ffe066;
+  
+  /* Currently running highlight */
+  --color-now-bg: #e7f5ff;
+  --color-now-border: #74c0fc;
+  --color-now-text: #1864ab;
+}
+
+/* Base resets & defaults */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* Status badge utilities */
+.status-occupied {
+  color: var(--color-status-occupied);
+  background-color: var(--color-status-occupied-bg);
+  border-color: var(--color-status-occupied-border);
+}
+
+.status-available {
+  color: var(--color-status-available);
+  background-color: var(--color-status-available-bg);
+  border-color: var(--color-status-available-border);
+}
+
+.status-upcoming {
+  color: var(--color-status-upcoming);
+  background-color: var(--color-status-upcoming-bg);
+  border-color: var(--color-status-upcoming-border);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.status-dot.occupied {
+  background-color: var(--color-status-occupied);
+}
+
+.status-dot.available {
+  background-color: var(--color-status-available);
+}
+
+.status-dot.upcoming {
+  background-color: var(--color-status-upcoming);
+}
+
+/* Currently running class highlight */
+.class-now {
+  background-color: var(--color-now-bg);
+  border-left: 3px solid var(--color-now-border);
+}
+
+/* Card base */
+.card {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+}
+
+/* Timetable grid */
+.timetable-grid {
+  display: grid;
+  grid-template-columns: 100px repeat(5, 1fr);
+  gap: 0;
+  border: 1px solid var(--color-border-default);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--color-bg-elevated);
+}
+
+.timetable-header {
+  background-color: var(--color-bg-tertiary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.timetable-day {
+  background-color: var(--color-bg-tertiary);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--color-border-light);
+  border-right: 1px solid var(--color-border-default);
+  display: flex;
+  align-items: center;
+}
+
+.timetable-cell {
+  padding: 8px;
+  border-bottom: 1px solid var(--color-border-light);
+  border-right: 1px solid var(--color-border-light);
+  min-height: 70px;
+  font-size: 0.8125rem;
+}
+
+.timetable-cell:last-child {
+  border-right: none;
+}
+
+.timetable-cell .course-code {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  margin-bottom: 2px;
+}
+
+.timetable-cell .room-info {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+}
+
+.timetable-cell .teacher-info {
+  color: var(--color-text-tertiary);
+  font-size: 0.75rem;
+}
+
+/* Transitions */
+.fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Live pulse for status indicator */
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse-live {
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+/* Mobile nav overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 40;
+  transition: opacity 0.2s ease;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
