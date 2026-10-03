@@ -27,12 +27,14 @@ import { formatRoomDisplay } from '../data/rooms';
 import type { Day } from '../types/routine';
 import { DynamicWeatherBackground } from '../components/common/DynamicWeatherBackground';
 import { useWeather } from '../hooks/useWeather';
+import { useLiveOnlineUsers } from '../hooks/useLiveOnlineUsers';
 import { VacantRoomFinderModal } from '../components/rooms/VacantRoomFinderModal';
 
 export function Dashboard() {
   const now = useLiveTime();
   const navigate = useNavigate();
   const { selectedBatch } = useBatchSelection();
+  const onlineCount = useLiveOnlineUsers();
 
   const currentDay = getCurrentDay();
   const [activeDay, setActiveDay] = useState<Day>(() => currentDay ?? 'Saturday');
@@ -85,9 +87,18 @@ export function Dashboard() {
       {/* 1. Header Section: Title & Batch Info */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-black text-white tracking-tight">
-            Today Class
-          </h2>
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-2xl font-black text-white tracking-tight">
+              Today Class
+            </h2>
+            <span
+              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-bold text-emerald-400 whitespace-nowrap shadow-sm"
+              title={`${onlineCount} active students browsing`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
+              <span>{onlineCount} {onlineCount === 1 ? 'student' : 'students'} online</span>
+            </span>
+          </div>
           <p className="text-xs text-slate-400 mt-0.5">
             Routine for <span className="text-cyan-400 font-semibold">{getBatchName(selectedBatch)}</span>
           </p>

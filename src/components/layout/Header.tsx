@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, ChevronDown, Check, Search, Download, WifiOff } from 'lucide-react';
 import { useBatchSelection } from '../../hooks/useBatchSelection';
 import { usePwaInstall } from '../../hooks/usePwaInstall';
+import { useLiveOnlineUsers } from '../../hooks/useLiveOnlineUsers';
 import { BATCHES, getBatchName } from '../../types/routine';
 import type { Batch } from '../../types/routine';
 
@@ -13,6 +14,7 @@ interface HeaderProps {
 export function Header({ onOpenSearch }: HeaderProps) {
   const { selectedBatch, setSelectedBatch } = useBatchSelection();
   const { isInstallable, installApp, isOnline } = usePwaInstall();
+  const onlineCount = useLiveOnlineUsers();
   const [batchMenuOpen, setBatchMenuOpen] = useState(false);
 
   return (
@@ -38,6 +40,14 @@ export function Header({ onOpenSearch }: HeaderProps) {
               <span className="font-bold text-white text-xs sm:text-sm">Dept. of IRE</span>
               <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold tracking-wider">
                 UFTB
+              </span>
+              {/* Live Online Students Badge */}
+              <span
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-400 whitespace-nowrap shadow-sm"
+                title={`${onlineCount} active students online right now`}
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
+                <span>{onlineCount} online</span>
               </span>
             </div>
 
