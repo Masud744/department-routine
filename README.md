@@ -2,8 +2,11 @@
 
 > **Real-Time Timetable Engine, Dynamic Weather Campus Environment, and Vacant Room Allocator.**  
 > Department of Internet of Things and Robotics Engineering (IRE)  
-> University of Frontier Technology, Bangladesh (UFTB)
+> University of Frontier Technology, Bangladesh (UFTB)  
+>
+> 🌐 **Live Web Application**: [https://ire-routine.netlify.app](https://ire-routine.netlify.app/)
 
+[![Live Application](https://img.shields.io/badge/Live%20App-ire--routine.netlify.app-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://ire-routine.netlify.app/)
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
@@ -12,6 +15,18 @@
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline%20Ready-F59E0B?style=flat-square&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
 An authentic, production-grade academic management web application built for the students, faculty members, and administrative officers of the Department of Internet of Things and Robotics Engineering (IRE). The system digitizes the official departmental timetable, tracks real-time classroom and lab vacancy across campus buildings, and provides an offline-first Progressive Web App (PWA) experience with live Dhaka atmospheric visualization.
+
+---
+
+## Application Showcase
+
+| Dashboard & Atmosphere | Batch Routine Schedule | Real-Time Room Radar |
+|:---:|:---:|:---:|
+| <img src="screenshots/dashboard.jpeg" width="270" alt="Dashboard Screen" /> | <img src="screenshots/routine.jpeg" width="270" alt="Academic Routine Screen" /> | <img src="screenshots/room_radar.jpeg" width="270" alt="Room Radar Screen" /> |
+
+| Vacant Room Finder | Faculty Directory |
+|:---:|:---:|
+| <img src="screenshots/vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> |
 
 ---
 
@@ -171,11 +186,11 @@ npm test
 npx vitest run
 ```
 
-### Production Build & Netlify Deployment
+### Production Build & Deployment
 ```bash
 npm run build
 ```
-The project includes `netlify.toml` and `public/_redirects` configured out of the box for one-click deployment on Netlify.
+The project includes `netlify.toml` and `public/_redirects` configured out of the box for one-click deployment on [Netlify](https://ire-routine.netlify.app/).
 
 ---
 
@@ -193,6 +208,7 @@ University of Frontier Technology, Bangladesh
 ---
 
 ## Official Links
+- **Live Application**: [https://ire-routine.netlify.app/](https://ire-routine.netlify.app/)
 - **Department Website**: [https://ire.uftb.ac.bd/](https://ire.uftb.ac.bd/)
 - **University**: [University of Frontier Technology, Bangladesh (UFTB)](https://uftb.ac.bd/)
 
