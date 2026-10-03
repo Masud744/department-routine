@@ -111,9 +111,9 @@ export function Dashboard() {
           {/* FOREGROUND CONTENT LAYER (Cleanly floating over frosted glass shield) */}
           <div className="relative z-10 flex flex-col justify-between h-full space-y-4">
             {/* Top row: Status on left, Slot Pill, Time & Weather on right */}
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-1.5 sm:gap-2">
               {/* Status pill */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-medium backdrop-blur-md">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-[11px] sm:text-xs font-semibold backdrop-blur-md whitespace-nowrap flex-shrink-0">
                 {isHeroLive ? (
                   <>
                     <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_#f43f5e]" />
@@ -122,7 +122,7 @@ export function Dashboard() {
                 ) : heroClass === nextClass ? (
                   <>
                     <Clock size={12} className="text-amber-400" />
-                    <span className="text-amber-400 font-semibold">UPCOMING NEXT</span>
+                    <span className="text-amber-400 font-semibold">UPCOMING</span>
                   </>
                 ) : (
                   <>
@@ -133,15 +133,18 @@ export function Dashboard() {
               </div>
 
               {/* Functional Slot/Time/Weather on right */}
-              <div className="flex items-center gap-1.5 xs:gap-2">
-                <span className="px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-[10px] font-bold text-slate-300 uppercase tracking-wider backdrop-blur-md">
-                  SLOT {heroClass.slotNumber}
-                </span>
-                <span className="px-2.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/35 text-xs font-bold text-cyan-300 tabular-nums backdrop-blur-md">
-                  {formatTime12h(heroClass.startTime)}
+              <div className="flex items-center gap-1.5 flex-shrink-0">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/35 text-[11px] tabular-nums backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
+                  <span className="text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                    SLOT {heroClass.slotNumber}
+                  </span>
+                  <span className="text-cyan-400/50 mx-1.5 font-bold">•</span>
+                  <span className="text-cyan-300 font-bold">
+                    {formatTime12h(heroClass.startTime)}
+                  </span>
                 </span>
                 {weather && (
-                  <span className="px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1">
+                  <span className="px-2 py-1 rounded-full bg-black/40 border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1 whitespace-nowrap flex-shrink-0">
                     <span>{weather.isDay ? '☀️' : '🌙'}</span>
                     <span>{weather.temperature}°C</span>
                   </span>
@@ -166,25 +169,25 @@ export function Dashboard() {
 
               {/* Time display */}
               <div className="flex items-center gap-1.5 text-xs text-slate-300 pt-0.5">
-                <Clock size={13} className="text-cyan-400" />
-                <span className="font-medium text-white tabular-nums">
+                <Clock size={13} className="text-cyan-400 flex-shrink-0" />
+                <span className="font-medium text-white tabular-nums whitespace-nowrap">
                   {formatTime12h(heroClass.startTime)} – {formatTime12h(heroClass.endTime)}
                 </span>
               </div>
             </div>
 
             {/* Bottom Action Footer */}
-            <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2.5">
               <button
                 onClick={() => navigate(`/rooms?room=${encodeURIComponent(heroClass.room)}`)}
-                className="px-4 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs tracking-wide shadow-lg shadow-cyan-400/25 transition-all active:scale-95 flex items-center gap-1.5"
+                className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs tracking-wide shadow-md shadow-cyan-400/20 transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
               >
-                <BookOpen size={14} />
+                <BookOpen size={13} />
                 <span>Locate {formatRoomDisplay(heroClass.room)}</span>
                 <ChevronRight size={13} className="stroke-[2.5]" />
               </button>
 
-              <span className="text-[11px] text-slate-300/80 font-medium">
+              <span className="px-2.5 py-1 rounded-full bg-black/50 border border-white/15 text-[11px] text-slate-200 font-medium backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
                 {getBatchLabel(heroClass.batch)}
               </span>
             </div>
