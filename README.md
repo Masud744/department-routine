@@ -9,12 +9,14 @@
 [![Live Application](https://img.shields.io/badge/Live%20App-ire--routine.netlify.app-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://ire-routine.netlify.app/)
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-Realtime%20Presence-FFA611?style=flat-square&logo=firebase&logoColor=white)](https://firebase.google.com/)
+[![GA4](https://img.shields.io/badge/Analytics-Google%20Analytics%204-E37400?style=flat-square&logo=googleanalytics&logoColor=white)](https://analytics.google.com/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4.0-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Vitest](https://img.shields.io/badge/Tests-54%20Passing-10B981?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline%20Ready-F59E0B?style=flat-square&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
-An authentic, production-grade academic management web application built for the students, faculty members, and administrative officers of the Department of Internet of Things and Robotics Engineering (IRE). The system digitizes the official departmental timetable, tracks real-time classroom and lab vacancy across campus buildings, and provides an offline-first Progressive Web App (PWA) experience with live Dhaka atmospheric visualization.
+An authentic, production-grade academic management web application built for the students, faculty members, and administrative officers of the Department of Internet of Things and Robotics Engineering (IRE). The system digitizes the official departmental timetable, tracks real-time classroom and lab vacancy across campus buildings, provides live concurrent student presence powered by Firebase Realtime Database, and offers an offline-first Progressive Web App (PWA) experience with live Dhaka atmospheric visualization.
 
 ---
 
@@ -27,6 +29,16 @@ An authentic, production-grade academic management web application built for the
 | Vacant Room Finder | Faculty Directory |
 |:---:|:---:|
 | <img src="screenshots/vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> |
+
+<br />
+
+<details open>
+<summary><b>📊 Live Google Analytics 4 Real-Time Campus Traffic Showcase</b></summary>
+<br />
+
+<img src="screenshots/analytics_realtime.png" width="850" alt="Live Real-time Google Analytics Traffic" />
+
+</details>
 
 ---
 
@@ -107,6 +119,10 @@ Offers both a day-by-day card timeline and a desktop matrix grid view.
 ### 6. Instant Global Search
 Search across course codes (e.g. `IRE 103`, `CSE 201`), rooms (`LAB 2701`, `5002`), faculty codes/names (`MAS`, `Ashiqussalehin`), and batches.
 
+### 7. Real-Time Student Presence & Campus Analytics
+- **Live Active Students Beacon**: Real-time multi-device presence engine powered by Firebase Realtime Database. Displays dynamic active student count (`🟢 X students online`) directly in the Today Class dashboard with automatic connect/disconnect lifecycle management.
+- **Google Analytics 4 (GA4)**: Real-time traffic monitoring, tracking active sessions, popular batch timetables, and device metrics with privacy-compliant client measurement.
+
 ---
 
 ## Room & Laboratory Directory
@@ -150,6 +166,8 @@ Search across course codes (e.g. `IRE 103`, `CSE 201`), rooms (`LAB 2701`, `5002
 | **Bundler** | [Vite 8](https://vite.dev/) | Instant HMR dev server and optimized production packaging |
 | **Styling** | [TailwindCSS v4](https://tailwindcss.com/) | Mobile-first CSS utility framework and obsidian dark theme |
 | **Icons** | [Lucide React](https://lucide.dev/) | Clean, consistent vector iconography |
+| **Live Presence** | [Firebase Realtime Database](https://firebase.google.com/) | Real-time multi-device student presence tracking with `onDisconnect()` |
+| **Analytics** | [Google Analytics 4](https://analytics.google.com/) | Real-time campus visitor telemetry and page view engagement |
 | **Testing** | [Vitest](https://vitest.dev/) | 54 unit and data integrity tests with JSDOM environment |
 | **PWA** | Service Worker + Web Manifest | Offline asset caching, fast boot, and home screen installation |
 | **Weather Feed** | [Open-Meteo API](https://open-meteo.com/) | Real-time Dhaka temperature and meteorological telemetry |
