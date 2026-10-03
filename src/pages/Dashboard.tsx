@@ -8,7 +8,6 @@ import {
   Calendar,
   CheckCircle2,
   ChevronRight,
-  Sparkles,
   BookOpen,
 } from 'lucide-react';
 import { useLiveTime } from '../hooks/useLiveTime';
@@ -147,11 +146,15 @@ export function Dashboard() {
               </div>
             </div>
 
-            {/* Visual 3D-styled Badge Illustration */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500/20 via-indigo-500/20 to-rose-500/20 border border-white/15 flex items-center justify-center shadow-lg relative flex-shrink-0 group-hover:scale-105 transition-transform">
-              <Sparkles size={28} className="text-cyan-300 animate-pulse" />
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-slate-900 border border-cyan-500/40 flex items-center justify-center">
-                <span className="text-[9px] font-bold text-cyan-400">IRE</span>
+            {/* Functional Slot/Room Badge */}
+            <div className="flex flex-col items-end justify-between flex-shrink-0">
+              <div className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-right">
+                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  Slot {heroClass.slotNumber}
+                </span>
+                <span className="text-xs font-bold text-cyan-400 tabular-nums">
+                  {heroClass.startTime}
+                </span>
               </div>
             </div>
           </div>

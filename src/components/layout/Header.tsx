@@ -35,9 +35,9 @@ export function Header({ onOpenSearch }: HeaderProps) {
 
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <span>Hello 👋</span>
+              <span className="font-semibold text-slate-200">Dept. of IRE</span>
               <span className="text-slate-600">·</span>
-              <span className="text-cyan-400 font-medium truncate">Dept. of IRE</span>
+              <span className="text-cyan-400 font-medium truncate">UFTB</span>
             </div>
 
             {/* Quick Batch Selector Dropdown Pill */}
