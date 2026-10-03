@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Search, User, ChevronDown, Radio } from 'lucide-react';
 import { TEACHER_DIRECTORY } from '../data/teachers';
 import { DAYS, getBatchLabel, getBatchName } from '../types/routine';
 import { formatTime12h } from '../utils/timeUtils';
@@ -7,9 +8,10 @@ import { useLiveTime } from '../hooks/useLiveTime';
 
 export function Teachers() {
   const now = useLiveTime();
+  const [searchQuery, setSearchQuery] = useState('');
   const [expandedTeacher, setExpandedTeacher] = useState<string | null>(null);
 
-  // Get unique rooms and days per teacher
+  // Enriched teachers with unique rooms, batches, courses, and active teaching state
   const enrichedTeachers = useMemo(() => {
     void now;
     return TEACHER_DIRECTORY.map((teacher) => {
@@ -27,116 +29,178 @@ export function Teachers() {
     });
   }, [now]);
 
+  const filteredTeachers = useMemo(() => {
+    if (!searchQuery.trim()) return enrichedTeachers;
+    const q = searchQuery.trim().toLowerCase();
+    return enrichedTeachers.filter(
+      (t) =>
+        t.code.toLowerCase().includes(q) ||
+        (t.fullName && t.fullName.toLowerCase().includes(q))
+    );
+  }, [enrichedTeachers, searchQuery]);
+
   return (
-    <div className="space-y-5 fade-in">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-          Faculty Directory
-        </h2>
-        <p className="text-sm text-[var(--color-text-secondary)]">
-          {TEACHER_DIRECTORY.length} faculty members · Class routines & schedules
-        </p>
+    <div className="space-y-5">
+      {/* 1. Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">
+            Faculty Directory
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+            {TEACHER_DIRECTORY.length} faculty members · Class timetables &amp; assignments
+          </p>
+        </div>
       </div>
 
-      {/* Teacher list */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {enrichedTeachers.map((teacher) => (
-          <div key={teacher.code} className="card overflow-hidden">
-            {/* Header */}
-            <button
-              onClick={() =>
-                setExpandedTeacher(expandedTeacher === teacher.code ? null : teacher.code)
-              }
-              className="w-full text-left p-4 hover:bg-[var(--color-bg-tertiary)] transition-colors"
-              aria-expanded={expandedTeacher === teacher.code}
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-full bg-[var(--color-accent-subtle)] border border-[var(--color-border-default)] flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs font-bold text-[var(--color-accent)]">
+      {/* 2. Search Input */}
+      <div className="relative">
+        <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        <input
+          type="search"
+          placeholder="Search faculty by name or code (e.g. Ashiqussalehin, MAS)..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+        />
+      </div>
+
+      {/* 3. Teachers List */}
+      <div className="space-y-3">
+        {filteredTeachers.length === 0 ? (
+          <div className="glass-card p-8 text-center text-slate-400 space-y-1">
+            <User size={24} className="mx-auto text-slate-500 mb-2" />
+            <p className="text-sm font-semibold text-white">No faculty members found</p>
+            <p className="text-xs text-slate-500">Try searching with a different name or short code.</p>
+          </div>
+        ) : (
+          filteredTeachers.map((teacher) => {
+            const isExpanded = expandedTeacher === teacher.code;
+
+            return (
+              <div
+                key={teacher.code}
+                className={`glass-card overflow-hidden transition-all ${
+                  teacher.currentlyTeaching ? 'border-cyan-500/40 bg-cyan-950/10' : ''
+                }`}
+              >
+                {/* Main Card Summary */}
+                <div
+                  onClick={() => setExpandedTeacher(isExpanded ? null : teacher.code)}
+                  className="p-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 min-w-0">
+                      {/* Avatar with Initials */}
+                      <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0 text-cyan-400 font-bold text-sm shadow-sm">
                         {teacher.code}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
-                        {teacher.fullName ?? teacher.code}
-                      </h3>
-                      {teacher.fullName && (
-                        <p className="text-xs text-[var(--color-text-tertiary)]">
-                          Teacher Code: <span className="font-medium text-[var(--color-text-secondary)]">{teacher.code}</span>
+                      </div>
+
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-bold text-sm text-white truncate">
+                            {teacher.fullName ?? teacher.code}
+                          </h3>
+                        </div>
+
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          Code: <span className="font-semibold text-cyan-400">{teacher.code}</span>
                         </p>
+
+                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400">
+                          <span>{teacher.classes.length} classes</span>
+                          <span>•</span>
+                          <span>{teacher.uniqueCourses.length} courses</span>
+                          <span>•</span>
+                          <span>{teacher.uniqueBatches.map(b => getBatchName(b)).join(', ')}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right side: Teaching Badge & Chevron */}
+                    <div className="flex flex-col items-end justify-between flex-shrink-0">
+                      {teacher.currentlyTeaching ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30 animate-pulse">
+                          <Radio size={10} />
+                          Teaching
+                        </span>
+                      ) : (
+                        <span className="text-[11px] text-slate-500">
+                          {teacher.uniqueRooms.length} rooms
+                        </span>
                       )}
+
+                      <ChevronDown
+                        size={16}
+                        className={`text-slate-400 mt-3 transition-transform duration-200 ${
+                          isExpanded ? 'rotate-180 text-cyan-400' : ''
+                        }`}
+                      />
                     </div>
                   </div>
                 </div>
-                {teacher.currentlyTeaching && (
-                  <span className="text-[10px] font-semibold text-[var(--color-now-text)] bg-[var(--color-now-bg)] px-1.5 py-0.5 rounded uppercase tracking-wider">
-                    Teaching
-                  </span>
+
+                {/* Expanded Weekly Schedule Accordion */}
+                {isExpanded && (
+                  <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-3">
+                    <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                      Weekly Timetable
+                    </h4>
+
+                    <div className="space-y-2.5">
+                      {DAYS.map((day) => {
+                        const dayClasses = teacher.classes
+                          .filter((c) => c.day === day)
+                          .sort((a, b) => a.slotNumber - b.slotNumber);
+
+                        if (dayClasses.length === 0) return null;
+
+                        return (
+                          <div key={day} className="space-y-1.5">
+                            <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wide block">
+                              {day}
+                            </span>
+                            <div className="space-y-1.5">
+                              {dayClasses.map((entry) => {
+                                const running = isCurrentlyRunning(entry);
+
+                                return (
+                                  <div
+                                    key={entry.id}
+                                    className={`flex items-center justify-between p-2.5 rounded-xl border text-xs transition-colors ${
+                                      running
+                                        ? 'bg-rose-500/10 border-rose-500/30'
+                                        : 'bg-white/[0.03] border-white/5'
+                                    }`}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      {running && (
+                                        <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                                      )}
+                                      <span className="font-bold text-white">
+                                        {entry.courseCode}
+                                      </span>
+                                      <span className="text-slate-400">
+                                        {entry.room} · {getBatchLabel(entry.batch)}
+                                      </span>
+                                    </div>
+                                    <span className="text-slate-400 tabular-nums">
+                                      {formatTime12h(entry.startTime)} – {formatTime12h(entry.endTime)}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 )}
               </div>
-
-              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--color-text-tertiary)]">
-                <span>{teacher.classes.length} classes</span>
-                <span>{teacher.uniqueCourses.length} courses</span>
-                <span>{teacher.uniqueRooms.length} rooms</span>
-                <span>{teacher.uniqueBatches.map(b => getBatchName(b)).join(', ')}</span>
-              </div>
-            </button>
-
-            {/* Expanded schedule */}
-            {expandedTeacher === teacher.code && (
-              <div className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-secondary)] p-3">
-                <h4 className="text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide mb-2">
-                  Weekly Schedule
-                </h4>
-                {DAYS.map((day) => {
-                  const dayClasses = teacher.classes
-                    .filter((c) => c.day === day)
-                    .sort((a, b) => a.slotNumber - b.slotNumber);
-                  if (dayClasses.length === 0) return null;
-                  return (
-                    <div key={day} className="mb-2 last:mb-0">
-                      <p className="text-[11px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wide mb-1">
-                        {day}
-                      </p>
-                      <div className="space-y-1">
-                        {dayClasses.map((entry) => {
-                          const running = isCurrentlyRunning(entry);
-                          return (
-                            <div
-                              key={entry.id}
-                              className={`flex items-center justify-between text-xs bg-white rounded px-2.5 py-1.5 border border-[var(--color-border-light)] ${
-                                running ? 'class-now' : ''
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 min-w-0">
-                                {running && (
-                                  <span className="status-dot occupied pulse-live" />
-                                )}
-                                <span className="font-medium text-[var(--color-text-primary)]">
-                                  {entry.courseCode}
-                                </span>
-                                <span className="text-[var(--color-text-tertiary)]">
-                                  Room {entry.room} · {getBatchLabel(entry.batch)}
-                                </span>
-                              </div>
-                              <span className="text-[var(--color-text-tertiary)] tabular-nums flex-shrink-0 ml-2">
-                                {formatTime12h(entry.startTime)} – {formatTime12h(entry.endTime)}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        ))}
+            );
+          })
+        )}
       </div>
     </div>
   );
