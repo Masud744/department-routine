@@ -80,13 +80,9 @@ Full schedule coverage for all five departmental academic sessions:
 
 Offers both a day-by-day card timeline and a desktop matrix grid view.
 
-### 4. Faculty Directory
-Displays all departmental teachers according to official university protocol and academic hierarchy:
-- **Chairman & Assistant Professor**: Md. Toukir Ahmed (`MTA`)
-- **Assistant Professors**: Farzana Akter (`FA`), Suman Saha (`SS`), Sadia Enam (`SE`), Fahmida Ahmed Antara (`FAA`)
-- **Lecturers**: Md. Ashiqussalehin (`MAS`), Md. Rafiqul Islam (`MRI`), Mahir Mahbub (`MM`), Saurav Chandra Das (`SCD`), Mostafiz Ahammed (`MAH`)
-
-Includes individual teacher schedules, active teaching status indicators, and course distributions.
+### 4. Faculty Schedules & Directory
+- Complete weekly timetable, active teaching indicator, and course distribution for each faculty member.
+- Structured directory covering Chairman, Assistant Professors, and Lecturers.
 
 ### 5. Progressive Web App (PWA) & Offline Reliability
 - **Service Worker Cache**: Caches application assets, stylesheets, icons, and timetable data for instant offline access.
@@ -142,6 +138,7 @@ Search across course codes (e.g. `IRE 103`, `CSE 201`), rooms (`LAB 2701`, `5002
 | **Testing** | [Vitest](https://vitest.dev/) | 54 unit and data integrity tests with JSDOM environment |
 | **PWA** | Service Worker + Web Manifest | Offline asset caching, fast boot, and home screen installation |
 | **Weather Feed** | [Open-Meteo API](https://open-meteo.com/) | Real-time Dhaka temperature and meteorological telemetry |
+| **Deployment** | [Netlify](https://www.netlify.com/) | Edge CDN hosting with SPA redirect configuration |
 
 ---
 
@@ -174,15 +171,33 @@ npm test
 npx vitest run
 ```
 
-### Production Build
+### Production Build & Netlify Deployment
 ```bash
 npm run build
 ```
-Generates production assets in the `dist/` directory ready for deployment to Cloudflare Pages, Vercel, or Nginx.
+The project includes `netlify.toml` and `public/_redirects` configured out of the box for one-click deployment on Netlify.
+
+---
+
+## Developed By
+
+**Shahriar Alom Masud**  
+B.Sc. Engg. in IoT & Robotics Engineering  
+University of Frontier Technology, Bangladesh  
+
+- **Email**: [shahriar0002@std.uftb.ac.bd](mailto:shahriar0002@std.uftb.ac.bd)
+- **Personal Email**: [masud.nil74@gmail.com](mailto:masud.nil74@gmail.com)
+- **LinkedIn**: [https://www.linkedin.com/in/shahriar-alom-masud](https://www.linkedin.com/in/shahriar-alom-masud)
+- **GitHub**: [https://github.com/Masud744](https://github.com/Masud744)
 
 ---
 
 ## Official Links
 - **Department Website**: [https://ire.uftb.ac.bd/](https://ire.uftb.ac.bd/)
 - **University**: [University of Frontier Technology, Bangladesh (UFTB)](https://uftb.ac.bd/)
-- **GitHub Repository**: [https://github.com/Masud744/department-routine](https://github.com/Masud744/department-routine)
+
+---
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
