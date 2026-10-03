@@ -61,6 +61,19 @@ export function formatCurrentTime(date: Date): string {
   return `${displayHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period}`;
 }
 
+/** Format current time in 12-hour format (e.g. "11:02 PM" or "11:02:15 PM") */
+export function formatCurrentTime12h(date: Date, showSeconds = false): string {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  if (showSeconds) {
+    return `${displayHours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${period}`;
+  }
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
 /** Format date as "October 3, 2026" */
 export function formatDate(date: Date): string {
   const months = [

@@ -4,6 +4,7 @@ import { searchRoutine } from '../../services/routineService';
 import { getBatchName } from '../../types/routine';
 import { TEACHER_NAME_MAP } from '../../data/routine';
 import { formatTime12h } from '../../utils/timeUtils';
+import { formatRoomDisplay } from '../../data/rooms';
 import type { RoutineEntry } from '../../types/routine';
 
 interface SearchModalProps {
@@ -161,7 +162,7 @@ export function SearchModal({ isOpen, onClose, onSelectEntry }: SearchModalProps
                         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
                           <span className="flex items-center gap-1">
                             <MapPin size={12} className="text-slate-500" />
-                            {entry.room.startsWith('LAB') || entry.room === 'IOT-LAB' ? entry.room : `Room ${entry.room}`}
+                            {formatRoomDisplay(entry.room)}
                           </span>
                           {teacherName && (
                             <span className="flex items-center gap-1">

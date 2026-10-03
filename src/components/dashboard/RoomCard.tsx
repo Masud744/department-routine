@@ -3,6 +3,7 @@ import { getBatchLabel } from '../../types/routine';
 import { TEACHER_NAME_MAP } from '../../data/routine';
 import { StatusBadge } from '../common/StatusBadge';
 import { formatTime12h } from '../../utils/timeUtils';
+import { formatRoomDisplay } from '../../data/rooms';
 
 interface RoomCardProps {
   roomState: RoomState;
@@ -17,7 +18,7 @@ export function RoomCard({ roomState }: RoomCardProps) {
       <div className="flex items-start justify-between mb-2.5">
         <div>
           <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
-            {room.startsWith('LAB-') || room === 'IOT-LAB' ? room : `Room ${room}`}
+            {formatRoomDisplay(room)}
           </h3>
         </div>
         <StatusBadge status={status} />

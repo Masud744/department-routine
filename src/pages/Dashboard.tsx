@@ -2,8 +2,6 @@ import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Clock,
-  MapPin,
-  User,
   DoorOpen,
   Calendar,
   CheckCircle2,
@@ -15,8 +13,6 @@ import { useBatchSelection } from '../hooks/useBatchSelection';
 import {
   getCurrentDay,
   formatTime12h,
-  timeToMinutes,
-  getCurrentTimeMinutes,
 } from '../utils/timeUtils';
 import {
   getRoutineForBatchDay,
@@ -27,7 +23,11 @@ import {
 import { getAllRoomStatuses } from '../services/roomAllocationService';
 import { DAYS, getBatchName, getBatchLabel } from '../types/routine';
 import { TEACHER_NAME_MAP } from '../data/routine';
+import { formatRoomDisplay } from '../data/rooms';
 import type { Day } from '../types/routine';
+import { DynamicWeatherBackground } from '../components/common/DynamicWeatherBackground';
+import { useWeather } from '../hooks/useWeather';
+import { VacantRoomFinderModal } from '../components/rooms/VacantRoomFinderModal';
 
 export function Dashboard() {
   const now = useLiveTime();
@@ -36,6 +36,8 @@ export function Dashboard() {
 
   const currentDay = getCurrentDay();
   const [activeDay, setActiveDay] = useState<Day>(() => currentDay ?? 'Saturday');
+  const [isVacantModalOpen, setIsVacantModalOpen] = useState(false);
+  const weather = useWeather();
 
   // Recalculate driven by live clock
   const currentClass = useMemo(() => {
@@ -83,34 +85,39 @@ export function Dashboard() {
       {/* 1. Header Section: Title & Batch Info */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-2xl font-black text-white tracking-tight">
             Today Class
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Routine for <span className="text-cyan-400 font-medium">{getBatchName(selectedBatch)}</span>
+            Routine for <span className="text-cyan-400 font-semibold">{getBatchName(selectedBatch)}</span>
           </p>
         </div>
 
         <Link
           to="/routines"
-          className="text-xs font-medium text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
+          className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
         >
           <span>Full Routine</span>
-          <ChevronRight size={14} />
+          <ChevronRight size={14} className="stroke-[2.5]" />
         </Link>
       </div>
 
-      {/* 2. Featured Hero Card (Matching Reference Screen center card) */}
+      {/* 2. Featured Hero Card with Grand Dynamic Celestial Sky & Architecture */}
       {heroClass ? (
-        <div className="hero-live-card p-5 relative group">
-          <div className="flex items-start justify-between gap-3">
-            <div className="space-y-2 max-w-[70%]">
+        <div className="hero-live-card p-5 relative group overflow-hidden min-h-[210px] rounded-[26px] border border-white/10 shadow-2xl flex flex-col justify-between">
+          {/* FULL-CARD DYNAMIC WEATHER ENVIRONMENT */}
+          <DynamicWeatherBackground />
+
+          {/* FOREGROUND CONTENT LAYER (Cleanly floating over frosted glass shield) */}
+          <div className="relative z-10 flex flex-col justify-between h-full space-y-4">
+            {/* Top row: Status on left, Slot Pill, Time & Weather on right */}
+            <div className="flex items-center justify-between gap-2">
               {/* Status pill */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 border border-white/10 text-xs font-medium">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-medium backdrop-blur-md">
                 {isHeroLive ? (
                   <>
-                    <span className="live-radar-dot" />
-                    <span className="text-rose-400 font-semibold tracking-wide">LIVE NOW</span>
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_#f43f5e]" />
+                    <span className="text-rose-400 font-bold tracking-wide">LIVE NOW</span>
                   </>
                 ) : heroClass === nextClass ? (
                   <>
@@ -119,75 +126,117 @@ export function Dashboard() {
                   </>
                 ) : (
                   <>
-                    <BookOpen size={12} className="text-cyan-400" />
+                    <Calendar size={12} className="text-cyan-400" />
                     <span className="text-cyan-400 font-medium">Scheduled</span>
                   </>
                 )}
               </div>
 
-              {/* Course Title */}
-              <div>
-                <h3 className="text-xl font-extrabold text-white tracking-tight leading-snug">
-                  {heroClass.courseCode}
-                </h3>
-                <p className="text-xs text-slate-300 font-normal mt-0.5 flex items-center gap-1.5">
-                  <span>{heroClass.room.startsWith('LAB') || heroClass.room === 'IOT-LAB' ? heroClass.room : `Room ${heroClass.room}`}</span>
-                  <span className="text-slate-500">•</span>
-                  <span>{heroClass.teacherCode ? (TEACHER_NAME_MAP[heroClass.teacherCode] ?? heroClass.teacherCode) : 'Assigned Faculty'}</span>
-                </p>
+              {/* Functional Slot/Time/Weather on right */}
+              <div className="flex items-center gap-1.5 xs:gap-2">
+                <span className="px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-[10px] font-bold text-slate-300 uppercase tracking-wider backdrop-blur-md">
+                  SLOT {heroClass.slotNumber}
+                </span>
+                <span className="px-2.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/35 text-xs font-bold text-cyan-300 tabular-nums backdrop-blur-md">
+                  {formatTime12h(heroClass.startTime)}
+                </span>
+                {weather && (
+                  <span className="px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1">
+                    <span>{weather.isDay ? '☀️' : '🌙'}</span>
+                    <span>{weather.temperature}°C</span>
+                  </span>
+                )}
               </div>
+            </div>
+
+            {/* Middle row: Course Title, Room & Faculty, Time */}
+            <div className="space-y-1.5 max-w-[66%]">
+              <h3 className="text-3xl font-black text-white tracking-tight leading-none drop-shadow-md">
+                {heroClass.courseCode}
+              </h3>
+              <p className="text-xs text-slate-200 font-normal flex items-center gap-1.5 pt-0.5">
+                <span className="font-semibold text-white">
+                  {formatRoomDisplay(heroClass.room)}
+                </span>
+                <span className="text-slate-400">•</span>
+                <span className="truncate">
+                  {heroClass.teacherCode ? (TEACHER_NAME_MAP[heroClass.teacherCode] ?? heroClass.teacherCode) : 'Assigned Faculty'}
+                </span>
+              </p>
 
               {/* Time display */}
-              <div className="flex items-center gap-2 text-xs text-slate-300 pt-1">
-                <Clock size={13} className="text-slate-400" />
+              <div className="flex items-center gap-1.5 text-xs text-slate-300 pt-0.5">
+                <Clock size={13} className="text-cyan-400" />
                 <span className="font-medium text-white tabular-nums">
                   {formatTime12h(heroClass.startTime)} – {formatTime12h(heroClass.endTime)}
                 </span>
               </div>
             </div>
 
-            {/* Functional Slot/Room Badge */}
-            <div className="flex flex-col items-end justify-between flex-shrink-0">
-              <div className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-right">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
-                  Slot {heroClass.slotNumber}
-                </span>
-                <span className="text-xs font-bold text-cyan-400 tabular-nums">
-                  {heroClass.startTime}
-                </span>
-              </div>
+            {/* Bottom Action Footer */}
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+              <button
+                onClick={() => navigate(`/rooms?room=${encodeURIComponent(heroClass.room)}`)}
+                className="px-4 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs tracking-wide shadow-lg shadow-cyan-400/25 transition-all active:scale-95 flex items-center gap-1.5"
+              >
+                <BookOpen size={14} />
+                <span>Locate {formatRoomDisplay(heroClass.room)}</span>
+                <ChevronRight size={13} className="stroke-[2.5]" />
+              </button>
+
+              <span className="text-[11px] text-slate-300/80 font-medium">
+                {getBatchLabel(heroClass.batch)}
+              </span>
             </div>
-          </div>
-
-          {/* Action Footer */}
-          <div className="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between">
-            <button
-              onClick={() => navigate(`/rooms?room=${encodeURIComponent(heroClass.room)}`)}
-              className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold text-xs tracking-wide shadow-md shadow-cyan-500/20 transition-all active:scale-95 flex items-center gap-1.5"
-            >
-              <DoorOpen size={14} />
-              <span>Locate {heroClass.room}</span>
-            </button>
-
-            <span className="text-[11px] text-slate-400 font-medium">
-              {getBatchLabel(heroClass.batch)}
-            </span>
           </div>
         </div>
       ) : (
-        <div className="glass-card p-6 text-center space-y-2">
-          <Calendar size={28} className="mx-auto text-slate-500" />
-          <p className="text-sm font-semibold text-white">No classes scheduled</p>
-          <p className="text-xs text-slate-400">Enjoy your break or explore room occupancy below.</p>
+        <div className="hero-live-card p-5 relative overflow-hidden min-h-[150px] rounded-[26px] border border-white/10 flex items-center justify-between">
+          <DynamicWeatherBackground />
+          <div className="relative z-10 space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-xs font-semibold text-cyan-400 backdrop-blur-md">
+              <Calendar size={12} />
+              <span>No Active Class</span>
+            </div>
+            <p className="text-base font-bold text-white">No classes running right now</p>
+            <p className="text-xs text-slate-300">Enjoy your break or check vacant rooms for group study below.</p>
+          </div>
         </div>
       )}
 
-      {/* 3. Horizontal Interactive Week Strip (Exactly like Center Phone in Reference) */}
+      {/* 2.5 Quick Action Banner: Find Vacant Room Now */}
+      <div
+        onClick={() => setIsVacantModalOpen(true)}
+        className="glass-card p-3.5 rounded-2xl border border-white/10 hover:border-emerald-500/40 cursor-pointer transition-all active:scale-[0.99] group flex items-center justify-between gap-3 bg-[#0c1420]/80"
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-emerald-500/10">
+            <DoorOpen size={20} />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">
+                Find Vacant Room Now
+              </h3>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-400 border border-emerald-400/30">
+                {roomSummary.available + roomSummary.upcoming} Free
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 truncate mt-0.5">
+              Check empty classrooms & labs for group study or self study.
+            </p>
+          </div>
+        </div>
+
+        <ChevronRight size={18} className="text-slate-400 group-hover:text-emerald-400 transition-colors flex-shrink-0" />
+      </div>
+
+      {/* 3. Horizontal Interactive Week Strip */}
       <div className="space-y-2.5">
         <div className="flex items-center justify-between text-xs px-1">
-          <span className="font-semibold text-slate-300">Weekly Schedule</span>
+          <span className="font-bold text-sm text-white">Weekly Schedule</span>
           {currentDay && (
-            <span className="text-[11px] text-cyan-400 font-medium">
+            <span className="text-xs text-cyan-400 font-semibold">
               Today is {currentDay}
             </span>
           )}
@@ -196,34 +245,33 @@ export function Dashboard() {
         <div className="grid grid-cols-5 gap-2">
           {DAYS.map((day) => {
             const isSelected = activeDay === day;
-            const isToday = currentDay === day;
 
             return (
               <button
                 key={day}
                 onClick={() => setActiveDay(day)}
-                className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl transition-all relative ${
-                  isSelected ? 'active-day-pill' : 'inactive-day-pill'
+                className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
+                  isSelected
+                    ? 'bg-white text-slate-950 shadow-lg scale-[1.02]'
+                    : 'bg-[#0c1420]/80 border border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
                 aria-pressed={isSelected}
               >
                 {/* Day of Week Initial */}
-                <span className={`text-[11px] font-medium tracking-wide ${isSelected ? 'text-slate-900' : 'text-slate-400'}`}>
+                <span className={`text-xs font-bold ${isSelected ? 'text-slate-900' : 'text-slate-400'}`}>
                   {dayAbbr[day].short}
                 </span>
 
                 {/* Day Name */}
-                <span className={`text-xs font-bold mt-1 ${isSelected ? 'text-black' : 'text-white'}`}>
+                <span className={`text-xs font-extrabold mt-0.5 ${isSelected ? 'text-black' : 'text-slate-300'}`}>
                   {dayAbbr[day].label}
                 </span>
 
-                {/* Today indicator dot */}
-                {isToday && (
+                {/* Cyan dot indicator when selected */}
+                {isSelected && (
                   <span
-                    className={`w-1.5 h-1.5 rounded-full mt-1.5 ${
-                      isSelected ? 'bg-cyan-600' : 'bg-cyan-400 shadow-[0_0_6px_#06b6d4]'
-                    }`}
-                    title="Today"
+                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-cyan-500 shadow-[0_0_6px_#06b6d4]"
+                    title="Active Selection"
                   />
                 )}
               </button>
@@ -232,58 +280,52 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* 4. Timeline Schedule List for Selected Day (Reference center list) */}
+      {/* 4. Timeline Schedule List for Selected Day */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs px-1">
-          <h4 className="font-semibold text-slate-300">
+          <h4 className="font-bold text-sm text-white">
             {activeDay} Classes
           </h4>
-          <span className="text-slate-500 text-[11px]">
+          <span className="text-slate-400 text-xs font-medium">
             {activeDayClasses.length} {activeDayClasses.length === 1 ? 'class' : 'classes'}
           </span>
         </div>
 
         {activeDayClasses.length === 0 ? (
-          <div className="glass-card p-6 text-center text-slate-400 space-y-1">
+          <div className="glass-card p-6 text-center text-slate-400 space-y-1 rounded-2xl border border-white/5">
             <p className="text-sm font-medium text-slate-300">No classes scheduled on {activeDay}</p>
             <p className="text-xs text-slate-500">Pick another day from the bar above to view the routine.</p>
           </div>
         ) : (
           <div className="space-y-2.5">
-            {activeDayClasses.map((entry) => {
+            {activeDayClasses.map((entry, index) => {
               const running = isCurrentlyRunning(entry);
               const teacherName = entry.teacherCode
                 ? TEACHER_NAME_MAP[entry.teacherCode] ?? entry.teacherCode
                 : 'Faculty';
 
-              const currentMinutes = getCurrentTimeMinutes();
-              const endMinutes = timeToMinutes(entry.endTime);
-              const isPast = currentDay === activeDay && currentMinutes >= endMinutes;
+              const isFirst = index === 0;
 
               return (
                 <div
                   key={entry.id}
-                  className={`glass-card p-3.5 flex items-center justify-between gap-3 transition-all ${
-                    running
-                      ? 'border-cyan-500/60 bg-cyan-950/20 shadow-[0_0_20px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500/30'
-                      : isPast
-                      ? 'opacity-60 bg-white/[0.02]'
-                      : ''
+                  className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all ${
+                    running || (isFirst && currentDay === activeDay)
+                      ? 'border border-cyan-400/90 bg-gradient-to-r from-cyan-950/40 via-[#0d1624] to-[#0c1420] shadow-[0_0_20px_rgba(6,182,212,0.2)]'
+                      : 'bg-[#0c1420]/80 border border-white/5 hover:border-white/10'
                   }`}
                 >
-                  {/* Left: Time Icon Badge */}
+                  {/* Left: Circle Icon Indicator */}
                   <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 border ${
-                        running
-                          ? 'bg-rose-500/15 border-rose-500/30 text-rose-400'
-                          : isPast
-                          ? 'bg-white/5 border-white/5 text-slate-500'
-                          : 'bg-white/5 border-white/10 text-cyan-400'
-                      }`}
-                    >
-                      {isPast ? <CheckCircle2 size={18} /> : <Clock size={18} />}
-                    </div>
+                    {running || (isFirst && currentDay === activeDay) ? (
+                      <div className="w-8 h-8 rounded-full border-2 border-cyan-400 flex items-center justify-center text-cyan-400 flex-shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.3)]">
+                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#06b6d4]" />
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 flex-shrink-0">
+                        <CheckCircle2 size={16} />
+                      </div>
+                    )}
 
                     {/* Middle: Course Code & Teacher/Room */}
                     <div className="min-w-0">
@@ -298,28 +340,29 @@ export function Dashboard() {
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5 truncate">
-                        <span className="flex items-center gap-1 text-slate-300">
-                          <MapPin size={11} className="text-slate-500 flex-shrink-0" />
-                          {entry.room.startsWith('LAB') || entry.room === 'IOT-LAB' ? entry.room : `Room ${entry.room}`}
+                      <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5 truncate">
+                        <span className="text-slate-300">
+                          {formatRoomDisplay(entry.room)}
                         </span>
-                        <span className="text-slate-600">·</span>
-                        <span className="flex items-center gap-1 truncate">
-                          <User size={11} className="text-slate-500 flex-shrink-0" />
+                        <span className="text-slate-500">•</span>
+                        <span className="truncate">
                           {teacherName}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right: Time Slot Badge */}
-                  <div className="text-right flex-shrink-0">
-                    <span className="text-xs font-semibold text-white block tabular-nums">
-                      {formatTime12h(entry.startTime)}
-                    </span>
-                    <span className="text-[10px] text-slate-400 tabular-nums">
-                      {formatTime12h(entry.endTime)}
-                    </span>
+                  {/* Right: Time Slot & Arrow */}
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-white block tabular-nums">
+                        {formatTime12h(entry.startTime)}
+                      </span>
+                      <span className="text-[11px] text-slate-400 tabular-nums">
+                        {formatTime12h(entry.endTime)}
+                      </span>
+                    </div>
+                    <ChevronRight size={16} className="text-slate-500" />
                   </div>
                 </div>
               );
@@ -378,6 +421,12 @@ export function Dashboard() {
           </Link>
         </div>
       </div>
+
+      {/* Vacant Room Finder Modal */}
+      <VacantRoomFinderModal
+        isOpen={isVacantModalOpen}
+        onClose={() => setIsVacantModalOpen(false)}
+      />
     </div>
   );
 }

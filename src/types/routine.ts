@@ -85,6 +85,7 @@ export interface RoomState {
 export interface TeacherInfo {
   readonly code: string;
   readonly fullName: string | null; // null = not yet configured
+  readonly designation?: string;
   readonly classes: RoutineEntry[];
 }
 

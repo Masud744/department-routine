@@ -12,6 +12,7 @@ import { isCurrentlyRunning } from '../services/routineService';
 import { formatTime12h, getCurrentDay } from '../utils/timeUtils';
 import { useBatchSelection } from '../hooks/useBatchSelection';
 import { TEACHER_NAME_MAP } from '../data/routine';
+import { formatRoomDisplay } from '../data/rooms';
 import type { Batch, Day } from '../types/routine';
 import { getBatchLabel, getBatchName } from '../types/routine';
 
@@ -193,7 +194,7 @@ export function Routines() {
                             <span className="flex items-center gap-1">
                               <MapPin size={12} className="text-cyan-400" />
                               <span className="font-medium text-white">
-                                {entry.room.startsWith('LAB') || entry.room === 'IOT-LAB' ? entry.room : `Room ${entry.room}`}
+                                {formatRoomDisplay(entry.room)}
                               </span>
                             </span>
                             <span className="text-slate-600">·</span>
@@ -275,7 +276,7 @@ export function Routines() {
                                   {entry.courseCode}
                                 </div>
                                 <div className="text-[11px] text-cyan-400 font-medium truncate">
-                                  {entry.room}
+                                  {formatRoomDisplay(entry.room)}
                                 </div>
                                 {entry.teacherCode && (
                                   <div

@@ -57,16 +57,15 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
           )}
         </NavLink>
 
-        {/* Search Action Button */}
+        {/* Floating Center Search Action Button */}
         <button
           onClick={onOpenSearch}
-          className="flex flex-col items-center justify-center py-1.5 px-3 rounded-xl text-slate-400 hover:text-cyan-400 transition-colors"
+          className="relative -top-3 flex flex-col items-center justify-center group"
           aria-label="Open search"
         >
-          <div className="w-9 h-9 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.2)]">
-            <Search size={18} />
+          <div className="w-12 h-12 rounded-full bg-[#081324] border-2 border-cyan-400/90 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.45)] group-hover:border-cyan-300 group-hover:scale-105 active:scale-95 transition-all">
+            <Search size={20} className="stroke-[2.5]" />
           </div>
-          <span className="text-[10px] mt-0.5 text-cyan-400 font-medium">Search</span>
         </button>
 
         {/* Rooms */}

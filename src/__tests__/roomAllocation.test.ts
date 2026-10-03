@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { getRoomStatus, getRoomSchedule } from '../services/roomAllocationService';
+import { getRoomStatus, getRoomSchedule, getVacantRoomsForStudy } from '../services/roomAllocationService';
 import { getRoutineForBatch, getRoutineCell, searchRoutine } from '../services/routineService';
 import { timeToMinutes, formatTime12h, timeDifference, isWorkingDay } from '../utils/timeUtils';
 import { ROUTINE_DATA, TEACHER_NAME_MAP } from '../data/routine';
-import { ALL_ROOMS } from '../data/rooms';
+import { ALL_ROOMS, getRoomMetadata, ROOM_METADATA } from '../data/rooms';
 import { BATCH_INFO, getBatchName, getBatchLabel } from '../types/routine';
 import type { Day } from '../types/routine';
 
@@ -429,3 +429,68 @@ describe('Data Integrity', () => {
     expect(TEACHER_NAME_MAP['FA']).toBe('Farzana Akter');
   });
 });
+
+// ==========================================================
+// VACANT ROOM STUDY FINDER TESTS
+// ==========================================================
+describe('getVacantRoomsForStudy', () => {
+  it('returns all 7 rooms in the department', () => {
+    const list = getVacantRoomsForStudy('Saturday', 600); // 10:00 AM
+    expect(list.length).toBe(ALL_ROOMS.length);
+  });
+
+  it('puts currently free rooms before occupied rooms', () => {
+    // At 10:00 AM on Sunday, some rooms are occupied, some free
+    const list = getVacantRoomsForStudy('Sunday', 600);
+    const firstFreeIndex = list.findIndex((r) => r.isFreeNow);
+    const firstOccupiedIndex = list.findIndex((r) => !r.isFreeNow);
+
+    if (firstFreeIndex !== -1 && firstOccupiedIndex !== -1) {
+      expect(firstFreeIndex).toBeLessThan(firstOccupiedIndex);
+    }
+  });
+
+  it('reports all rooms as available on non-working days (Thursday/Friday)', () => {
+    const list = getVacantRoomsForStudy(null, 600);
+    expect(list.every((r) => r.isFreeNow)).toBe(true);
+    expect(list.every((r) => r.freeUntilTime === 'Off Day')).toBe(true);
+  });
+
+  it('attaches rich metadata to each vacant room result', () => {
+    const list = getVacantRoomsForStudy('Saturday', 600);
+    for (const item of list) {
+      expect(item.metadata).toBeDefined();
+      expect(item.metadata.displayName).toBeDefined();
+      expect(item.metadata.floor).toBeDefined();
+      expect(item.metadata.capacity).toBeGreaterThan(0);
+      expect(Array.isArray(item.metadata.amenities)).toBe(true);
+    }
+  });
+});
+
+// ==========================================================
+// ROOM METADATA INTEGRITY
+// ==========================================================
+describe('ROOM_METADATA', () => {
+  it('has definitions for all campus rooms', () => {
+    for (const room of ALL_ROOMS) {
+      const meta = getRoomMetadata(room);
+      expect(meta).toBeDefined();
+      expect(meta.id).toBe(room);
+      expect(['lecture', 'lab']).toContain(meta.type);
+      expect(meta.amenities.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('correctly categorizes labs and lecture halls', () => {
+    expect(ROOM_METADATA['LAB-4701'].type).toBe('lab');
+    expect(ROOM_METADATA['LAB-5701'].type).toBe('lab');
+    expect(ROOM_METADATA['IOT-LAB'].type).toBe('lab');
+
+    expect(ROOM_METADATA['1002'].type).toBe('lecture');
+    expect(ROOM_METADATA['2002'].type).toBe('lecture');
+    expect(ROOM_METADATA['4002'].type).toBe('lecture');
+    expect(ROOM_METADATA['5002'].type).toBe('lecture');
+  });
+});
+

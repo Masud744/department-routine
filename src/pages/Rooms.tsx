@@ -6,12 +6,15 @@ import { getAllRoomStatuses, getRoomSchedule } from '../services/roomAllocationS
 import { getCurrentDay, formatTime12h } from '../utils/timeUtils';
 import { DAYS, getBatchLabel } from '../types/routine';
 import { TEACHER_NAME_MAP } from '../data/routine';
+import { formatRoomDisplay } from '../data/rooms';
 import type { RoomStatus, Day } from '../types/routine';
+import { VacantRoomFinderModal } from '../components/rooms/VacantRoomFinderModal';
 
 type StatusFilter = 'all' | RoomStatus;
 
 export function Rooms() {
   const now = useLiveTime();
+  const [isVacantModalOpen, setIsVacantModalOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const initialFilter = (searchParams.get('filter') as StatusFilter) || 'all';
   const initialRoomQuery = searchParams.get('room') || '';
@@ -61,6 +64,14 @@ export function Rooms() {
             {summary.available} of {summary.all} rooms currently available
           </p>
         </div>
+
+        <button
+          onClick={() => setIsVacantModalOpen(true)}
+          className="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-emerald-500/10 active:scale-95"
+        >
+          <DoorOpen size={14} />
+          <span>Vacant Finder</span>
+        </button>
       </div>
 
       {/* 2. Search & Filter Bar */}
@@ -141,9 +152,7 @@ export function Rooms() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-base font-bold text-white tracking-tight">
-                          {roomState.room.startsWith('LAB') || roomState.room === 'IOT-LAB'
-                            ? roomState.room
-                            : `Room ${roomState.room}`}
+                          {formatRoomDisplay(roomState.room)}
                         </span>
 
                         {/* Status Badge */}
@@ -234,7 +243,7 @@ export function Rooms() {
                   <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-3">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                        {roomState.room} Full Schedule
+                        {formatRoomDisplay(roomState.room)} Full Schedule
                       </h4>
 
                       {/* Day Selector Pills */}
@@ -312,6 +321,12 @@ export function Rooms() {
           })
         )}
       </div>
+
+      {/* Vacant Room Finder Modal */}
+      <VacantRoomFinderModal
+        isOpen={isVacantModalOpen}
+        onClose={() => setIsVacantModalOpen(false)}
+      />
     </div>
   );
 }

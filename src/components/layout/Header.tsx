@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, ChevronDown, Check, Search } from 'lucide-react';
-import { useLiveTime } from '../../hooks/useLiveTime';
-import { formatCurrentTime, getDayName, getCurrentDay } from '../../utils/timeUtils';
+import { ExternalLink, ChevronDown, Check, Search, Download, WifiOff } from 'lucide-react';
 import { useBatchSelection } from '../../hooks/useBatchSelection';
+import { usePwaInstall } from '../../hooks/usePwaInstall';
 import { BATCHES, getBatchName } from '../../types/routine';
 import type { Batch } from '../../types/routine';
 
@@ -12,32 +11,34 @@ interface HeaderProps {
 }
 
 export function Header({ onOpenSearch }: HeaderProps) {
-  const now = useLiveTime();
   const { selectedBatch, setSelectedBatch } = useBatchSelection();
+  const { isInstallable, installApp, isOnline } = usePwaInstall();
   const [batchMenuOpen, setBatchMenuOpen] = useState(false);
-  const currentDay = getCurrentDay();
 
   return (
     <header className="sticky top-0 z-30 bg-[#0A0F18]/90 backdrop-blur-xl border-b border-white/10 px-4 py-3">
       <div className="flex items-center justify-between gap-3">
-        {/* Left: Department Logo + Greeting & Batch Picker */}
-        <div className="flex items-center gap-3 min-w-0">
-          <Link to="/" className="flex-shrink-0 relative group">
-            <img
-              src="/dept.png"
-              alt="Dept. of IRE Logo"
-              className="w-10 h-10 rounded-2xl object-cover bg-slate-900 border border-white/15 shadow-md shadow-cyan-500/10 group-hover:border-cyan-400/50 transition-all"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
+        {/* Left: Department Logo + Dept Name & Batch Selector */}
+        <div className="flex items-center gap-2.5 min-w-0">
+          <Link to="/" className="flex-shrink-0 relative">
+            <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-900 border border-white/10 flex items-center justify-center">
+              <img
+                src="/dept.png"
+                alt="Dept. of IRE Logo"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
+            </div>
           </Link>
 
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 text-xs text-slate-400">
-              <span className="font-semibold text-slate-200">Dept. of IRE</span>
-              <span className="text-slate-600">·</span>
-              <span className="text-cyan-400 font-medium truncate">UFTB</span>
+              <span className="font-bold text-white text-xs sm:text-sm">Dept. of IRE</span>
+              <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold tracking-wider">
+                UFTB
+              </span>
             </div>
 
             {/* Quick Batch Selector Dropdown Pill */}
@@ -93,22 +94,30 @@ export function Header({ onOpenSearch }: HeaderProps) {
           </div>
         </div>
 
-        {/* Right: Live Clock & Search Trigger & External Link */}
+        {/* Right: Offline badge, Install button, Search, External Link */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Live Clock Pill */}
-          <div className="hidden xs:flex flex-col items-end text-right">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-white tabular-nums">
-              {currentDay ? (
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" title="Classes running today" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-slate-500" title="Weekend" />
-              )}
-              <span>{formatCurrentTime(now)}</span>
+          {/* Offline indicator badge */}
+          {!isOnline && (
+            <div
+              className="flex items-center gap-1 px-2 py-1 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[10px] font-bold"
+              title="Offline mode active - routine cached"
+            >
+              <WifiOff size={12} />
+              <span className="hidden sm:inline">Offline</span>
             </div>
-            <span className="text-[10px] text-slate-400">
-              {getDayName(now).slice(0, 3)}
-            </span>
-          </div>
+          )}
+
+          {/* Quick Install App Button */}
+          {isInstallable && (
+            <button
+              onClick={installApp}
+              className="flex px-2.5 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 text-xs font-bold items-center gap-1.5 transition-all shadow-sm shadow-cyan-500/10 active:scale-95"
+              title="Install IRE Routine on Phone"
+            >
+              <Download size={13} />
+              <span>Install</span>
+            </button>
+          )}
 
           {/* Quick Search Button */}
           {onOpenSearch && (
@@ -127,7 +136,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
             href="https://ire.uftb.ac.bd/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 flex items-center justify-center text-cyan-400 transition-colors"
+            className="w-9 h-9 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 flex items-center justify-center text-cyan-400 transition-colors"
             title="Visit Department Website"
           >
             <ExternalLink size={16} />

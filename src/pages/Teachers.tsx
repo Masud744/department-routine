@@ -3,6 +3,7 @@ import { Search, User, ChevronDown, Radio } from 'lucide-react';
 import { TEACHER_DIRECTORY } from '../data/teachers';
 import { DAYS, getBatchLabel, getBatchName } from '../types/routine';
 import { formatTime12h } from '../utils/timeUtils';
+import { formatRoomDisplay } from '../data/rooms';
 import { isCurrentlyRunning } from '../services/routineService';
 import { useLiveTime } from '../hooks/useLiveTime';
 
@@ -15,7 +16,7 @@ export function Teachers() {
   const enrichedTeachers = useMemo(() => {
     void now;
     return TEACHER_DIRECTORY.map((teacher) => {
-      const uniqueRooms = [...new Set(teacher.classes.map((c) => c.room))];
+      const uniqueRooms = [...new Set(teacher.classes.map((c) => formatRoomDisplay(c.room)))];
       const uniqueBatches = [...new Set(teacher.classes.map((c) => c.batch))];
       const uniqueCourses = [...new Set(teacher.classes.map((c) => c.courseCode))];
       const currentlyTeaching = teacher.classes.find(isCurrentlyRunning);
@@ -97,13 +98,24 @@ export function Teachers() {
                       </div>
 
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <h3 className="font-bold text-sm text-white truncate">
                             {teacher.fullName ?? teacher.code}
                           </h3>
+                          {teacher.designation && (
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+                              teacher.designation.includes('Chairman')
+                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm shadow-amber-500/10'
+                                : teacher.designation.includes('Assistant Professor')
+                                ? 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+                                : 'bg-slate-800/80 text-slate-300 border-white/10'
+                            }`}>
+                              {teacher.designation}
+                            </span>
+                          )}
                         </div>
 
-                        <p className="text-xs text-slate-400 mt-0.5">
+                        <p className="text-xs text-slate-400 mt-1">
                           Code: <span className="font-semibold text-cyan-400">{teacher.code}</span>
                         </p>
 
@@ -181,7 +193,7 @@ export function Teachers() {
                                         {entry.courseCode}
                                       </span>
                                       <span className="text-slate-400">
-                                        {entry.room} · {getBatchLabel(entry.batch)}
+                                        {formatRoomDisplay(entry.room)} · {getBatchLabel(entry.batch)}
                                       </span>
                                     </div>
                                     <span className="text-slate-400 tabular-nums">

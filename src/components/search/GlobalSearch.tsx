@@ -5,6 +5,7 @@ import type { RoutineEntry } from '../../types/routine';
 import { getBatchName } from '../../types/routine';
 import { TEACHER_NAME_MAP } from '../../data/routine';
 import { formatTime12h } from '../../utils/timeUtils';
+import { formatRoomDisplay } from '../../data/rooms';
 
 export function GlobalSearch() {
   const [query, setQuery] = useState('');
@@ -97,7 +98,7 @@ export function GlobalSearch() {
                         {entry.courseCode}
                       </p>
                       <p className="text-xs text-[var(--color-text-secondary)]">
-                        Room {entry.room} · {entry.teacherCode ? (TEACHER_NAME_MAP[entry.teacherCode] ?? entry.teacherCode) : '—'}
+                        {formatRoomDisplay(entry.room)} · {entry.teacherCode ? (TEACHER_NAME_MAP[entry.teacherCode] ?? entry.teacherCode) : '—'}
                       </p>
                     </div>
                     <div className="text-right flex-shrink-0">

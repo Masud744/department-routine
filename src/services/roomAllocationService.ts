@@ -1,7 +1,14 @@
 import type { RoutineEntry, RoomState, RoomStatus, Day } from '../types/routine';
 import { ROUTINE_DATA } from '../data/routine';
-import { ALL_ROOMS } from '../data/rooms';
-import { timeToMinutes, getCurrentTimeMinutes, getCurrentDay, timeDifference } from '../utils/timeUtils';
+import { ALL_ROOMS, getRoomMetadata } from '../data/rooms';
+import type { RoomMetadata } from '../data/rooms';
+import {
+  timeToMinutes,
+  getCurrentTimeMinutes,
+  getCurrentDay,
+  timeDifference,
+  formatTime12h,
+} from '../utils/timeUtils';
 
 /**
  * Get all routine entries for a specific day.
@@ -158,3 +165,92 @@ export function getUpcomingClasses(): RoutineEntry[] {
     (e) => timeToMinutes(e.startTime) === nextStart
   );
 }
+
+export interface VacantRoomStudyInfo {
+  room: string;
+  metadata: RoomMetadata;
+  status: RoomStatus;
+  isFreeNow: boolean;
+  freeUntilTime: string | null;
+  freeDurationMinutes: number;
+  freeDurationLabel: string;
+  nextClass: RoutineEntry | null;
+  currentClass: RoutineEntry | null;
+  timeUntilFree: string | null;
+}
+
+/**
+ * Get intelligent room vacancy info optimized for students looking for
+ * empty rooms for group study, lab practice, or club work.
+ */
+export function getVacantRoomsForStudy(
+  customDay?: Day | null,
+  customMinutes?: number
+): VacantRoomStudyInfo[] {
+  const day = customDay !== undefined ? customDay : getCurrentDay();
+  const currentMinutes = customMinutes !== undefined ? customMinutes : getCurrentTimeMinutes();
+
+  const results: VacantRoomStudyInfo[] = ALL_ROOMS.map((room) => {
+    const roomState = getRoomStatus(room, day, currentMinutes);
+    const metadata = getRoomMetadata(room);
+
+    let isFreeNow = false;
+    let freeUntilTime: string | null = null;
+    let freeDurationMinutes = 0;
+    let freeDurationLabel = '';
+
+    if (!day) {
+      // Off day / weekend
+      isFreeNow = true;
+      freeUntilTime = 'Off Day';
+      freeDurationMinutes = 9999;
+      freeDurationLabel = 'Available all day (No classes scheduled)';
+    } else if (roomState.status === 'available') {
+      isFreeNow = true;
+      freeUntilTime = 'End of Day';
+      freeDurationMinutes = 9999;
+      freeDurationLabel = 'Free for rest of day';
+    } else if (roomState.status === 'upcoming' && roomState.nextClass) {
+      isFreeNow = true;
+      const nextStart = timeToMinutes(roomState.nextClass.startTime);
+      freeDurationMinutes = Math.max(0, nextStart - currentMinutes);
+      freeUntilTime = formatTime12h(roomState.nextClass.startTime);
+      freeDurationLabel = `Free for ${timeDifference(currentMinutes, nextStart)} (until ${freeUntilTime})`;
+    } else {
+      // Occupied
+      isFreeNow = false;
+      freeUntilTime = roomState.currentClass ? formatTime12h(roomState.currentClass.endTime) : null;
+      freeDurationMinutes = 0;
+      freeDurationLabel = roomState.currentClass
+        ? `Occupied until ${freeUntilTime} (Free in ${roomState.timeUntilFree || 'a few minutes'})`
+        : 'Currently Occupied';
+    }
+
+    return {
+      room,
+      metadata,
+      status: roomState.status,
+      isFreeNow,
+      freeUntilTime,
+      freeDurationMinutes,
+      freeDurationLabel,
+      nextClass: roomState.nextClass,
+      currentClass: roomState.currentClass,
+      timeUntilFree: roomState.timeUntilFree,
+    };
+  });
+
+  // Sort: Free rooms first (longest free duration first), then occupied rooms (earliest to become free)
+  return results.sort((a, b) => {
+    if (a.isFreeNow && !b.isFreeNow) return -1;
+    if (!a.isFreeNow && b.isFreeNow) return 1;
+
+    if (a.isFreeNow && b.isFreeNow) {
+      return b.freeDurationMinutes - a.freeDurationMinutes;
+    }
+
+    // Both occupied: earlier free time first
+    return a.room.localeCompare(b.room);
+  });
+}
+
