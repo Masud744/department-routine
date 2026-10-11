@@ -113,15 +113,15 @@ function computeSunPosition(totalMinutes: number): CelestialPosition {
   const SET_TIME = 1095;  // 18:15
 
   if (totalMinutes < RISE_TIME || totalMinutes >= SET_TIME) {
-    return { elevation: 0, x: 0.76, y: 1.1, visible: false };
+    return { elevation: 0, x: 0.82, y: 1.1, visible: false };
   }
 
   const progress = (totalMinutes - RISE_TIME) / (SET_TIME - RISE_TIME);
   const elevation = Math.sin(progress * Math.PI);
 
-  // Staged in right scenic window (0.70 - 0.80)
-  const x = 0.70 + Math.sin(progress * Math.PI * 0.9) * 0.10;
-  const y = 0.62 - elevation * 0.34;
+  // Staged in right scenic window over campus architecture (0.79 - 0.84)
+  const x = 0.79 + Math.sin(progress * Math.PI * 0.9) * 0.05;
+  const y = 0.60 - elevation * 0.30;
 
   return { elevation, x, y, visible: true };
 }
@@ -135,7 +135,7 @@ function computeMoonPosition(totalMinutes: number): CelestialPosition {
 
   const isNight = totalMinutes >= RISE_TIME || totalMinutes < SET_TIME;
   if (!isNight) {
-    return { elevation: 0, x: 0.78, y: 1.1, visible: false };
+    return { elevation: 0, x: 0.83, y: 1.1, visible: false };
   }
 
   let elapsed: number;
@@ -149,9 +149,9 @@ function computeMoonPosition(totalMinutes: number): CelestialPosition {
   const progress = elapsed / duration;
   const elevation = Math.sin(progress * Math.PI);
 
-  // Staged in right upper scenic window (x: 0.73 - 0.79, y: 0.26 - 0.52)
-  const x = 0.73 + Math.sin(progress * Math.PI * 0.85) * 0.06;
-  const y = 0.52 - elevation * 0.24;
+  // Staged in right upper scenic window directly over academic building (x: 0.81 - 0.85, y: 0.30 - 0.52)
+  const x = 0.81 + Math.sin(progress * Math.PI * 0.85) * 0.04;
+  const y = 0.52 - elevation * 0.22;
 
   return { elevation, x, y, visible: true };
 }
