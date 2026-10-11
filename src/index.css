@@ -408,15 +408,3 @@ body {
   font-family: var(--font-signature);
 }
 
-/* Responsive Campus Horizon Positioning:
-   On mobile screens (< 640px), keep campus architecture, trees, and moon
-   staged elegantly in the far right distance ("dhure") so course info
-   enjoys open sky and beautiful background depth. */
-@media (max-width: 639px) {
-  .campus-horizon-scenery {
-    transform: translateX(42px);
-  }
-  .campus-celestial-body {
-    transform: translateX(8px);
-  }
-}

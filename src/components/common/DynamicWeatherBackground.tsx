@@ -170,63 +170,146 @@ function Moon({ x, y, elevation, cloudCover }: {
 // ═══════════════════════════════════════════════════════════════════
 
 /** Atmospheric 3D cumulus cloud layers */
-function CloudLayer({ condition, isDay }: {
-  condition: WeatherCondition; isDay: boolean;
+function CloudLayer({ condition, isDay, phase }: {
+  condition: WeatherCondition; isDay: boolean; phase: string;
 }) {
   let cloudOpacity: number;
   let cloudCount: number;
 
   switch (condition) {
     case 'clear':
-      cloudOpacity = 0.08; cloudCount = 1; break;
+      cloudOpacity = 0.22; cloudCount = 1; break;
     case 'partly_cloudy':
-      cloudOpacity = 0.22; cloudCount = 2; break;
+      cloudOpacity = 0.42; cloudCount = 2; break;
     case 'cloudy':
     case 'fog':
-      cloudOpacity = 0.38; cloudCount = 3; break;
+      cloudOpacity = 0.60; cloudCount = 3; break;
     case 'drizzle':
     case 'rain':
-      cloudOpacity = 0.52; cloudCount = 3; break;
+      cloudOpacity = 0.72; cloudCount = 3; break;
     case 'thunderstorm':
-      cloudOpacity = 0.65; cloudCount = 3; break;
+      cloudOpacity = 0.85; cloudCount = 3; break;
   }
 
   const isStorm = condition === 'thunderstorm' || condition === 'rain';
-  const cloudFill = isDay
-    ? isStorm
-      ? `rgba(45, 52, 68, ${cloudOpacity})`
-      : condition === 'cloudy'
-        ? `rgba(180, 195, 215, ${cloudOpacity})`
-        : `rgba(235, 245, 255, ${cloudOpacity})`
-    : isStorm
-      ? `rgba(18, 24, 38, ${cloudOpacity})`
-      : `rgba(75, 95, 130, ${cloudOpacity})`;
+  const isSunsetish = phase === 'sunset' || phase === 'dusk' || phase === 'dawn';
 
   const clouds = [
-    // Cloud 1 — High right, floating across upper sky
+    // Cloud 1 — High right, majestic billowing cumulus floating across upper sky
     <g key="c1" className="animate-cloud-drift-1">
+      {/* Volumetric cloud base */}
       <path
-        d="M 230 38 Q 245 22, 270 26 Q 292 12, 320 22 Q 345 14, 360 30 Q 375 24, 385 40 Q 392 52, 375 60 L 235 60 Q 220 54, 230 38 Z"
-        fill={cloudFill}
+        d="M 215 54 C 208 44, 218 34, 232 34 C 238 20, 260 14, 282 20 C 292 8, 322 8, 338 20 C 352 14, 375 18, 384 30 C 398 34, 404 46, 394 56 C 382 60, 362 57, 342 58 C 318 60, 288 56, 262 58 C 242 60, 224 57, 215 54 Z"
+        fill="url(#cumulusGradMain)"
+      />
+      {/* Sunlit/Moonlit billowing crest highlight */}
+      <path
+        d="M 234 32 C 242 20, 262 16, 280 20 C 292 9, 320 9, 336 21 C 350 16, 370 20, 378 30 C 360 26, 338 23, 318 24 C 294 25, 264 26, 245 31 Z"
+        fill="url(#cumulusCrestGrad)"
+      />
+      {/* Inner billow contours for 3D cloud volume */}
+      <path
+        d="M 272 26 C 285 18, 310 18, 322 26 C 308 24, 290 24, 272 26 Z"
+        fill={isDay ? 'rgba(255, 255, 255, 0.35)' : 'rgba(255, 255, 255, 0.12)'}
+      />
+      <path
+        d="M 245 40 C 256 30, 274 27, 288 34 C 276 32, 258 33, 245 40 Z"
+        fill={isDay ? 'rgba(255, 255, 255, 0.28)' : 'rgba(255, 255, 255, 0.08)'}
+      />
+      <path
+        d="M 322 34 C 336 24, 355 26, 366 36 C 352 33, 335 32, 322 34 Z"
+        fill={isDay ? 'rgba(255, 255, 255, 0.28)' : 'rgba(255, 255, 255, 0.08)'}
       />
     </g>,
-    // Cloud 2 — Upper center / left drift
+
+    // Cloud 2 — Upper left/center drifting soft cumulus
     <g key="c2" className="animate-cloud-drift-2">
       <path
-        d="M 120 45 Q 135 28, 160 32 Q 180 18, 205 28 Q 225 22, 235 38 Q 242 48, 230 58 L 125 58 Q 112 52, 120 45 Z"
-        fill={cloudFill}
+        d="M 112 50 C 106 42, 115 33, 128 32 C 136 22, 156 18, 174 24 C 186 14, 210 15, 224 24 C 236 20, 252 26, 256 36 C 260 44, 252 52, 242 53 C 218 52, 186 49, 156 52 C 136 53, 120 53, 112 50 Z"
+        fill="url(#cumulusGradMain)"
+      />
+      <path
+        d="M 130 30 C 140 20, 158 19, 172 24 C 184 16, 206 16, 218 24 C 206 22, 188 22, 172 25 C 156 27, 142 28, 130 30 Z"
+        fill="url(#cumulusCrestGrad)"
+      />
+      <path
+        d="M 152 33 C 165 24, 184 24, 196 32 C 184 29, 168 29, 152 33 Z"
+        fill={isDay ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.08)'}
       />
     </g>,
-    // Cloud 3 — Mid-height atmospheric layer
+
+    // Cloud 3 — Mid-height atmospheric horizon cumulus layer
     <g key="c3" className="animate-cloud-drift-3">
       <path
-        d="M 280 62 Q 298 48, 322 54 Q 345 42, 370 50 Q 388 44, 398 60 Q 405 70, 390 78 L 285 78 Q 272 72, 280 62 Z"
-        fill={cloudFill}
+        d="M 275 72 C 268 64, 278 57, 290 55 C 300 46, 320 44, 335 48 C 346 40, 370 41, 384 49 C 396 46, 412 52, 416 62 C 418 70, 408 76, 396 76 C 368 74, 335 72, 305 75 C 290 76, 280 75, 275 72 Z"
+        fill="url(#cumulusGradMain)"
+      />
+      <path
+        d="M 292 53 C 304 45, 322 45, 334 49 C 346 42, 366 42, 378 49 C 364 47, 346 47, 332 50 C 318 52, 304 53, 292 53 Z"
+        fill="url(#cumulusCrestGrad)"
       />
     </g>,
   ];
 
-  return <>{clouds.slice(0, cloudCount)}</>;
+  return (
+    <>
+      <defs>
+        {/* Cumulus Main Body Gradient */}
+        <linearGradient id="cumulusGradMain" x1="0%" y1="0%" x2="0%" y2="100%">
+          {isDay ? (
+            isStorm ? (
+              <>
+                <stop offset="0%" stopColor="#475569" stopOpacity={cloudOpacity * 1.1} />
+                <stop offset="60%" stopColor="#334155" stopOpacity={cloudOpacity} />
+                <stop offset="100%" stopColor="#1e293b" stopOpacity={cloudOpacity * 0.85} />
+              </>
+            ) : isSunsetish ? (
+              <>
+                <stop offset="0%" stopColor="#fef08a" stopOpacity={cloudOpacity * 1.3} />
+                <stop offset="45%" stopColor="#f472b6" stopOpacity={cloudOpacity * 1.1} />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity={cloudOpacity * 0.7} />
+              </>
+            ) : (
+              <>
+                <stop offset="0%" stopColor="#ffffff" stopOpacity={Math.min(0.95, cloudOpacity * 1.35)} />
+                <stop offset="40%" stopColor="#f8fafc" stopOpacity={Math.min(0.85, cloudOpacity * 1.15)} />
+                <stop offset="75%" stopColor="#e2e8f0" stopOpacity={Math.min(0.70, cloudOpacity * 0.90)} />
+                <stop offset="100%" stopColor="#cbd5e1" stopOpacity={Math.min(0.50, cloudOpacity * 0.65)} />
+              </>
+            )
+          ) : (
+            isStorm ? (
+              <>
+                <stop offset="0%" stopColor="#334155" stopOpacity={cloudOpacity * 1.1} />
+                <stop offset="100%" stopColor="#0f172a" stopOpacity={cloudOpacity * 0.85} />
+              </>
+            ) : (
+              <>
+                <stop offset="0%" stopColor="#cbd5e1" stopOpacity={cloudOpacity * 1.3} />
+                <stop offset="50%" stopColor="#64748b" stopOpacity={cloudOpacity * 0.9} />
+                <stop offset="100%" stopColor="#1e293b" stopOpacity={cloudOpacity * 0.4} />
+              </>
+            )
+          )}
+        </linearGradient>
+
+        {/* Cumulus Sunlit/Moonlit Rim Crest Gradient */}
+        <linearGradient id="cumulusCrestGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop
+            offset="0%"
+            stopColor={isDay ? (isSunsetish ? '#fef08a' : '#ffffff') : '#e2e8f0'}
+            stopOpacity={isDay ? (isStorm ? 0.40 : (isSunsetish ? 0.85 : 0.92)) : 0.45}
+          />
+          <stop
+            offset="100%"
+            stopColor={isDay ? '#ffffff' : '#94a3b8'}
+            stopOpacity="0"
+          />
+        </linearGradient>
+      </defs>
+      {clouds.slice(0, cloudCount)}
+    </>
+  );
 }
 
 /** Star field with twinkling night stars */
@@ -273,8 +356,8 @@ function StarField({ moonElevation }: { moonElevation: number }) {
 
 /**
  * Campus Architecture & Landscape:
- * Positioned on the right side (x: 240–440) so open sky and campus scenery
- * shine through while the left side smoothly fades into the dark readability shield.
+ * Engineered to full proportional height and width without clipping or cutoff.
+ * Main Academic Building & Courtyard tree safely end at x = 433 (inside viewBox 440).
  */
 function CampusHorizon({ isDay, phase }: {
   isDay: boolean; phase: string;
@@ -285,175 +368,298 @@ function CampusHorizon({ isDay, phase }: {
   const buildingBase = isDay
     ? isSunsetish
       ? '#3b2539'
-      : '#2d3f58'
-    : '#162032';
+      : '#2c3c52'
+    : '#141d2d';
 
   const buildingTrim = isDay
     ? isSunsetish
       ? '#5c3959'
-      : '#476388'
-    : '#253550';
+      : '#435e80'
+    : '#233248';
 
   const buildingOutline = isDay
-    ? 'rgba(255, 255, 255, 0.15)'
-    : 'rgba(96, 165, 250, 0.25)';
+    ? 'rgba(255, 255, 255, 0.16)'
+    : 'rgba(96, 165, 250, 0.22)';
 
   // Window colors
   const litWindow = isDay
-    ? 'rgba(191, 219, 254, 0.75)'
+    ? 'rgba(219, 234, 254, 0.85)'
     : '#fbbf24';
 
   const dimWindow = isDay
     ? 'rgba(147, 197, 253, 0.35)'
     : '#1e293b';
 
-  // Tree colors
+  // Tree & Vegetation colors
+  const treeTrunk = isDay
+    ? isSunsetish ? '#2a1e17' : '#1e1610'
+    : '#0d130f';
+
   const treeFar = isDay
-    ? isSunsetish ? '#244030' : '#1e5436'
+    ? isSunsetish ? '#244030' : '#184a2d'
     : '#0b1d14';
 
   const treeNear = isDay
-    ? isSunsetish ? '#336142' : '#227849'
-    : '#112b1d';
+    ? isSunsetish ? '#336142' : '#227040'
+    : '#122e1e';
 
   const treeHighlight = isDay
-    ? isSunsetish ? '#4c825b' : '#349e62'
-    : '#1a3e2a';
+    ? isSunsetish ? '#527c44' : '#329555'
+    : '#1a4029';
+
+  const treeRim = isDay
+    ? isSunsetish ? '#8fa356' : '#52ba75'
+    : '#255437';
 
   return (
     <g className="pointer-events-none">
-      {/* ── SCALED SCENERY GROUP: Staged in far right distance on mobile ── */}
-      <g className="campus-horizon-scenery">
-        {/* ── DISTANT HORIZON RIDGE ── */}
-        <path
-          d="M 170 160 Q 220 142, 270 148 Q 320 134, 370 144 Q 410 136, 440 146 L 440 180 L 170 180 Z"
-          fill={isDay ? (isSunsetish ? '#261b30' : '#20324c') : '#0a101c'}
-          opacity={isDay ? 0.5 : 0.8}
+      {/* ── DISTANT HORIZON RIDGE ── */}
+      <path
+        d="M 170 162 Q 220 148, 270 152 Q 320 140, 370 148 Q 410 142, 440 149 L 440 180 L 170 180 Z"
+        fill={isDay ? (isSunsetish ? '#261b30' : '#20324c') : '#0a101c'}
+        opacity={isDay ? 0.5 : 0.8}
+      />
+
+      {/* ── DISTANT HORIZON TREES (Backdrop Grove) ── */}
+      <g fill={treeFar} opacity={0.75}>
+        <circle cx="207" cy="155" r="13" />
+        <circle cx="218" cy="150" r="15" />
+        <circle cx="230" cy="153" r="14" />
+        <circle cx="242" cy="148" r="16" />
+      </g>
+
+      {/* ── SECONDARY LECTURE WING (Left Building, x: 292 to 338) ── */}
+      <g>
+        {/* Facade */}
+        <rect
+          x="292" y="106" width="46" height="62" rx="2"
+          fill={buildingBase}
+          stroke={buildingOutline}
+          strokeWidth="1"
+        />
+        {/* Parapet */}
+        <rect x="290" y="103.5" width="50" height="3.5" rx="1" fill={buildingTrim} />
+        {/* Floor divider */}
+        <rect x="292" y="125" width="46" height="2" fill={buildingTrim} />
+        {/* Corner pillar trim */}
+        <rect x="292" y="106" width="2" height="62" fill={buildingTrim} opacity="0.6" />
+
+        {/* Windows — Floor 2 */}
+        <rect x="298" y="111" width="7" height="9.5" rx="1.2" fill={litWindow} />
+        <rect x="310" y="111" width="7" height="9.5" rx="1.2" fill={litWindow} />
+        <rect x="322" y="111" width="7" height="9.5" rx="1.2" fill={dimWindow} />
+
+        {/* Windows — Floor 1 */}
+        <rect x="298" y="131" width="7" height="9.5" rx="1.2" fill={litWindow} />
+        <rect x="310" y="131" width="7" height="9.5" rx="1.2" fill={dimWindow} />
+        <rect x="322" y="131" width="7" height="9.5" rx="1.2" fill={litWindow} />
+      </g>
+
+      {/* ── MAIN ACADEMIC BUILDING (IRE Department Main Campus, x: 338 to 426) ── */}
+      <g>
+        {/* 4-Story Facade Body (safely ends at x = 426) */}
+        <rect
+          x="338" y="83" width="88" height="85" rx="2.5"
+          fill={buildingBase}
+          stroke={buildingOutline}
+          strokeWidth="1"
         />
 
-        {/* ── DISTANT CAMPUS TREES (Backdrop) ── */}
-        <g fill={treeFar} opacity={0.85}>
-          <ellipse cx="232" cy="144" rx="16" ry="22" />
-          <ellipse cx="254" cy="147" rx="14" ry="20" />
-          <ellipse cx="278" cy="142" rx="18" ry="24" />
-          <ellipse cx="424" cy="140" rx="20" ry="26" />
-        </g>
+        {/* Roofline Architectural Cornice (ends at x = 428, 12px margin before 440) */}
+        <rect x="334" y="80" width="94" height="4.5" rx="1.5" fill={buildingTrim} />
 
-        {/* ── MAIN ACADEMIC BUILDING (IRE Department Campus Wing) ── */}
-        <g>
-          {/* Main 4-story building facade */}
-          <rect
-            x="332" y="84" width="94" height="96" rx="3"
-            fill={buildingBase}
-            stroke={buildingOutline}
-            strokeWidth="1"
-          />
+        {/* Rooftop Penthouse & HVAC */}
+        <rect x="346" y="73" width="20" height="7.5" rx="1.2" fill={buildingTrim} />
+        {/* Rooftop Telecom / Weather Mast */}
+        <line x1="356" y1="73" x2="356" y2="62" stroke={buildingTrim} strokeWidth="1.4" />
+        <circle cx="356" cy="62" r="1.5" fill={isDay ? '#ef4444' : '#f87171'} />
 
-          {/* Roofline architectural cornice */}
-          <rect x="328" y="82" width="102" height="5" rx="1.5" fill={buildingTrim} />
+        {/* Floor Ledges / Mullions */}
+        <rect x="338" y="102" width="88" height="2.5" fill={buildingTrim} />
+        <rect x="338" y="123" width="88" height="2.5" fill={buildingTrim} />
+        <rect x="338" y="144" width="88" height="2.5" fill={buildingTrim} />
 
-          {/* Rooftop HVAC & Antenna */}
-          <rect x="346" y="74" width="20" height="9" rx="1.5" fill={buildingTrim} />
-          <line x1="356" y1="74" x2="356" y2="65" stroke={buildingTrim} strokeWidth="1.4" />
-          <circle cx="356" cy="65" r="1.5" fill={isDay ? '#ef4444' : '#f87171'} />
+        {/* Corner Pilasters / Vertical Accent Trim */}
+        <rect x="338" y="83" width="2" height="85" fill={buildingTrim} opacity="0.6" />
+        <rect x="424" y="83" width="2" height="85" fill={buildingTrim} opacity="0.6" />
 
-          {/* Floor ledges / architectural mullions */}
-          <rect x="332" y="104" width="94" height="2.5" fill={buildingTrim} />
-          <rect x="332" y="124" width="94" height="2.5" fill={buildingTrim} />
-          <rect x="332" y="144" width="94" height="2.5" fill={buildingTrim} />
+        {/* Windows Grid — Floor 4 */}
+        <rect x="344" y="88" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="359" y="88" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="374" y="88" width="8.5" height="11" rx="1.5" fill={dimWindow} />
+        <rect x="389" y="88" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="404" y="88" width="8.5" height="11" rx="1.5" fill={litWindow} />
 
-          {/* Windows Grid — Floor 4 */}
-          <rect x="338" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="352" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="366" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
-          <rect x="380" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="394" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="408" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
+        {/* Windows Grid — Floor 3 */}
+        <rect x="344" y="109" width="8.5" height="11" rx="1.5" fill={dimWindow} />
+        <rect x="359" y="109" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="374" y="109" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="389" y="109" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="404" y="109" width="8.5" height="11" rx="1.5" fill={dimWindow} />
 
-          {/* Windows Grid — Floor 3 */}
-          <rect x="338" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
-          <rect x="352" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="366" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="380" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="394" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
-          <rect x="408" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
+        {/* Windows Grid — Floor 2 */}
+        <rect x="344" y="130" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="359" y="130" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="374" y="130" width="8.5" height="11" rx="1.5" fill={dimWindow} />
+        <rect x="389" y="130" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="404" y="130" width="8.5" height="11" rx="1.5" fill={litWindow} />
 
-          {/* Windows Grid — Floor 2 */}
-          <rect x="338" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="352" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="366" y="130" width="8" height="10" rx="1.2" fill={dimWindow} />
-          <rect x="380" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="394" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-          <rect x="408" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+        {/* Ground Floor Entrance (Level 1) */}
+        <rect x="365" y="148" width="28" height="2.5" rx="1" fill={buildingTrim} />
+        <rect x="368" y="150.5" width="22" height="17" rx="1" fill={litWindow} opacity="0.9" />
+        <line x1="379" y1="150.5" x2="379" y2="167.5" stroke={buildingTrim} strokeWidth="1" />
+        {/* Flanking Ground Floor Windows */}
+        <rect x="346" y="151" width="8.5" height="11" rx="1.5" fill={litWindow} />
+        <rect x="404" y="151" width="8.5" height="11" rx="1.5" fill={dimWindow} />
 
-          {/* Secondary Left Lecture Wing */}
-          <rect
-            x="284" y="102" width="52" height="78" rx="2"
-            fill={buildingBase}
-            stroke={buildingOutline}
-            strokeWidth="1"
-          />
-          <rect x="282" y="100" width="56" height="3.5" rx="1" fill={buildingTrim} />
-          <rect x="284" y="122" width="52" height="2" fill={buildingTrim} />
-
-          <rect x="290" y="107" width="7" height="9" rx="1" fill={litWindow} />
-          <rect x="302" y="107" width="7" height="9" rx="1" fill={litWindow} />
-          <rect x="314" y="107" width="7" height="9" rx="1" fill={dimWindow} />
-          <rect x="290" y="127" width="7" height="9" rx="1" fill={litWindow} />
-          <rect x="302" y="127" width="7" height="9" rx="1" fill={dimWindow} />
-          <rect x="314" y="127" width="7" height="9" rx="1" fill={litWindow} />
-
-          {/* Window warm light spills at night */}
-          {!isDay && (
-            <g fill="rgba(251, 191, 36, 0.22)">
-              <circle cx="356" cy="95" r="14" />
-              <circle cx="384" cy="115" r="15" />
-              <circle cx="356" cy="135" r="14" />
-              <circle cx="412" cy="135" r="14" />
-              <circle cx="294" cy="111" r="12" />
-            </g>
-          )}
-        </g>
-
-        {/* ── FOREGROUND LUSH TREES & CAMPUS GARDEN ── */}
-        <g>
-          {/* Tree cluster near lecture wing */}
-          <ellipse cx="262" cy="132" rx="20" ry="30" fill={treeNear} />
-          <ellipse cx="266" cy="126" rx="14" ry="18" fill={treeHighlight} opacity={0.65} />
-          <ellipse cx="278" cy="138" rx="16" ry="24" fill={treeFar} />
-          <ellipse cx="248" cy="142" rx="15" ry="22" fill={treeNear} />
-          <rect x="260" y="156" width="4.5" height="20" rx="1" fill="#141a24" />
-
-          {/* Tree cluster framing right edge */}
-          <ellipse cx="426" cy="128" rx="18" ry="30" fill={treeNear} />
-          <ellipse cx="430" cy="122" rx="12" ry="18" fill={treeHighlight} opacity={0.65} />
-          <ellipse cx="438" cy="136" rx="15" ry="24" fill={treeFar} />
-          <rect x="425" y="154" width="4" height="22" rx="1" fill="#141a24" />
-        </g>
-
-        {/* Warm campus pathway lampposts at night */}
+        {/* Window warm light spills at night */}
         {!isDay && (
-          <g>
-            {/* Lamppost 1 */}
-            <line x1="282" y1="154" x2="282" y2="168" stroke="#475569" strokeWidth="1.2" />
-            <circle cx="282" cy="154" r="2.2" fill="#fef08a" />
-            <circle cx="282" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
-
-            {/* Lamppost 2 */}
-            <line x1="334" y1="154" x2="334" y2="168" stroke="#475569" strokeWidth="1.2" />
-            <circle cx="334" cy="154" r="2.2" fill="#fef08a" />
-            <circle cx="334" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
+          <g fill="rgba(251, 191, 36, 0.20)">
+            <circle cx="359" cy="93" r="13" />
+            <circle cx="389" cy="93" r="13" />
+            <circle cx="374" cy="114" r="14" />
+            <circle cx="404" cy="114" r="12" />
+            <circle cx="359" cy="135" r="13" />
+            <circle cx="389" cy="135" r="13" />
+            <circle cx="379" cy="158" r="15" />
+            <circle cx="310" cy="116" r="11" />
           </g>
         )}
       </g>
 
+      {/* ── REALISTIC ORGANIC CAMPUS TREES & FOLIAGE ── */}
+      <g>
+        {/* Tree 1: Grand Campus Shade Tree (Left of wing, x: 254–294) */}
+        <g>
+          {/* Tapered bark trunk with natural branching */}
+          <path
+            d="M 272 168 C 272 157, 274 150, 275 142 C 276 136, 279 130, 282 124 M 275 142 C 272 137, 267 133, 262 130 M 277 134 C 281 130, 286 127, 291 125"
+            stroke={treeTrunk}
+            strokeWidth="3.2"
+            strokeLinecap="round"
+          />
+          {/* Root flare */}
+          <polygon points="268,168 276,168 274,162 270,162" fill={treeTrunk} />
+
+          {/* Foliage Tier 1: Deep forest base */}
+          <g fill={treeFar}>
+            <circle cx="260" cy="144" r="14" />
+            <circle cx="268" cy="132" r="15" />
+            <circle cx="280" cy="122" r="16" />
+            <circle cx="291" cy="130" r="14" />
+            <circle cx="292" cy="144" r="13" />
+            <circle cx="277" cy="138" r="17" />
+          </g>
+
+          {/* Foliage Tier 2: Rich mid-foliage */}
+          <g fill={treeNear}>
+            <circle cx="262" cy="142" r="12" />
+            <circle cx="270" cy="130" r="13" />
+            <circle cx="279" cy="121" r="14" />
+            <circle cx="288" cy="128" r="12" />
+            <circle cx="289" cy="141" r="11" />
+            <circle cx="276" cy="134" r="14" />
+          </g>
+
+          {/* Foliage Tier 3: Sunlit / Ambient highlight puffs & leaf textures */}
+          <g fill={treeHighlight} opacity={isDay ? 0.85 : 0.50}>
+            <circle cx="267" cy="126" r="8" />
+            <circle cx="277" cy="116" r="9" />
+            <circle cx="286" cy="123" r="7" />
+            <circle cx="270" cy="120" r="4.5" />
+            <circle cx="282" cy="132" r="5" />
+          </g>
+
+          {/* Foliage Tier 4: Sunlit leaf rim tip */}
+          {isDay && (
+            <ellipse cx="275" cy="113" rx="6" ry="4" fill={treeRim} opacity={0.75} />
+          )}
+        </g>
+
+        {/* Tree 2: Secondary Campus Tree (x: 234–260) */}
+        <g>
+          <path
+            d="M 246 168 C 246 159, 247 153, 248 146 C 249 141, 251 136, 254 132 M 248 146 C 245 142, 240 139, 236 137"
+            stroke={treeTrunk}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+          <polygon points="243,168 249,168 247,163 245,163" fill={treeTrunk} />
+
+          <g fill={treeFar}>
+            <circle cx="238" cy="148" r="11" />
+            <circle cx="244" cy="138" r="12" />
+            <circle cx="252" cy="144" r="11" />
+            <circle cx="246" cy="133" r="10" />
+          </g>
+          <g fill={treeNear}>
+            <circle cx="239" cy="146" r="9" />
+            <circle cx="244" cy="137" r="10" />
+            <circle cx="251" cy="142" r="9" />
+          </g>
+          <g fill={treeHighlight} opacity={isDay ? 0.85 : 0.50}>
+            <circle cx="243" cy="131" r="6" />
+          </g>
+        </g>
+
+        {/* Tree 3: Courtyard Framing Tree (Right of building, x: 424–438) */}
+        {/* Beautifully nestled against the building's right wall, 100% visible, ends safely at x = 437 */}
+        <g>
+          <path
+            d="M 430 168 C 430 158, 431 151, 432 144 C 433 139, 434 135, 435 131 M 432 144 C 429 140, 425 137, 422 135"
+            stroke={treeTrunk}
+            strokeWidth="2.4"
+            strokeLinecap="round"
+          />
+          <polygon points="428,168 433,168 431,163 429,163" fill={treeTrunk} />
+
+          <g fill={treeFar}>
+            <circle cx="426" cy="146" r="8" />
+            <circle cx="430" cy="134" r="9" />
+            <circle cx="433" cy="142" r="6" />
+            <circle cx="428" cy="126" r="7" />
+          </g>
+          <g fill={treeNear}>
+            <circle cx="427" cy="144" r="6.5" />
+            <circle cx="430" cy="133" r="7.5" />
+            <circle cx="432" cy="140" r="5" />
+            <circle cx="428" cy="125" r="6" />
+          </g>
+          <g fill={treeHighlight} opacity={isDay ? 0.85 : 0.50}>
+            <circle cx="428" cy="122" r="4.5" />
+            <circle cx="431" cy="128" r="4" />
+          </g>
+        </g>
+      </g>
+
+      {/* ── WARM PATHWAY LAMPPOSTS AT NIGHT ── */}
+      {!isDay && (
+        <g>
+          {/* Lamppost 1 */}
+          <line x1="290" y1="154" x2="290" y2="168" stroke="#475569" strokeWidth="1.2" />
+          <circle cx="290" cy="154" r="2.2" fill="#fef08a" />
+          <circle cx="290" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
+
+          {/* Lamppost 2 */}
+          <line x1="336" y1="154" x2="336" y2="168" stroke="#475569" strokeWidth="1.2" />
+          <circle cx="336" cy="154" r="2.2" fill="#fef08a" />
+          <circle cx="336" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
+        </g>
+      )}
+
       {/* ── CAMPUS ROADWAY / GROUND LINE (Full Base) ── */}
       <rect
         x="-100"
-        y="166"
+        y="167"
         width="640"
-        height="20"
+        height="18"
         fill={isDay ? '#182436' : '#080d18'}
+      />
+      {/* Curb highlight line */}
+      <line
+        x1="210" y1="167" x2="440" y2="167"
+        stroke={isDay ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.06)'}
+        strokeWidth="1"
       />
     </g>
   );
@@ -646,24 +852,20 @@ export function DynamicWeatherBackground() {
 
         {/* Sun */}
         {env.sun.visible && (
-          <g className="campus-celestial-body">
-            <Sun x={env.sun.x} y={env.sun.y} elevation={env.sun.elevation} />
-          </g>
+          <Sun x={env.sun.x} y={env.sun.y} elevation={env.sun.elevation} />
         )}
 
         {/* Moon */}
         {env.moon.visible && (
-          <g className="campus-celestial-body">
-            <Moon
-              x={env.moon.x} y={env.moon.y}
-              elevation={env.moon.elevation}
-              cloudCover={cloudCover}
-            />
-          </g>
+          <Moon
+            x={env.moon.x} y={env.moon.y}
+            elevation={env.moon.elevation}
+            cloudCover={cloudCover}
+          />
         )}
 
         {/* Dynamic Drifting Clouds */}
-        <CloudLayer condition={condition} isDay={env.isDay} />
+        <CloudLayer condition={condition} isDay={env.isDay} phase={env.phase} />
 
         {/* Campus Architecture & Trees */}
         <CampusHorizon isDay={env.isDay} phase={env.phase} />
