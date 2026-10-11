@@ -322,136 +322,139 @@ function CampusHorizon({ isDay, phase }: {
 
   return (
     <g className="pointer-events-none">
-      {/* ── DISTANT HORIZON RIDGE ── */}
-      <path
-        d="M 170 160 Q 220 142, 270 148 Q 320 134, 370 144 Q 410 136, 440 146 L 440 180 L 170 180 Z"
-        fill={isDay ? (isSunsetish ? '#261b30' : '#20324c') : '#0a101c'}
-        opacity={isDay ? 0.5 : 0.8}
-      />
-
-      {/* ── DISTANT CAMPUS TREES (Backdrop) ── */}
-      <g fill={treeFar} opacity={0.85}>
-        <ellipse cx="232" cy="144" rx="16" ry="22" />
-        <ellipse cx="254" cy="147" rx="14" ry="20" />
-        <ellipse cx="278" cy="142" rx="18" ry="24" />
-        <ellipse cx="424" cy="140" rx="20" ry="26" />
-      </g>
-
-      {/* ── MAIN ACADEMIC BUILDING (IRE Department Campus Wing) ── */}
-      <g>
-        {/* Main 4-story building facade */}
-        <rect
-          x="332" y="84" width="94" height="96" rx="3"
-          fill={buildingBase}
-          stroke={buildingOutline}
-          strokeWidth="1"
+      {/* ── SCALED SCENERY GROUP: Staged in far right distance on mobile ── */}
+      <g className="campus-horizon-scenery">
+        {/* ── DISTANT HORIZON RIDGE ── */}
+        <path
+          d="M 170 160 Q 220 142, 270 148 Q 320 134, 370 144 Q 410 136, 440 146 L 440 180 L 170 180 Z"
+          fill={isDay ? (isSunsetish ? '#261b30' : '#20324c') : '#0a101c'}
+          opacity={isDay ? 0.5 : 0.8}
         />
 
-        {/* Roofline architectural cornice */}
-        <rect x="328" y="82" width="102" height="5" rx="1.5" fill={buildingTrim} />
+        {/* ── DISTANT CAMPUS TREES (Backdrop) ── */}
+        <g fill={treeFar} opacity={0.85}>
+          <ellipse cx="232" cy="144" rx="16" ry="22" />
+          <ellipse cx="254" cy="147" rx="14" ry="20" />
+          <ellipse cx="278" cy="142" rx="18" ry="24" />
+          <ellipse cx="424" cy="140" rx="20" ry="26" />
+        </g>
 
-        {/* Rooftop HVAC & Antenna */}
-        <rect x="346" y="74" width="20" height="9" rx="1.5" fill={buildingTrim} />
-        <line x1="356" y1="74" x2="356" y2="65" stroke={buildingTrim} strokeWidth="1.4" />
-        <circle cx="356" cy="65" r="1.5" fill={isDay ? '#ef4444' : '#f87171'} />
+        {/* ── MAIN ACADEMIC BUILDING (IRE Department Campus Wing) ── */}
+        <g>
+          {/* Main 4-story building facade */}
+          <rect
+            x="332" y="84" width="94" height="96" rx="3"
+            fill={buildingBase}
+            stroke={buildingOutline}
+            strokeWidth="1"
+          />
 
-        {/* Floor ledges / architectural mullions */}
-        <rect x="332" y="104" width="94" height="2.5" fill={buildingTrim} />
-        <rect x="332" y="124" width="94" height="2.5" fill={buildingTrim} />
-        <rect x="332" y="144" width="94" height="2.5" fill={buildingTrim} />
+          {/* Roofline architectural cornice */}
+          <rect x="328" y="82" width="102" height="5" rx="1.5" fill={buildingTrim} />
 
-        {/* Windows Grid — Floor 4 */}
-        <rect x="338" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="352" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="366" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
-        <rect x="380" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="394" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="408" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
+          {/* Rooftop HVAC & Antenna */}
+          <rect x="346" y="74" width="20" height="9" rx="1.5" fill={buildingTrim} />
+          <line x1="356" y1="74" x2="356" y2="65" stroke={buildingTrim} strokeWidth="1.4" />
+          <circle cx="356" cy="65" r="1.5" fill={isDay ? '#ef4444' : '#f87171'} />
 
-        {/* Windows Grid — Floor 3 */}
-        <rect x="338" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
-        <rect x="352" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="366" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="380" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="394" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
-        <rect x="408" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
+          {/* Floor ledges / architectural mullions */}
+          <rect x="332" y="104" width="94" height="2.5" fill={buildingTrim} />
+          <rect x="332" y="124" width="94" height="2.5" fill={buildingTrim} />
+          <rect x="332" y="144" width="94" height="2.5" fill={buildingTrim} />
 
-        {/* Windows Grid — Floor 2 */}
-        <rect x="338" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="352" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="366" y="130" width="8" height="10" rx="1.2" fill={dimWindow} />
-        <rect x="380" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="394" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
-        <rect x="408" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+          {/* Windows Grid — Floor 4 */}
+          <rect x="338" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="352" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="366" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
+          <rect x="380" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="394" y="90" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="408" y="90" width="8" height="10" rx="1.2" fill={dimWindow} />
 
-        {/* Secondary Left Lecture Wing */}
-        <rect
-          x="284" y="102" width="52" height="78" rx="2"
-          fill={buildingBase}
-          stroke={buildingOutline}
-          strokeWidth="1"
-        />
-        <rect x="282" y="100" width="56" height="3.5" rx="1" fill={buildingTrim} />
-        <rect x="284" y="122" width="52" height="2" fill={buildingTrim} />
+          {/* Windows Grid — Floor 3 */}
+          <rect x="338" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
+          <rect x="352" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="366" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="380" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="394" y="110" width="8" height="10" rx="1.2" fill={dimWindow} />
+          <rect x="408" y="110" width="8" height="10" rx="1.2" fill={litWindow} />
 
-        <rect x="290" y="107" width="7" height="9" rx="1" fill={litWindow} />
-        <rect x="302" y="107" width="7" height="9" rx="1" fill={litWindow} />
-        <rect x="314" y="107" width="7" height="9" rx="1" fill={dimWindow} />
-        <rect x="290" y="127" width="7" height="9" rx="1" fill={litWindow} />
-        <rect x="302" y="127" width="7" height="9" rx="1" fill={dimWindow} />
-        <rect x="314" y="127" width="7" height="9" rx="1" fill={litWindow} />
+          {/* Windows Grid — Floor 2 */}
+          <rect x="338" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="352" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="366" y="130" width="8" height="10" rx="1.2" fill={dimWindow} />
+          <rect x="380" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="394" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
+          <rect x="408" y="130" width="8" height="10" rx="1.2" fill={litWindow} />
 
-        {/* Window warm light spills at night */}
+          {/* Secondary Left Lecture Wing */}
+          <rect
+            x="284" y="102" width="52" height="78" rx="2"
+            fill={buildingBase}
+            stroke={buildingOutline}
+            strokeWidth="1"
+          />
+          <rect x="282" y="100" width="56" height="3.5" rx="1" fill={buildingTrim} />
+          <rect x="284" y="122" width="52" height="2" fill={buildingTrim} />
+
+          <rect x="290" y="107" width="7" height="9" rx="1" fill={litWindow} />
+          <rect x="302" y="107" width="7" height="9" rx="1" fill={litWindow} />
+          <rect x="314" y="107" width="7" height="9" rx="1" fill={dimWindow} />
+          <rect x="290" y="127" width="7" height="9" rx="1" fill={litWindow} />
+          <rect x="302" y="127" width="7" height="9" rx="1" fill={dimWindow} />
+          <rect x="314" y="127" width="7" height="9" rx="1" fill={litWindow} />
+
+          {/* Window warm light spills at night */}
+          {!isDay && (
+            <g fill="rgba(251, 191, 36, 0.22)">
+              <circle cx="356" cy="95" r="14" />
+              <circle cx="384" cy="115" r="15" />
+              <circle cx="356" cy="135" r="14" />
+              <circle cx="412" cy="135" r="14" />
+              <circle cx="294" cy="111" r="12" />
+            </g>
+          )}
+        </g>
+
+        {/* ── FOREGROUND LUSH TREES & CAMPUS GARDEN ── */}
+        <g>
+          {/* Tree cluster near lecture wing */}
+          <ellipse cx="262" cy="132" rx="20" ry="30" fill={treeNear} />
+          <ellipse cx="266" cy="126" rx="14" ry="18" fill={treeHighlight} opacity={0.65} />
+          <ellipse cx="278" cy="138" rx="16" ry="24" fill={treeFar} />
+          <ellipse cx="248" cy="142" rx="15" ry="22" fill={treeNear} />
+          <rect x="260" y="156" width="4.5" height="20" rx="1" fill="#141a24" />
+
+          {/* Tree cluster framing right edge */}
+          <ellipse cx="426" cy="128" rx="18" ry="30" fill={treeNear} />
+          <ellipse cx="430" cy="122" rx="12" ry="18" fill={treeHighlight} opacity={0.65} />
+          <ellipse cx="438" cy="136" rx="15" ry="24" fill={treeFar} />
+          <rect x="425" y="154" width="4" height="22" rx="1" fill="#141a24" />
+        </g>
+
+        {/* Warm campus pathway lampposts at night */}
         {!isDay && (
-          <g fill="rgba(251, 191, 36, 0.22)">
-            <circle cx="356" cy="95" r="14" />
-            <circle cx="384" cy="115" r="15" />
-            <circle cx="356" cy="135" r="14" />
-            <circle cx="412" cy="135" r="14" />
-            <circle cx="294" cy="111" r="12" />
+          <g>
+            {/* Lamppost 1 */}
+            <line x1="282" y1="154" x2="282" y2="168" stroke="#475569" strokeWidth="1.2" />
+            <circle cx="282" cy="154" r="2.2" fill="#fef08a" />
+            <circle cx="282" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
+
+            {/* Lamppost 2 */}
+            <line x1="334" y1="154" x2="334" y2="168" stroke="#475569" strokeWidth="1.2" />
+            <circle cx="334" cy="154" r="2.2" fill="#fef08a" />
+            <circle cx="334" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
           </g>
         )}
       </g>
 
-      {/* ── FOREGROUND LUSH TREES & CAMPUS GARDEN ── */}
-      <g>
-        {/* Tree cluster near lecture wing */}
-        <ellipse cx="262" cy="132" rx="20" ry="30" fill={treeNear} />
-        <ellipse cx="266" cy="126" rx="14" ry="18" fill={treeHighlight} opacity={0.65} />
-        <ellipse cx="278" cy="138" rx="16" ry="24" fill={treeFar} />
-        <ellipse cx="248" cy="142" rx="15" ry="22" fill={treeNear} />
-        <rect x="260" y="156" width="4.5" height="20" rx="1" fill="#141a24" />
-
-        {/* Tree cluster framing right edge */}
-        <ellipse cx="426" cy="128" rx="18" ry="30" fill={treeNear} />
-        <ellipse cx="430" cy="122" rx="12" ry="18" fill={treeHighlight} opacity={0.65} />
-        <ellipse cx="438" cy="136" rx="15" ry="24" fill={treeFar} />
-        <rect x="425" y="154" width="4" height="22" rx="1" fill="#141a24" />
-      </g>
-
-      {/* ── CAMPUS ROADWAY / GROUND LINE ── */}
+      {/* ── CAMPUS ROADWAY / GROUND LINE (Full Base) ── */}
       <rect
-        x="0"
+        x="-100"
         y="166"
-        width="440"
-        height="16"
+        width="640"
+        height="20"
         fill={isDay ? '#182436' : '#080d18'}
       />
-
-      {/* Warm campus pathway lampposts at night */}
-      {!isDay && (
-        <g>
-          {/* Lamppost 1 */}
-          <line x1="282" y1="154" x2="282" y2="168" stroke="#475569" strokeWidth="1.2" />
-          <circle cx="282" cy="154" r="2.2" fill="#fef08a" />
-          <circle cx="282" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
-
-          {/* Lamppost 2 */}
-          <line x1="334" y1="154" x2="334" y2="168" stroke="#475569" strokeWidth="1.2" />
-          <circle cx="334" cy="154" r="2.2" fill="#fef08a" />
-          <circle cx="334" cy="154" r="9" fill="rgba(253, 224, 71, 0.28)" />
-        </g>
-      )}
     </g>
   );
 }
@@ -643,16 +646,20 @@ export function DynamicWeatherBackground() {
 
         {/* Sun */}
         {env.sun.visible && (
-          <Sun x={env.sun.x} y={env.sun.y} elevation={env.sun.elevation} />
+          <g className="campus-celestial-body">
+            <Sun x={env.sun.x} y={env.sun.y} elevation={env.sun.elevation} />
+          </g>
         )}
 
         {/* Moon */}
         {env.moon.visible && (
-          <Moon
-            x={env.moon.x} y={env.moon.y}
-            elevation={env.moon.elevation}
-            cloudCover={cloudCover}
-          />
+          <g className="campus-celestial-body">
+            <Moon
+              x={env.moon.x} y={env.moon.y}
+              elevation={env.moon.elevation}
+              cloudCover={cloudCover}
+            />
+          </g>
         )}
 
         {/* Dynamic Drifting Clouds */}
