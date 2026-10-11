@@ -204,7 +204,7 @@ export function Dashboard() {
                 <ChevronRight size={13} className="stroke-[2.5]" />
               </button>
 
-              <span className="px-2.5 py-1 rounded-full bg-black/50 border border-white/15 text-[11px] text-slate-200 font-medium backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
+              <span className="text-xs font-semibold text-slate-300 whitespace-nowrap flex-shrink-0">
                 {getBatchName(heroClass.batch)}
               </span>
             </div>
