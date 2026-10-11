@@ -6,6 +6,8 @@ import {
   Calendar,
   ChevronRight,
   BookOpen,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useLiveTime } from '../hooks/useLiveTime';
 import { useBatchSelection } from '../hooks/useBatchSelection';
@@ -154,8 +156,12 @@ export function Dashboard() {
                   </span>
                 </span>
                 {weather && (
-                  <span className="px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1 whitespace-nowrap flex-shrink-0">
-                    <span>{weather.isDay ? '☀️' : '🌙'}</span>
+                  <span className="px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap flex-shrink-0">
+                    {weather.isDay ? (
+                      <Sun size={12} className="text-amber-400" />
+                    ) : (
+                      <Moon size={12} className="text-cyan-300" />
+                    )}
                     <span>{weather.temperature}°C</span>
                   </span>
                 )}
@@ -181,7 +187,7 @@ export function Dashboard() {
               <div className="flex items-center gap-1.5 text-xs text-slate-300 pt-0.5">
                 <Clock size={13} className="text-slate-400 flex-shrink-0" />
                 <span className="font-medium text-white tabular-nums whitespace-nowrap">
-                  {formatTime12h(heroClass.startTime)} – {formatTime12h(heroClass.endTime)}
+                  {formatTime12h(heroClass.startTime)} — {formatTime12h(heroClass.endTime)}
                 </span>
               </div>
             </div>
@@ -190,7 +196,7 @@ export function Dashboard() {
             <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2.5">
               <button
                 onClick={() => navigate(`/rooms?room=${encodeURIComponent(heroClass.room)}`)}
-                className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs tracking-wide shadow-sm transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
+                className="px-4 py-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wide shadow-sm transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
               >
                 <BookOpen size={13} />
                 <span>Locate {formatRoomDisplay(heroClass.room)}</span>
@@ -265,7 +271,7 @@ export function Dashboard() {
                 onClick={() => setActiveDay(day)}
                 className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
                   isSelected
-                    ? 'bg-white text-slate-950 shadow-md scale-[1.02]'
+                    ? 'bg-cyan-500 text-slate-950 shadow-sm scale-[1.02]'
                     : 'bg-[#0c1420]/80 border border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
                 aria-pressed={isSelected}
@@ -276,14 +282,14 @@ export function Dashboard() {
                 </span>
 
                 {/* Day Name */}
-                <span className={`text-xs font-extrabold mt-0.5 ${isSelected ? 'text-black' : 'text-slate-300'}`}>
+                <span className={`text-xs font-black mt-0.5 ${isSelected ? 'text-slate-950' : 'text-slate-300'}`}>
                   {dayAbbr[day].label}
                 </span>
 
                 {/* Subtle dark dot indicator when selected */}
                 {isSelected && (
                   <span
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-slate-900"
+                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-slate-950"
                     title="Active Selection"
                   />
                 )}

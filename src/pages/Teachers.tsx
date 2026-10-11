@@ -75,7 +75,7 @@ export function Teachers() {
           placeholder="Search faculty by name or code (e.g. Ashiqussalehin, MAS)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+          className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-full border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
         />
       </div>
 
@@ -310,7 +310,7 @@ export function Teachers() {
                                       </span>
                                     </div>
                                     <span className="text-slate-400 tabular-nums">
-                                      {formatTime12h(entry.startTime)} – {formatTime12h(entry.endTime)}
+                                      {formatTime12h(entry.startTime)} — {formatTime12h(entry.endTime)}
                                     </span>
                                   </div>
                                 );

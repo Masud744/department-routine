@@ -67,7 +67,7 @@ export function Rooms() {
 
         <button
           onClick={() => setIsVacantModalOpen(true)}
-          className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+          className="px-4 py-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
         >
           <DoorOpen size={14} />
           <span>Vacant Finder</span>
@@ -83,7 +83,7 @@ export function Rooms() {
             placeholder="Search room (e.g. 5002, IOT-LAB)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+            className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-full border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
           />
         </div>
 
@@ -98,10 +98,10 @@ export function Rooms() {
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id as StatusFilter)}
-              className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 font-medium ${
+              className={`px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all flex items-center gap-1.5 font-medium ${
                 filter === tab.id
-                  ? 'bg-white text-slate-950 shadow-sm font-bold'
-                  : 'bg-[#121926] text-slate-400 hover:text-white border border-white/5'
+                  ? 'bg-cyan-500 text-slate-950 shadow-sm font-bold'
+                  : 'bg-white/[0.04] text-slate-400 hover:text-white border border-white/5'
               }`}
             >
               {tab.dot && (
@@ -302,7 +302,7 @@ export function Rooms() {
                                   </span>
                                 </div>
                                 <span className="text-slate-400 tabular-nums">
-                                  {formatTime12h(entry.startTime)} – {formatTime12h(entry.endTime)}
+                                  {formatTime12h(entry.startTime)} — {formatTime12h(entry.endTime)}
                                 </span>
                               </div>
                             ))}

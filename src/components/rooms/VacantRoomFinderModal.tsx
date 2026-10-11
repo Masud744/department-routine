@@ -122,13 +122,13 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
         <div className="p-3.5 border-b border-white/10 bg-black/20 space-y-2.5">
           {/* Search Input */}
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search by room number, floor, or amenities (e.g. 2002, AC)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
             />
           </div>
 
@@ -136,21 +136,21 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
             <button
               onClick={() => setFilterType('free_now')}
-              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                 filterType === 'free_now'
                   ? 'bg-emerald-500 text-slate-950 shadow-sm'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
               }`}
             >
-              <span>⚡ Free Right Now</span>
+              <span>Free Right Now</span>
               <span className="text-[10px] opacity-80">({freeCount})</span>
             </button>
 
             <button
               onClick={() => setFilterType('all')}
-              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors ${
+              className={`px-3.5 py-1.5 rounded-full font-bold whitespace-nowrap transition-colors ${
                 filterType === 'all'
-                  ? 'bg-white text-slate-950 shadow-sm'
+                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
               }`}
             >
@@ -159,9 +159,9 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
 
             <button
               onClick={() => setFilterType('lecture')}
-              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors flex items-center gap-1 ${
+              className={`px-3.5 py-1.5 rounded-full font-bold whitespace-nowrap transition-colors flex items-center gap-1 ${
                 filterType === 'lecture'
-                  ? 'bg-white text-slate-950 shadow-sm'
+                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
               }`}
             >
@@ -171,9 +171,9 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
 
             <button
               onClick={() => setFilterType('lab')}
-              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors flex items-center gap-1 ${
+              className={`px-3.5 py-1.5 rounded-full font-bold whitespace-nowrap transition-colors flex items-center gap-1 ${
                 filterType === 'lab'
-                  ? 'bg-white text-slate-950 shadow-sm'
+                  ? 'bg-cyan-500 text-slate-950 shadow-sm'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
               }`}
             >
@@ -276,7 +276,7 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                   <div className="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
                     <button
                       onClick={() => handleCopyInvite(roomInfo)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all ${
                         isCopied
                           ? 'bg-emerald-500 text-slate-950 font-bold'
                           : 'bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10'
@@ -289,7 +289,7 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
 
                     <button
                       onClick={() => handleSelectRoom(roomInfo.room)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-950 transition-colors flex items-center gap-1 shadow-sm"
+                      className="px-4 py-1.5 rounded-full text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-colors flex items-center gap-1 shadow-sm"
                     >
                       <span>Full Schedule</span>
                       <DoorOpen size={13} />

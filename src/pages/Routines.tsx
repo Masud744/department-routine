@@ -53,12 +53,12 @@ export function Routines() {
         </div>
 
         {/* View toggle (Days vs Matrix) */}
-        <div className="flex items-center bg-[#111A28] border border-white/10 p-0.5 rounded-xl">
+        <div className="flex items-center bg-[#111A28] border border-white/10 p-0.5 rounded-full">
           <button
             onClick={() => setViewMode('days')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold transition-all ${
               viewMode === 'days'
-                ? 'bg-white text-slate-950 shadow-sm'
+                ? 'bg-cyan-500 text-slate-950 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
             title="Day-by-Day View"
@@ -68,9 +68,9 @@ export function Routines() {
           </button>
           <button
             onClick={() => setViewMode('matrix')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold transition-all ${
               viewMode === 'matrix'
-                ? 'bg-white text-slate-950 shadow-sm'
+                ? 'bg-cyan-500 text-slate-950 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
             title="Full Matrix Grid"
@@ -91,10 +91,10 @@ export function Routines() {
             <button
               key={batch}
               onClick={() => setSelectedBatch(batch)}
-              className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-full text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 selectedBatch === batch
-                  ? 'bg-white text-slate-950 font-bold shadow-sm scale-[1.02]'
-                  : 'bg-[#121926] text-slate-300 hover:text-white border border-white/5 hover:border-white/10'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm scale-[1.02]'
+                  : 'bg-white/[0.04] text-slate-300 hover:text-white border border-white/5 hover:border-white/10'
               }`}
             >
               <span>{getBatchName(batch)}</span>
@@ -120,20 +120,22 @@ export function Routines() {
                   key={day}
                   onClick={() => setSelectedDay(day)}
                   className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl transition-all relative ${
-                    isSelected ? 'active-day-pill' : 'inactive-day-pill'
+                    isSelected
+                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
+                      : 'bg-[#121926] text-slate-400 hover:text-white border border-white/5'
                   }`}
                   aria-pressed={isSelected}
                 >
                   <span className={`text-[11px] font-medium tracking-wide ${isSelected ? 'text-slate-900' : 'text-slate-400'}`}>
                     {dayAbbr[day].short}
                   </span>
-                  <span className={`text-xs font-bold mt-1 ${isSelected ? 'text-black' : 'text-white'}`}>
+                  <span className={`text-xs font-black mt-1 ${isSelected ? 'text-slate-950' : 'text-white'}`}>
                     {dayAbbr[day].label}
                   </span>
                   {isToday && (
                     <span
                       className={`w-1.5 h-1.5 rounded-full mt-1.5 ${
-                        isSelected ? 'bg-slate-900' : 'bg-white'
+                        isSelected ? 'bg-slate-950' : 'bg-cyan-400'
                       }`}
                       title="Today"
                     />
@@ -210,12 +212,12 @@ export function Routines() {
 
                         {/* Slot Badge */}
                         <div className="text-right flex-shrink-0">
-                          <div className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-1">
+                          <div className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-1">
                             <Clock size={11} className="text-slate-400" />
                             <span>Slot {entry.slotNumber}</span>
                           </div>
                           <span className="text-[11px] text-slate-400 block mt-1 tabular-nums">
-                            {formatTime12h(entry.startTime)} – {formatTime12h(entry.endTime)}
+                            {formatTime12h(entry.startTime)} — {formatTime12h(entry.endTime)}
                           </span>
                         </div>
                       </div>

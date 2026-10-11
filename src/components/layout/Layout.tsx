@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { BottomNav } from './BottomNav';
 import { SearchModal } from '../search/SearchModal';
+import { Footer } from './Footer';
 
 export function Layout() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -17,6 +18,7 @@ export function Layout() {
         {/* Main Content Area with Bottom Nav padding */}
         <main className="flex-1 px-4 py-4 pb-28 overflow-y-auto">
           <Outlet />
+          <Footer />
         </main>
 
         {/* Mobile Bottom Navigation Dock */}

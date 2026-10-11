@@ -17,19 +17,19 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
           to="/"
           end
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative ${
+            `flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all relative ${
               isActive
-                ? 'text-white font-semibold'
+                ? 'text-cyan-400 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <LayoutDashboard size={20} className={isActive ? 'text-white scale-105 transition-transform' : ''} />
+              <LayoutDashboard size={20} className={isActive ? 'text-cyan-400 scale-105 transition-transform' : ''} />
               <span className="text-[10px] mt-1">Today</span>
               {isActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-white absolute bottom-0.5" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 absolute bottom-0.5" />
               )}
             </>
           )}
@@ -39,19 +39,19 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
         <NavLink
           to="/routines"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative ${
+            `flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all relative ${
               isActive
-                ? 'text-white font-semibold'
+                ? 'text-cyan-400 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <CalendarDays size={20} className={isActive ? 'text-white scale-105 transition-transform' : ''} />
+              <CalendarDays size={20} className={isActive ? 'text-cyan-400 scale-105 transition-transform' : ''} />
               <span className="text-[10px] mt-1">Routine</span>
               {isActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-white absolute bottom-0.5" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 absolute bottom-0.5" />
               )}
             </>
           )}
@@ -63,7 +63,7 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
           className="relative -top-3 flex flex-col items-center justify-center group"
           aria-label="Open search"
         >
-          <div className="w-12 h-12 rounded-full bg-[#121824] border border-white/20 flex items-center justify-center text-white shadow-xl shadow-black/50 group-hover:border-white/40 group-hover:bg-[#182030] group-hover:scale-105 active:scale-95 transition-all">
+          <div className="w-12 h-12 rounded-full bg-[#121824] border border-white/20 flex items-center justify-center text-white shadow-xl shadow-black/50 group-hover:border-cyan-400/50 group-hover:text-cyan-400 group-hover:scale-105 active:scale-95 transition-all">
             <Search size={19} className="stroke-[2.2]" />
           </div>
         </button>
@@ -72,19 +72,19 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
         <NavLink
           to="/rooms"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative ${
+            `flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all relative ${
               isActive
-                ? 'text-white font-semibold'
+                ? 'text-cyan-400 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <DoorOpen size={20} className={isActive ? 'text-white scale-105 transition-transform' : ''} />
+              <DoorOpen size={20} className={isActive ? 'text-cyan-400 scale-105 transition-transform' : ''} />
               <span className="text-[10px] mt-1">Rooms</span>
               {isActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-white absolute bottom-0.5" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 absolute bottom-0.5" />
               )}
             </>
           )}
@@ -94,19 +94,19 @@ export function BottomNav({ onOpenSearch }: BottomNavProps) {
         <NavLink
           to="/teachers"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all relative ${
+            `flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all relative ${
               isActive
-                ? 'text-white font-semibold'
+                ? 'text-cyan-400 font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`
           }
         >
           {({ isActive }) => (
             <>
-              <Users size={20} className={isActive ? 'text-white scale-105 transition-transform' : ''} />
+              <Users size={20} className={isActive ? 'text-cyan-400 scale-105 transition-transform' : ''} />
               <span className="text-[10px] mt-1">Faculty</span>
               {isActive && (
-                <span className="w-1.5 h-1.5 rounded-full bg-white absolute bottom-0.5" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 absolute bottom-0.5" />
               )}
             </>
           )}
