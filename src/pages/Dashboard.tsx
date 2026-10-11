@@ -390,12 +390,21 @@ export function Dashboard() {
       <div className="space-y-2.5 pt-2">
         <div className="flex items-center justify-between text-xs px-1">
           <h4 className="font-semibold text-slate-300 flex items-center gap-1.5">
-            <DoorOpen size={14} className="text-cyan-400" />
+            <DoorOpen size={14} className="text-slate-400" />
             <span>Live Room Radar</span>
           </h4>
-          <Link to="/rooms" className="text-cyan-400 hover:text-cyan-300 font-medium">
-            Explore All Rooms →
-          </Link>
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => setIsVacantModalOpen(true)}
+              className="text-slate-300 hover:text-white font-medium flex items-center gap-1 transition-colors"
+            >
+              <span>Vacant Finder</span>
+            </button>
+            <span className="text-slate-600">·</span>
+            <Link to="/rooms" className="text-slate-400 hover:text-white font-medium">
+              All Rooms →
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-3 gap-2.5">
@@ -404,7 +413,7 @@ export function Dashboard() {
             to="/rooms?filter=occupied"
             className="glass-card p-3 text-center hover:border-rose-500/40 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-rose-500 mx-auto mb-1.5 shadow-[0_0_8px_#f43f5e]" />
+            <div className="w-2 h-2 rounded-full bg-rose-500 mx-auto mb-1.5" />
             <span className="text-xl font-extrabold text-white block tabular-nums">
               {roomSummary.occupied}
             </span>
@@ -416,8 +425,8 @@ export function Dashboard() {
             to="/rooms?filter=available"
             className="glass-card p-3 text-center hover:border-emerald-500/40 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-emerald-400 mx-auto mb-1.5 shadow-[0_0_8px_#34d399]" />
-            <span className="text-xl font-extrabold text-emerald-400 block tabular-nums">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 mx-auto mb-1.5" />
+            <span className="text-xl font-extrabold text-white block tabular-nums">
               {roomSummary.available}
             </span>
             <span className="text-[11px] text-slate-400 font-medium">Available</span>
@@ -428,8 +437,8 @@ export function Dashboard() {
             to="/rooms?filter=upcoming"
             className="glass-card p-3 text-center hover:border-amber-500/40 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-amber-400 mx-auto mb-1.5 shadow-[0_0_8px_#fbbf24]" />
-            <span className="text-xl font-extrabold text-amber-400 block tabular-nums">
+            <div className="w-2 h-2 rounded-full bg-amber-400 mx-auto mb-1.5" />
+            <span className="text-xl font-extrabold text-white block tabular-nums">
               {roomSummary.upcoming}
             </span>
             <span className="text-[11px] text-slate-400 font-medium">Upcoming</span>

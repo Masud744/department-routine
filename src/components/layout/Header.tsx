@@ -136,7 +136,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
             href="https://ire.uftb.ac.bd/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 flex items-center justify-center text-cyan-400 transition-colors"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
             title="Visit Department Website"
           >
             <ExternalLink size={16} />

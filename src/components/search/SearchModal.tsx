@@ -71,14 +71,14 @@ export function SearchModal({ isOpen, onClose, onSelectEntry }: SearchModalProps
         {/* Search Input Bar */}
         <div className="p-4 border-b border-white/10">
           <div className="relative flex items-center">
-            <Search size={18} className="absolute left-3.5 text-cyan-400" />
+            <Search size={18} className="absolute left-3.5 text-slate-400" />
             <input
               ref={inputRef}
               type="search"
               placeholder="Search courses, teachers, rooms, batches..."
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-full bg-[#162030] text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 text-sm placeholder:text-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+              className="w-full bg-[#162030] text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 text-sm placeholder:text-slate-400 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
             />
             {query ? (
               <button
@@ -121,7 +121,7 @@ export function SearchModal({ isOpen, onClose, onSelectEntry }: SearchModalProps
               <Search size={32} className="mx-auto text-slate-600 opacity-60" />
               <p className="text-sm font-medium text-slate-400">Search Routine &amp; Rooms</p>
               <p className="text-xs text-slate-500 max-w-xs mx-auto">
-                Type course codes like <span className="text-cyan-400">IRE 459</span>, teacher names like <span className="text-cyan-400">Sadia</span>, or room numbers like <span className="text-cyan-400">5002</span>.
+                Type course codes like <span className="text-white font-medium">IRE 459</span>, teacher names like <span className="text-white font-medium">Sadia</span>, or room numbers like <span className="text-white font-medium">5002</span>.
               </p>
             </div>
           ) : results.length === 0 ? (
@@ -151,10 +151,10 @@ export function SearchModal({ isOpen, onClose, onSelectEntry }: SearchModalProps
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm text-white group-hover:text-cyan-400 transition-colors">
+                          <span className="font-semibold text-sm text-white group-hover:text-slate-200 transition-colors">
                             {entry.courseCode}
                           </span>
-                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/10 text-slate-300 border border-white/10 font-medium">
                             {getBatchName(entry.batch)}
                           </span>
                         </div>

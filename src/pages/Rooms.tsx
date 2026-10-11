@@ -67,7 +67,7 @@ export function Rooms() {
 
         <button
           onClick={() => setIsVacantModalOpen(true)}
-          className="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-emerald-500/10 active:scale-95"
+          className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
         >
           <DoorOpen size={14} />
           <span>Vacant Finder</span>
