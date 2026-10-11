@@ -45,7 +45,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
             <div className="relative mt-0.5">
               <button
                 onClick={() => setBatchMenuOpen(!batchMenuOpen)}
-                className="flex items-center gap-1.5 text-sm font-bold text-white hover:text-slate-200 transition-colors py-0.5 focus:outline-none"
+                className="flex items-center gap-1.5 text-sm font-bold text-white hover:text-slate-200 transition-colors py-0.5 focus:outline-none whitespace-nowrap"
                 aria-expanded={batchMenuOpen}
               >
                 <span>{getBatchName(selectedBatch)}</span>
@@ -111,11 +111,12 @@ export function Header({ onOpenSearch }: HeaderProps) {
           {isInstallable && (
             <button
               onClick={installApp}
-              className="flex px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-bold items-center gap-1.5 transition-all shadow-sm active:scale-95"
+              className="flex items-center justify-center gap-1.5 w-9 h-9 sm:w-auto sm:px-2.5 sm:py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-bold transition-all shadow-sm active:scale-95 flex-shrink-0"
               title="Install IRE Routine on Phone"
+              aria-label="Install IRE Routine App"
             >
-              <Download size={13} />
-              <span>Install</span>
+              <Download size={15} />
+              <span className="hidden sm:inline">Install</span>
             </button>
           )}
 

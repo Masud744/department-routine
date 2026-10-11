@@ -88,12 +88,12 @@ export function Dashboard() {
       {/* 1. Header Section: Title & Batch Info */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2.5">
-            <h2 className="text-2xl font-black text-white tracking-tight">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
               Today Class
             </h2>
             <span
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-bold text-emerald-400 whitespace-nowrap shadow-sm"
+              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] sm:text-[11px] font-bold text-emerald-400 whitespace-nowrap shadow-sm"
               title={`${onlineCount} active students browsing`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
@@ -242,7 +242,7 @@ export function Dashboard() {
               </span>
             </div>
             <p className="text-xs text-slate-400 truncate mt-0.5">
-              Check empty classrooms & labs for group study or self study.
+              Instant classroom &amp; lab vacancy for study.
             </p>
           </div>
         </div>
