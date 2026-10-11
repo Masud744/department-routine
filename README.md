@@ -13,7 +13,7 @@
 [![GA4](https://img.shields.io/badge/Analytics-Google%20Analytics%204-E37400?style=flat-square&logo=googleanalytics&logoColor=white)](https://analytics.google.com/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4.0-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Vitest](https://img.shields.io/badge/Tests-54%20Passing-10B981?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Vitest](https://img.shields.io/badge/Tests-55%20Passing-10B981?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline%20Ready-F59E0B?style=flat-square&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
 An authentic, production-grade academic management web application built for the students, faculty members, and administrative officers of the Department of Internet of Things and Robotics Engineering (IRE). The system digitizes the official departmental timetable, tracks real-time classroom and lab vacancy across campus buildings, provides live concurrent student presence powered by Firebase Realtime Database, and offers an offline-first Progressive Web App (PWA) experience with live Dhaka atmospheric visualization.
@@ -26,9 +26,9 @@ An authentic, production-grade academic management web application built for the
 |:---:|:---:|:---:|
 | <img src="screenshots/dashboard.jpeg" width="270" alt="Dashboard Screen" /> | <img src="screenshots/routine.jpeg" width="270" alt="Academic Routine Screen" /> | <img src="screenshots/room_radar.jpeg" width="270" alt="Room Radar Screen" /> |
 
-| Vacant Room Finder | Faculty Directory |
-|:---:|:---:|
-| <img src="screenshots/vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> |
+| Vacant Room Finder | Faculty Directory | Faculty Contact & Timetable |
+|:---:|:---:|:---:|
+| <img src="screenshots/vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> | <img src="screenshots/faculty_details.jpeg" width="270" alt="Faculty Contact & Timetable Screen" /> |
 
 <br />
 
