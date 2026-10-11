@@ -45,12 +45,11 @@ export function Footer() {
     <>
       <footer className="mt-4 pt-3 pb-1 border-t border-white/5 text-center text-xs text-slate-500">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2.5 text-slate-400">
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            <span>
-              Developed by <strong className="text-slate-200 font-semibold">Shahriar Alom Masud</strong>
+          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+            <span className="text-slate-500 text-xs">Developed by</span>
+            <span className="font-signature text-base text-slate-100 font-bold tracking-wide hover:text-cyan-300 transition-colors select-none">
+              Shahriar Alom Masud
             </span>
-            <span className="text-slate-600">—</span>
-            <span className="text-slate-400">IRE, UFTB</span>
 
             {/* Social Profiles */}
             <div className="inline-flex items-center gap-2 ml-0.5 text-slate-400">

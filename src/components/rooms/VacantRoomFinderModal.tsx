@@ -7,10 +7,9 @@ import {
   Share2,
   DoorOpen,
   Clock,
-  MapPin,
-  Users,
   Layers,
   Search,
+  ChevronRight,
 } from 'lucide-react';
 import { useLiveTime } from '../../hooks/useLiveTime';
 import { getVacantRoomsForStudy } from '../../services/roomAllocationService';
@@ -201,7 +200,8 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
               return (
                 <div
                   key={roomInfo.room}
-                  className={`p-4 rounded-2xl border transition-all ${
+                  onClick={() => handleSelectRoom(roomInfo.room)}
+                  className={`p-3.5 rounded-2xl border transition-all cursor-pointer group hover:border-white/20 active:scale-[0.99] ${
                     isFreeNow
                       ? 'bg-white/[0.03] border-emerald-500/25 hover:border-emerald-500/40'
                       : 'bg-white/[0.01] border-white/10 opacity-75'
@@ -211,89 +211,71 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                     <div className="min-w-0">
                       {/* Room Name & Floor */}
                       <div className="flex items-center gap-2">
-                        <h4 className="text-base font-extrabold text-white tracking-tight">
+                        <h4 className="text-base font-bold text-white tracking-tight group-hover:text-cyan-300 transition-colors">
                           {metadata.displayName}
                         </h4>
                         <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/5 text-slate-300 border border-white/10">
                           {metadata.building === 'Admin Building'
                             ? 'Admin Building'
                             : metadata.type === 'lab'
-                            ? 'Lab Wing'
-                            : 'Lecture Hall'}
+                            ? 'Lab'
+                            : 'Lecture'}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
-                        <MapPin size={12} className="text-slate-500 flex-shrink-0" />
                         <span>{metadata.floor}</span>
                         <span className="text-slate-600">•</span>
-                        <Users size={12} className="text-slate-500 flex-shrink-0" />
                         <span>~{metadata.capacity} seats</span>
                       </div>
                     </div>
 
                     {/* Status Pill */}
-                    <div className="flex-shrink-0 text-right">
+                    <div className="flex items-center gap-2 flex-shrink-0">
                       {isFreeNow ? (
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                           <span>FREE NOW</span>
                         </div>
                       ) : (
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-bold">
-                          <span className="w-2 h-2 rounded-full bg-rose-400" />
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
                           <span>OCCUPIED</span>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Free Duration Alert */}
+                  {/* Free Duration Alert with Schedule Link & Quick Share */}
                   <div
-                    className={`mt-3 px-3 py-2 rounded-xl text-xs flex items-center gap-2 ${
+                    className={`mt-2.5 px-3 py-2 rounded-xl text-xs flex items-center justify-between ${
                       isFreeNow
                         ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
                         : 'bg-rose-500/10 text-rose-300 border border-rose-500/20'
                     }`}
                   >
-                    <Clock size={13} className="flex-shrink-0" />
-                    <span className="font-semibold">{freeDurationLabel}</span>
-                  </div>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Clock size={13} className="flex-shrink-0" />
+                      <span className="font-semibold truncate">{freeDurationLabel}</span>
+                    </div>
 
-                  {/* Amenities Tags */}
-                  <div className="flex items-center gap-1.5 flex-wrap mt-2.5">
-                    {metadata.amenities.map((amenity) => (
-                      <span
-                        key={amenity}
-                        className="text-[10px] font-medium text-slate-400 px-2 py-0.5 rounded-lg bg-white/5 border border-white/5"
+                    <div className="flex items-center gap-2.5 flex-shrink-0 ml-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCopyInvite(roomInfo);
+                        }}
+                        className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                        title="Copy invite link to share"
                       >
-                        {amenity}
+                        {isCopied ? <Check size={13} className="text-emerald-400" /> : <Share2 size={13} />}
+                      </button>
+                      <span className="text-[11px] font-semibold text-slate-400 group-hover:text-white flex items-center gap-0.5 transition-colors">
+                        <span>Schedule</span>
+                        <ChevronRight size={13} />
                       </span>
-                    ))}
-                  </div>
-
-                  {/* Actions Bar */}
-                  <div className="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
-                    <button
-                      onClick={() => handleCopyInvite(roomInfo)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                        isCopied
-                          ? 'bg-emerald-500 text-slate-950 font-bold'
-                          : 'bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10'
-                      }`}
-                      title="Copy room availability to share with friends on WhatsApp or Messenger"
-                    >
-                      {isCopied ? <Check size={14} /> : <Share2 size={14} />}
-                      <span>{isCopied ? 'Copied Invite!' : 'Share with Group'}</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleSelectRoom(roomInfo.room)}
-                      className="px-4 py-1.5 rounded-full text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-colors flex items-center gap-1 shadow-sm"
-                    >
-                      <span>Full Schedule</span>
-                      <DoorOpen size={13} />
-                    </button>
+                    </div>
                   </div>
                 </div>
               );

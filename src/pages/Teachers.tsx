@@ -118,7 +118,7 @@ export function Teachers() {
                           {teacher.designation && (
                             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
                               teacher.designation.includes('Chairman')
-                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm shadow-amber-500/10'
+                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                                 : 'bg-white/10 text-slate-200 border-white/15'
                             }`}>
                               {teacher.designation}
@@ -223,21 +223,21 @@ export function Teachers() {
 
                           {/* Email Direct & Copy */}
                           {teacher.email && (
-                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#141824] border border-amber-500/20 hover:border-amber-500/40 transition-colors">
+                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.04] border border-emerald-500/20 hover:border-emerald-500/40 transition-colors">
                               <a
                                 href={`mailto:${teacher.email}`}
                                 onClick={(e) => e.stopPropagation()}
                                 className="flex items-center gap-2.5 min-w-0 group text-left flex-1"
                                 title={`Email ${teacher.fullName ?? teacher.code}`}
                               >
-                                <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:bg-amber-400 group-hover:text-black transition-colors flex-shrink-0">
+                                <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-black transition-colors flex-shrink-0">
                                   <Mail size={14} />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 block">
                                     Official Email
                                   </span>
-                                  <span className="text-xs font-bold text-white group-hover:text-amber-200 transition-colors truncate block">
+                                  <span className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors truncate block">
                                     {teacher.email}
                                   </span>
                                 </div>
@@ -248,7 +248,7 @@ export function Teachers() {
                                   e.stopPropagation();
                                   copyToClipboard(teacher.email!, `email-${teacher.code}`);
                                 }}
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-amber-300 hover:bg-white/5 transition-colors flex-shrink-0 ml-1.5"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors flex-shrink-0 ml-1.5"
                                 title="Copy email address"
                               >
                                 {copiedKey === `email-${teacher.code}` ? (
