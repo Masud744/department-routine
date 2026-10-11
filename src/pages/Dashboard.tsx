@@ -93,7 +93,7 @@ export function Dashboard() {
               Today Class
             </h2>
             <span
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] sm:text-[11px] font-bold text-emerald-400 whitespace-nowrap shadow-sm"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 whitespace-nowrap"
               title={`${onlineCount} active students browsing`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
@@ -124,22 +124,22 @@ export function Dashboard() {
           <div className="relative z-10 flex flex-col justify-between h-full space-y-4">
             {/* Top row: Status on left, Slot Pill, Time & Weather on right */}
             <div className="flex items-center justify-between gap-1.5 sm:gap-2">
-              {/* Status pill */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-[11px] sm:text-xs font-semibold backdrop-blur-md whitespace-nowrap flex-shrink-0">
+              {/* Status indicator */}
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold whitespace-nowrap flex-shrink-0">
                 {isHeroLive ? (
                   <>
                     <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                    <span className="text-rose-400 font-bold tracking-wide">LIVE NOW</span>
+                    <span className="text-rose-400 tracking-wide">LIVE NOW</span>
                   </>
                 ) : heroClass === nextClass ? (
                   <>
-                    <Clock size={12} className="text-amber-400" />
-                    <span className="text-amber-300 font-semibold">UPCOMING</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    <span className="text-amber-300 font-semibold tracking-wide">UPCOMING</span>
                   </>
                 ) : (
                   <>
-                    <Calendar size={12} className="text-slate-400" />
-                    <span className="text-slate-300 font-medium">Scheduled</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                    <span className="text-slate-300 font-medium tracking-wide">SCHEDULED</span>
                   </>
                 )}
               </div>
@@ -237,8 +237,8 @@ export function Dashboard() {
               <h3 className="text-sm font-bold text-white tracking-tight group-hover:text-slate-200 transition-colors">
                 Find Vacant Room Now
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
-                {roomSummary.available + roomSummary.upcoming} Free
+              <span className="text-xs font-bold text-emerald-400">
+                · {roomSummary.available + roomSummary.upcoming} Free
               </span>
             </div>
             <p className="text-xs text-slate-400 truncate mt-0.5">
@@ -359,7 +359,8 @@ export function Dashboard() {
                           {entry.courseCode}
                         </span>
                         {running && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                             LIVE
                           </span>
                         )}

@@ -1,5 +1,5 @@
 /**
- * Weather Service — fetches real-time weather for Dhaka from Open-Meteo (free, no API key).
+ * Weather Service — fetches real-time weather for UFTB Campus (Kaliakair, Gazipur) from Open-Meteo (free, no API key).
  * Maps WMO weather codes to semantic conditions used by the Dynamic Environment system.
  */
 
@@ -23,9 +23,9 @@ export interface WeatherData {
   fetchedAt: number;         // timestamp ms
 }
 
-// Dhaka coordinates
-const LAT = 23.8103;
-const LON = 90.4125;
+// UFTB Campus coordinates (Kaliakair, Gazipur: 36CC+PF8)
+const LAT = 24.0718;
+const LON = 90.2211;
 
 const API_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,cloud_cover,wind_speed_10m,is_day&timezone=Asia%2FDhaka`;
 
@@ -71,7 +71,7 @@ function mapWeatherCode(code: number): WeatherCondition {
   return 'partly_cloudy';
 }
 
-const CACHE_KEY = 'ire_weather_cache';
+const CACHE_KEY = 'ire_weather_cache_v2';
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 /** Try loading cached weather data */

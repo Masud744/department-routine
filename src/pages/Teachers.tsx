@@ -111,17 +111,17 @@ export function Teachers() {
                       </div>
 
                       <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <h3 className="font-bold text-sm text-white truncate">
                             {teacher.fullName ?? teacher.code}
                           </h3>
                           {teacher.designation && (
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+                            <span className={`text-xs font-semibold ${
                               teacher.designation.includes('Chairman')
-                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                : 'bg-white/10 text-slate-200 border-white/15'
+                                ? 'text-emerald-400'
+                                : 'text-slate-400 font-normal'
                             }`}>
-                              {teacher.designation}
+                              · {teacher.designation}
                             </span>
                           )}
                         </div>
@@ -140,12 +140,12 @@ export function Teachers() {
                       </div>
                     </div>
 
-                    {/* Right side: Teaching Badge & Chevron */}
+                    {/* Right side: Teaching Indicator & Chevron */}
                     <div className="flex flex-col items-end justify-between flex-shrink-0">
                       {teacher.currentlyTeaching ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/30 animate-pulse">
-                          <Radio size={10} />
-                          Teaching
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-400">
+                          <Radio size={12} className="animate-pulse" />
+                          <span>Teaching</span>
                         </span>
                       ) : (
                         <span className="text-[11px] text-slate-500">

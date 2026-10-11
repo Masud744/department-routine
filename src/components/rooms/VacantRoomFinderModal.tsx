@@ -98,8 +98,8 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                   Find Vacant Room Now
                 </h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                  {freeCount} Free Now
+                <span className="text-xs font-bold text-emerald-400">
+                  · {freeCount} Free Now
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -214,8 +214,8 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                         <h4 className="text-base font-bold text-white tracking-tight group-hover:text-cyan-300 transition-colors">
                           {metadata.displayName}
                         </h4>
-                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/5 text-slate-300 border border-white/10">
-                          {metadata.building === 'Admin Building'
+                        <span className="text-xs text-slate-400 font-normal">
+                          · {metadata.building === 'Admin Building'
                             ? 'Admin Building'
                             : metadata.type === 'lab'
                             ? 'Lab'
@@ -230,31 +230,25 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                       </div>
                     </div>
 
-                    {/* Status Pill */}
+                    {/* Status Indicator */}
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {isFreeNow ? (
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          <span>FREE NOW</span>
+                          <span>Free Now</span>
                         </div>
                       ) : (
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-bold">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-400">
                           <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
-                          <span>OCCUPIED</span>
+                          <span>Occupied</span>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Free Duration Alert with Schedule Link & Quick Share */}
-                  <div
-                    className={`mt-2.5 px-3 py-2 rounded-xl text-xs flex items-center justify-between ${
-                      isFreeNow
-                        ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
-                        : 'bg-rose-500/10 text-rose-300 border border-rose-500/20'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
+                  {/* Free Duration Info with Schedule Link & Quick Share */}
+                  <div className="mt-2.5 pt-2 border-t border-white/5 text-xs flex items-center justify-between">
+                    <div className={`flex items-center gap-2 min-w-0 ${isFreeNow ? 'text-emerald-400' : 'text-rose-400'}`}>
                       <Clock size={13} className="flex-shrink-0" />
                       <span className="font-semibold truncate">{freeDurationLabel}</span>
                     </div>

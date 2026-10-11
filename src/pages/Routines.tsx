@@ -186,7 +186,8 @@ export function Routines() {
                               {entry.courseCode}
                             </span>
                             {running && (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse">
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-400">
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                                 LIVE NOW
                               </span>
                             )}
@@ -210,13 +211,13 @@ export function Routines() {
                           </div>
                         </div>
 
-                        {/* Slot Badge */}
+                        {/* Slot & Time */}
                         <div className="text-right flex-shrink-0">
-                          <div className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-cyan-400 flex items-center gap-1">
-                            <Clock size={11} className="text-cyan-400" />
+                          <div className="text-xs font-bold text-cyan-400 flex items-center justify-end gap-1">
+                            <Clock size={12} className="text-cyan-400" />
                             <span>Slot {entry.slotNumber}</span>
                           </div>
-                          <span className="text-[11px] text-slate-400 block mt-1 tabular-nums">
+                          <span className="text-[11px] text-slate-400 block mt-0.5 tabular-nums">
                             {formatTime12h(entry.startTime)} — {formatTime12h(entry.endTime)}
                           </span>
                         </div>

@@ -155,14 +155,14 @@ export function Rooms() {
                           {formatRoomDisplay(roomState.room)}
                         </span>
 
-                        {/* Status Badge */}
+                        {/* Status Indicator */}
                         <span
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide border ${
+                          className={`inline-flex items-center gap-1.5 text-xs font-bold ${
                             isOccupied
-                              ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+                              ? 'text-rose-400'
                               : isAvailable
-                              ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                              : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                              ? 'text-emerald-400'
+                              : 'text-amber-400'
                           }`}
                         >
                           <span
@@ -218,12 +218,12 @@ export function Rooms() {
                     {/* Right: Time Countdown & Chevron */}
                     <div className="text-right flex flex-col items-end justify-between flex-shrink-0">
                       {roomState.timeUntilFree && (
-                        <span className="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-lg border border-rose-500/20">
+                        <span className="text-xs font-semibold text-rose-400 tabular-nums">
                           Free in {roomState.timeUntilFree}
                         </span>
                       )}
                       {roomState.timeUntilNext && !roomState.currentClass && (
-                        <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-lg border border-amber-500/20">
+                        <span className="text-xs font-semibold text-amber-400 tabular-nums">
                           In {roomState.timeUntilNext}
                         </span>
                       )}
