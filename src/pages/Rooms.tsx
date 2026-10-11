@@ -83,7 +83,7 @@ export function Rooms() {
             placeholder="Search room (e.g. 5002, IOT-LAB)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
+            className="w-full bg-[#121926] text-white pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs placeholder:text-slate-500 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors"
           />
         </div>
 
@@ -100,7 +100,7 @@ export function Rooms() {
               onClick={() => setFilter(tab.id as StatusFilter)}
               className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 font-medium ${
                 filter === tab.id
-                  ? 'bg-cyan-500 text-slate-950 shadow-md font-bold'
+                  ? 'bg-white text-slate-950 shadow-sm font-bold'
                   : 'bg-[#121926] text-slate-400 hover:text-white border border-white/5'
               }`}
             >
@@ -231,7 +231,7 @@ export function Rooms() {
                       <ChevronDown
                         size={16}
                         className={`text-slate-400 mt-2 transition-transform duration-200 ${
-                          isExpanded ? 'rotate-180 text-cyan-400' : ''
+                          isExpanded ? 'rotate-180 text-white' : ''
                         }`}
                       />
                     </div>
@@ -252,7 +252,7 @@ export function Rooms() {
                           onClick={() => setSelectedDay('today')}
                           className={`px-2 py-0.5 rounded-lg transition-colors ${
                             selectedDay === 'today'
-                              ? 'bg-cyan-500 text-slate-950 font-semibold'
+                              ? 'bg-white text-slate-950 font-semibold'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -264,7 +264,7 @@ export function Rooms() {
                             onClick={() => setSelectedDay(day)}
                             className={`px-2 py-0.5 rounded-lg transition-colors ${
                               selectedDay === day
-                                ? 'bg-cyan-500 text-slate-950 font-semibold'
+                                ? 'bg-white text-slate-950 font-semibold'
                                 : 'text-slate-400 hover:text-white'
                             }`}
                           >

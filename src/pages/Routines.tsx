@@ -56,9 +56,9 @@ export function Routines() {
         <div className="flex items-center bg-[#111A28] border border-white/10 p-0.5 rounded-xl">
           <button
             onClick={() => setViewMode('days')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
               viewMode === 'days'
-                ? 'bg-cyan-500 text-slate-950 shadow'
+                ? 'bg-white text-slate-950 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
             title="Day-by-Day View"
@@ -68,9 +68,9 @@ export function Routines() {
           </button>
           <button
             onClick={() => setViewMode('matrix')}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
               viewMode === 'matrix'
-                ? 'bg-cyan-500 text-slate-950 shadow'
+                ? 'bg-white text-slate-950 shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
             title="Full Matrix Grid"
@@ -93,12 +93,12 @@ export function Routines() {
               onClick={() => setSelectedBatch(batch)}
               className={`px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
                 selectedBatch === batch
-                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-lg shadow-cyan-500/25 scale-[1.02]'
+                  ? 'bg-white text-slate-950 font-bold shadow-sm scale-[1.02]'
                   : 'bg-[#121926] text-slate-300 hover:text-white border border-white/5 hover:border-white/10'
               }`}
             >
               <span>{getBatchName(batch)}</span>
-              <span className={`text-[10px] ${selectedBatch === batch ? 'text-cyan-950' : 'text-slate-500'}`}>
+              <span className={`text-[10px] ${selectedBatch === batch ? 'text-slate-950' : 'text-slate-500'}`}>
                 ({batch})
               </span>
             </button>
@@ -133,7 +133,7 @@ export function Routines() {
                   {isToday && (
                     <span
                       className={`w-1.5 h-1.5 rounded-full mt-1.5 ${
-                        isSelected ? 'bg-cyan-600' : 'bg-cyan-400 shadow-[0_0_6px_#06b6d4]'
+                        isSelected ? 'bg-slate-900' : 'bg-white'
                       }`}
                       title="Today"
                     />
@@ -173,7 +173,7 @@ export function Routines() {
                       key={entry.id}
                       className={`glass-card p-4 transition-all ${
                         running
-                          ? 'border-cyan-500/60 bg-cyan-950/20 shadow-[0_0_20px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500/30'
+                          ? 'border border-rose-500/40 bg-rose-950/15 shadow-sm'
                           : ''
                       }`}
                     >
@@ -192,7 +192,7 @@ export function Routines() {
 
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-300 pt-1">
                             <span className="flex items-center gap-1">
-                              <MapPin size={12} className="text-cyan-400" />
+                              <MapPin size={12} className="text-slate-400" />
                               <span className="font-medium text-white">
                                 {formatRoomDisplay(entry.room)}
                               </span>
@@ -210,8 +210,8 @@ export function Routines() {
 
                         {/* Slot Badge */}
                         <div className="text-right flex-shrink-0">
-                          <div className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-cyan-400 flex items-center gap-1">
-                            <Clock size={11} />
+                          <div className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-1">
+                            <Clock size={11} className="text-slate-400" />
                             <span>Slot {entry.slotNumber}</span>
                           </div>
                           <span className="text-[11px] text-slate-400 block mt-1 tabular-nums">
@@ -250,10 +250,10 @@ export function Routines() {
               {/* Rows */}
               {DAYS.map((day) => (
                 <Fragment key={day}>
-                  <div className={`timetable-day-dark ${day === (currentDay ?? '') ? 'bg-cyan-950/40 text-cyan-400 font-bold' : ''}`}>
+                  <div className={`timetable-day-dark ${day === (currentDay ?? '') ? 'bg-white/10 text-white font-bold' : ''}`}>
                     <span>{day.slice(0, 3)}</span>
                     {day === (currentDay ?? '') && (
-                      <span className="text-[9px] text-cyan-400 font-normal">Today</span>
+                      <span className="text-[9px] text-slate-300 font-normal">Today</span>
                     )}
                   </div>
 
@@ -275,7 +275,7 @@ export function Routines() {
                                 <div className="text-xs font-bold text-white truncate">
                                   {entry.courseCode}
                                 </div>
-                                <div className="text-[11px] text-cyan-400 font-medium truncate">
+                                <div className="text-[11px] text-slate-300 font-medium truncate">
                                   {formatRoomDisplay(entry.room)}
                                 </div>
                                 {entry.teacherCode && (
