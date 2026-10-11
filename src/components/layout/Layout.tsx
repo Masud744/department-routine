@@ -16,7 +16,7 @@ export function Layout() {
         <Header onOpenSearch={() => setIsSearchOpen(true)} />
 
         {/* Main Content Area with Bottom Nav padding */}
-        <main className="flex-1 px-4 py-4 pb-28 overflow-y-auto">
+        <main className="flex-1 px-4 py-4 pb-16 sm:pb-20 overflow-y-auto">
           <Outlet />
           <Footer />
         </main>

@@ -255,7 +255,7 @@ export function Dashboard() {
         <div className="flex items-center justify-between text-xs px-1">
           <span className="font-bold text-sm text-white">Weekly Schedule</span>
           {currentDay && (
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-white font-medium">
               Today is {currentDay}
             </span>
           )}
@@ -271,13 +271,13 @@ export function Dashboard() {
                 onClick={() => setActiveDay(day)}
                 className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
                   isSelected
-                    ? 'bg-cyan-500 text-slate-950 shadow-sm scale-[1.02]'
+                    ? 'bg-white text-slate-950 shadow-md scale-[1.02]'
                     : 'bg-[#0c1420]/80 border border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
                 aria-pressed={isSelected}
               >
                 {/* Day of Week Initial */}
-                <span className={`text-xs font-bold ${isSelected ? 'text-slate-900' : 'text-slate-400'}`}>
+                <span className={`text-xs font-bold ${isSelected ? 'text-slate-700' : 'text-slate-400'}`}>
                   {dayAbbr[day].short}
                 </span>
 
@@ -286,10 +286,10 @@ export function Dashboard() {
                   {dayAbbr[day].label}
                 </span>
 
-                {/* Subtle dark dot indicator when selected */}
+                {/* Cyan glowing dot indicator when selected */}
                 {isSelected && (
                   <span
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-slate-950"
+                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-cyan-500 shadow-[0_0_8px_#06b6d4]"
                     title="Active Selection"
                   />
                 )}

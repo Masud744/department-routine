@@ -43,52 +43,55 @@ export function Footer() {
 
   return (
     <>
-      <footer className="mt-8 pt-4 pb-4 border-t border-white/5 text-center text-xs text-slate-500">
-        <div className="flex items-center justify-center gap-2 flex-wrap text-slate-400">
-          <span>
-            Developed by <strong className="text-slate-200 font-semibold">Shahriar Alom Masud</strong>
-          </span>
-          <span className="text-slate-600">—</span>
-          <span className="text-slate-400">IRE, UFTB</span>
+      <footer className="mt-4 pt-3 pb-1 border-t border-white/5 text-center text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2.5 text-slate-400">
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            <span>
+              Developed by <strong className="text-slate-200 font-semibold">Shahriar Alom Masud</strong>
+            </span>
+            <span className="text-slate-600">—</span>
+            <span className="text-slate-400">IRE, UFTB</span>
 
-          {/* Social Profiles */}
-          <div className="inline-flex items-center gap-2.5 ml-1 text-slate-400">
-            <a
-              href="https://github.com/Masud744"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-              title="GitHub Profile"
-            >
-              <GithubIcon size={14} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/shahriar-alom-masud"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#0077B5] transition-colors"
-              title="LinkedIn Profile"
-            >
-              <LinkedinIcon size={14} />
-            </a>
+            {/* Social Profiles */}
+            <div className="inline-flex items-center gap-2 ml-0.5 text-slate-400">
+              <a
+                href="https://github.com/Masud744"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+                title="GitHub Profile"
+              >
+                <GithubIcon size={13} />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/shahriar-alom-masud"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#0077B5] transition-colors"
+                title="LinkedIn Profile"
+              >
+                <LinkedinIcon size={13} />
+              </a>
+            </div>
           </div>
 
-          <span className="text-slate-700">•</span>
-
-          {/* Minimalist Legal Triggers */}
-          <button
-            onClick={() => setLegalModalTab('privacy')}
-            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
-          >
-            Privacy
-          </button>
-          <span className="text-slate-700">/</span>
-          <button
-            onClick={() => setLegalModalTab('terms')}
-            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
-          >
-            Terms
-          </button>
+          <div className="flex items-center gap-2 text-slate-500 text-[11px]">
+            <span className="hidden sm:inline text-slate-700">•</span>
+            {/* Minimalist Legal Triggers */}
+            <button
+              onClick={() => setLegalModalTab('privacy')}
+              className="text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              Privacy
+            </button>
+            <span className="text-slate-700">/</span>
+            <button
+              onClick={() => setLegalModalTab('terms')}
+              className="text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              Terms
+            </button>
+          </div>
         </div>
       </footer>
 

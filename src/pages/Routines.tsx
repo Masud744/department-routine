@@ -121,12 +121,12 @@ export function Routines() {
                   onClick={() => setSelectedDay(day)}
                   className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl transition-all relative ${
                     isSelected
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm'
+                      ? 'bg-white text-slate-950 font-bold shadow-md'
                       : 'bg-[#121926] text-slate-400 hover:text-white border border-white/5'
                   }`}
                   aria-pressed={isSelected}
                 >
-                  <span className={`text-[11px] font-medium tracking-wide ${isSelected ? 'text-slate-900' : 'text-slate-400'}`}>
+                  <span className={`text-[11px] font-medium tracking-wide ${isSelected ? 'text-slate-700' : 'text-slate-400'}`}>
                     {dayAbbr[day].short}
                   </span>
                   <span className={`text-xs font-black mt-1 ${isSelected ? 'text-slate-950' : 'text-white'}`}>
@@ -135,7 +135,7 @@ export function Routines() {
                   {isToday && (
                     <span
                       className={`w-1.5 h-1.5 rounded-full mt-1.5 ${
-                        isSelected ? 'bg-slate-950' : 'bg-cyan-400'
+                        isSelected ? 'bg-cyan-500 shadow-[0_0_6px_#06b6d4]' : 'bg-cyan-400'
                       }`}
                       title="Today"
                     />
