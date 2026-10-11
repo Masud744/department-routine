@@ -330,9 +330,9 @@ export function Dashboard() {
                   key={entry.id}
                   className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all ${
                     running
-                      ? 'border border-rose-500/40 bg-rose-950/15 shadow-sm'
+                      ? 'border border-rose-500/40 bg-rose-950/20 shadow-sm'
                       : isFirst && currentDay === activeDay
-                      ? 'border border-white/20 bg-white/[0.05] shadow-sm'
+                      ? 'border border-cyan-500/40 bg-cyan-950/15'
                       : 'bg-[#0c1420]/80 border border-white/5 hover:border-white/10'
                   }`}
                 >
@@ -342,8 +342,12 @@ export function Dashboard() {
                       <div className="w-8 h-8 rounded-full border border-rose-500/40 bg-rose-500/10 flex items-center justify-center text-rose-400 flex-shrink-0">
                         <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse" />
                       </div>
+                    ) : isFirst && currentDay === activeDay ? (
+                      <div className="w-8 h-8 rounded-full border border-cyan-400/80 bg-cyan-500/10 flex items-center justify-center text-cyan-400 flex-shrink-0">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                      </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-300 flex-shrink-0 text-[11px] font-bold">
+                      <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 flex-shrink-0 text-[11px] font-bold">
                         S{entry.slotNumber}
                       </div>
                     )}
@@ -396,13 +400,13 @@ export function Dashboard() {
       <div className="space-y-2.5 pt-2">
         <div className="flex items-center justify-between text-xs px-1">
           <h4 className="font-semibold text-slate-300 flex items-center gap-1.5">
-            <DoorOpen size={14} className="text-slate-400" />
+            <DoorOpen size={14} className="text-cyan-400" />
             <span>Live Room Radar</span>
           </h4>
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsVacantModalOpen(true)}
-              className="text-slate-300 hover:text-white font-medium flex items-center gap-1 transition-colors"
+              className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 transition-colors"
             >
               <span>Vacant Finder</span>
             </button>
@@ -420,7 +424,7 @@ export function Dashboard() {
             className="glass-card p-3 text-center hover:border-rose-500/40 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-rose-500 mx-auto mb-1.5" />
-            <span className="text-xl font-extrabold text-white block tabular-nums">
+            <span className="text-xl font-extrabold text-rose-400 block tabular-nums">
               {roomSummary.occupied}
             </span>
             <span className="text-[11px] text-slate-400 font-medium">Occupied</span>
@@ -432,7 +436,7 @@ export function Dashboard() {
             className="glass-card p-3 text-center hover:border-emerald-500/40 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-emerald-400 mx-auto mb-1.5" />
-            <span className="text-xl font-extrabold text-white block tabular-nums">
+            <span className="text-xl font-extrabold text-emerald-400 block tabular-nums">
               {roomSummary.available}
             </span>
             <span className="text-[11px] text-slate-400 font-medium">Available</span>
@@ -444,7 +448,7 @@ export function Dashboard() {
             className="glass-card p-3 text-center hover:border-amber-500/40 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-amber-400 mx-auto mb-1.5" />
-            <span className="text-xl font-extrabold text-white block tabular-nums">
+            <span className="text-xl font-extrabold text-amber-400 block tabular-nums">
               {roomSummary.upcoming}
             </span>
             <span className="text-[11px] text-slate-400 font-medium">Upcoming</span>

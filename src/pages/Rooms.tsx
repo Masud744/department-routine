@@ -231,7 +231,7 @@ export function Rooms() {
                       <ChevronDown
                         size={16}
                         className={`text-slate-400 mt-2 transition-transform duration-200 ${
-                          isExpanded ? 'rotate-180 text-white' : ''
+                          isExpanded ? 'rotate-180 text-cyan-400' : ''
                         }`}
                       />
                     </div>
@@ -252,7 +252,7 @@ export function Rooms() {
                           onClick={() => setSelectedDay('today')}
                           className={`px-2 py-0.5 rounded-lg transition-colors ${
                             selectedDay === 'today'
-                              ? 'bg-white text-slate-950 font-semibold'
+                              ? 'bg-cyan-500 text-slate-950 font-semibold'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -264,7 +264,7 @@ export function Rooms() {
                             onClick={() => setSelectedDay(day)}
                             className={`px-2 py-0.5 rounded-lg transition-colors ${
                               selectedDay === day
-                                ? 'bg-white text-slate-950 font-semibold'
+                                ? 'bg-cyan-500 text-slate-950 font-semibold'
                                 : 'text-slate-400 hover:text-white'
                             }`}
                           >

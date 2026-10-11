@@ -194,7 +194,7 @@ export function Routines() {
 
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-300 pt-1">
                             <span className="flex items-center gap-1">
-                              <MapPin size={12} className="text-slate-400" />
+                              <MapPin size={12} className="text-cyan-400" />
                               <span className="font-medium text-white">
                                 {formatRoomDisplay(entry.room)}
                               </span>
@@ -212,8 +212,8 @@ export function Routines() {
 
                         {/* Slot Badge */}
                         <div className="text-right flex-shrink-0">
-                          <div className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-1">
-                            <Clock size={11} className="text-slate-400" />
+                          <div className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-cyan-400 flex items-center gap-1">
+                            <Clock size={11} className="text-cyan-400" />
                             <span>Slot {entry.slotNumber}</span>
                           </div>
                           <span className="text-[11px] text-slate-400 block mt-1 tabular-nums">
@@ -252,10 +252,10 @@ export function Routines() {
               {/* Rows */}
               {DAYS.map((day) => (
                 <Fragment key={day}>
-                  <div className={`timetable-day-dark ${day === (currentDay ?? '') ? 'bg-white/10 text-white font-bold' : ''}`}>
+                  <div className={`timetable-day-dark ${day === (currentDay ?? '') ? 'bg-cyan-950/40 text-cyan-400 font-bold' : ''}`}>
                     <span>{day.slice(0, 3)}</span>
                     {day === (currentDay ?? '') && (
-                      <span className="text-[9px] text-slate-300 font-normal">Today</span>
+                      <span className="text-[9px] text-cyan-400 font-normal">Today</span>
                     )}
                   </div>
 
@@ -277,7 +277,7 @@ export function Routines() {
                                 <div className="text-xs font-bold text-white truncate">
                                   {entry.courseCode}
                                 </div>
-                                <div className="text-[11px] text-slate-300 font-medium truncate">
+                                <div className="text-[11px] text-cyan-400 font-medium truncate">
                                   {formatRoomDisplay(entry.room)}
                                 </div>
                                 {entry.teacherCode && (

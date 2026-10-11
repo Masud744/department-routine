@@ -106,7 +106,7 @@ export function Teachers() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3 min-w-0">
                       {/* Avatar with Initials */}
-                      <div className="w-11 h-11 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center flex-shrink-0 text-white font-bold text-sm shadow-sm">
+                      <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0 text-cyan-400 font-bold text-sm shadow-sm">
                         {teacher.code}
                       </div>
 
@@ -127,7 +127,7 @@ export function Teachers() {
                         </div>
 
                         <p className="text-xs text-slate-400 mt-1">
-                          Code: <span className="font-semibold text-white">{teacher.code}</span>
+                          Code: <span className="font-semibold text-cyan-400">{teacher.code}</span>
                         </p>
 
                         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400">
@@ -181,21 +181,21 @@ export function Teachers() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {/* Phone Call & Copy */}
                           {teacher.phone && (
-                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-colors">
+                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.04] border border-cyan-500/20 hover:border-cyan-500/40 transition-colors">
                               <a
                                 href={`tel:${teacher.phone}`}
                                 onClick={(e) => e.stopPropagation()}
                                 className="flex items-center gap-2.5 min-w-0 group text-left flex-1"
                                 title={`Call ${teacher.fullName ?? teacher.code}`}
                               >
-                                <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors flex-shrink-0">
+                                <div className="w-8 h-8 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-black transition-colors flex-shrink-0">
                                   <Phone size={14} />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 block">
                                     Phone Number
                                   </span>
-                                  <span className="text-xs font-bold text-white group-hover:text-slate-200 transition-colors tabular-nums truncate block">
+                                  <span className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors tabular-nums truncate block">
                                     {teacher.phone}
                                   </span>
                                 </div>
@@ -282,7 +282,7 @@ export function Teachers() {
 
                         return (
                           <div key={day} className="space-y-1.5">
-                            <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wide block">
+                            <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wide block">
                               {day}
                             </span>
                             <div className="space-y-1.5">
