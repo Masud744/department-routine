@@ -22,7 +22,7 @@ import {
   isCurrentlyRunning,
 } from '../services/routineService';
 import { getAllRoomStatuses } from '../services/roomAllocationService';
-import { DAYS, getBatchName, getBatchLabel } from '../types/routine';
+import { DAYS, getBatchName } from '../types/routine';
 import { TEACHER_NAME_MAP } from '../data/routine';
 import { formatRoomDisplay } from '../data/rooms';
 import type { Day } from '../types/routine';
@@ -86,28 +86,29 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* 1. Header Section: Title & Batch Info */}
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-              Today Class
-            </h2>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            Today Class
+          </h2>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs mt-0.5">
+            <p className="text-slate-400">
+              Routine for <span className="text-white font-semibold">{getBatchName(selectedBatch)}</span>
+            </p>
+            <span className="text-slate-600">·</span>
             <span
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 font-semibold text-emerald-400 whitespace-nowrap text-[11px]"
               title={`${onlineCount} active students browsing`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
               <span>{onlineCount} {onlineCount === 1 ? 'student' : 'students'} online</span>
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Routine for <span className="text-white font-semibold">{getBatchName(selectedBatch)}</span>
-          </p>
         </div>
 
         <Link
           to="/routines"
-          className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 transition-colors"
+          className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 transition-colors flex-shrink-0 pt-1"
         >
           <span>Full Routine</span>
           <ChevronRight size={14} className="stroke-[2.5]" />
@@ -204,7 +205,7 @@ export function Dashboard() {
               </button>
 
               <span className="px-2.5 py-1 rounded-full bg-black/50 border border-white/15 text-[11px] text-slate-200 font-medium backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
-                {getBatchLabel(heroClass.batch)}
+                {getBatchName(heroClass.batch)}
               </span>
             </div>
           </div>
@@ -242,7 +243,7 @@ export function Dashboard() {
               </span>
             </div>
             <p className="text-xs text-slate-400 truncate mt-0.5">
-              Instant classroom &amp; lab vacancy for study.
+              Classroom &amp; lab vacancy for study.
             </p>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Search, User, ChevronDown, Radio, Phone, Mail, Copy, Check } from 'lucide-react';
 import { TEACHER_DIRECTORY } from '../data/teachers';
-import { DAYS, getBatchLabel, getBatchName } from '../types/routine';
+import { DAYS, getBatchName } from '../types/routine';
 import { formatTime12h } from '../utils/timeUtils';
 import { formatRoomDisplay } from '../data/rooms';
 import { isCurrentlyRunning } from '../services/routineService';
@@ -111,26 +111,22 @@ export function Teachers() {
                       </div>
 
                       <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <h3 className="font-bold text-sm text-white truncate">
-                            {teacher.fullName ?? teacher.code}
-                          </h3>
-                          {teacher.designation && (
-                            <span className={`text-xs font-semibold ${
-                              teacher.designation.includes('Chairman')
-                                ? 'text-emerald-400'
-                                : 'text-slate-400 font-normal'
-                            }`}>
-                              · {teacher.designation}
-                            </span>
-                          )}
-                        </div>
+                        <h3 className="font-bold text-sm text-white truncate">
+                          {teacher.fullName ?? teacher.code}
+                        </h3>
+                        {teacher.designation && (
+                          <p className={`text-xs mt-0.5 truncate ${
+                            teacher.designation.includes('Chairman')
+                              ? 'text-emerald-400 font-semibold'
+                              : 'text-slate-400'
+                          }`}>
+                            {teacher.designation}
+                          </p>
+                        )}
 
-                        <p className="text-xs text-slate-400 mt-1">
-                          Code: <span className="font-semibold text-cyan-400">{teacher.code}</span>
-                        </p>
-
-                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400">
+                        <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-slate-400">
+                          <span>Code: <span className="font-semibold text-cyan-400">{teacher.code}</span></span>
+                          <span>•</span>
                           <span>{teacher.classes.length} classes</span>
                           <span>•</span>
                           <span>{teacher.uniqueCourses.length} courses</span>
@@ -306,7 +302,7 @@ export function Teachers() {
                                         {entry.courseCode}
                                       </span>
                                       <span className="text-slate-400">
-                                        {formatRoomDisplay(entry.room)} · {getBatchLabel(entry.batch)}
+                                        {formatRoomDisplay(entry.room)} · {getBatchName(entry.batch)}
                                       </span>
                                     </div>
                                     <span className="text-slate-400 tabular-nums">
