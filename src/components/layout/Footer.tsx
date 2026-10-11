@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { ExternalLink } from 'lucide-react';
 import { LegalModal } from '../legal/LegalModal';
 
-function GithubIcon({ size = 12 }: { size?: number }) {
+function GithubIcon({ size = 13 }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -20,55 +19,76 @@ function GithubIcon({ size = 12 }: { size?: number }) {
   );
 }
 
+function LinkedinIcon({ size = 13 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
 export function Footer() {
   const [legalModalTab, setLegalModalTab] = useState<'privacy' | 'terms' | null>(null);
 
   return (
     <>
-      <footer className="mt-10 pt-5 pb-6 border-t border-white/5 text-center text-xs text-slate-400 space-y-2">
-        <div className="flex items-center justify-center gap-1.5 flex-wrap">
-          <span>Developed by</span>
-          <span className="font-semibold text-slate-200">Shahriar Alom Masud</span>
+      <footer className="mt-8 pt-4 pb-4 border-t border-white/5 text-center text-xs text-slate-500">
+        <div className="flex items-center justify-center gap-2 flex-wrap text-slate-400">
+          <span>
+            Developed by <strong className="text-slate-200 font-semibold">Shahriar Alom Masud</strong>
+          </span>
           <span className="text-slate-600">—</span>
-          <span className="text-slate-400">Dept. of IRE, UFTB</span>
-        </div>
+          <span className="text-slate-400">IRE, UFTB</span>
 
-        <div className="flex items-center justify-center gap-2.5 text-[11px] text-slate-400 flex-wrap">
+          {/* Social Profiles */}
+          <div className="inline-flex items-center gap-2.5 ml-1 text-slate-400">
+            <a
+              href="https://github.com/Masud744"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+              title="GitHub Profile"
+            >
+              <GithubIcon size={14} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/shahriar-alom-masud"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#0077B5] transition-colors"
+              title="LinkedIn Profile"
+            >
+              <LinkedinIcon size={14} />
+            </a>
+          </div>
+
+          <span className="text-slate-700">•</span>
+
+          {/* Minimalist Legal Triggers */}
           <button
             onClick={() => setLegalModalTab('privacy')}
-            className="hover:text-white transition-colors"
+            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
           >
-            Privacy Policy
+            Privacy
           </button>
-          <span className="text-slate-700">•</span>
+          <span className="text-slate-700">/</span>
           <button
             onClick={() => setLegalModalTab('terms')}
-            className="hover:text-white transition-colors"
+            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
           >
-            Terms &amp; Conditions
+            Terms
           </button>
-          <span className="text-slate-700">•</span>
-          <a
-            href="https://github.com/Masud744/department-routine"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors inline-flex items-center gap-1"
-            title="GitHub Repository"
-          >
-            <GithubIcon size={12} />
-            <span>GitHub</span>
-          </a>
-          <span className="text-slate-700">•</span>
-          <a
-            href="https://ire.uftb.ac.bd/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors inline-flex items-center gap-0.5"
-            title="Department Website"
-          >
-            <span>ire.uftb.ac.bd</span>
-            <ExternalLink size={10} />
-          </a>
         </div>
       </footer>
 

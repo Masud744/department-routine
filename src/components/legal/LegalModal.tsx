@@ -179,13 +179,23 @@ export function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: LegalMod
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <a
-                  href="https://github.com/Masud744/department-routine"
+                  href="https://github.com/Masud744"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px] flex items-center gap-1.5 transition-colors"
+                  title="GitHub Profile"
                 >
                   <GithubIcon size={12} />
                   <span>GitHub</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/shahriar-alom-masud"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px] flex items-center gap-1.5 transition-colors"
+                  title="LinkedIn Profile"
+                >
+                  <span>LinkedIn</span>
                 </a>
                 <a
                   href="https://ire.uftb.ac.bd/"
