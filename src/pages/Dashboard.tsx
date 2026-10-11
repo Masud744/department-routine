@@ -4,7 +4,6 @@ import {
   Clock,
   DoorOpen,
   Calendar,
-  CheckCircle2,
   ChevronRight,
   BookOpen,
 } from 'lucide-react';
@@ -100,13 +99,13 @@ export function Dashboard() {
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Routine for <span className="text-cyan-400 font-semibold">{getBatchName(selectedBatch)}</span>
+            Routine for <span className="text-white font-semibold">{getBatchName(selectedBatch)}</span>
           </p>
         </div>
 
         <Link
           to="/routines"
-          className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors"
+          className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 transition-colors"
         >
           <span>Full Routine</span>
           <ChevronRight size={14} className="stroke-[2.5]" />
@@ -127,35 +126,35 @@ export function Dashboard() {
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/40 border border-white/15 text-[11px] sm:text-xs font-semibold backdrop-blur-md whitespace-nowrap flex-shrink-0">
                 {isHeroLive ? (
                   <>
-                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_#f43f5e]" />
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
                     <span className="text-rose-400 font-bold tracking-wide">LIVE NOW</span>
                   </>
                 ) : heroClass === nextClass ? (
                   <>
                     <Clock size={12} className="text-amber-400" />
-                    <span className="text-amber-400 font-semibold">UPCOMING</span>
+                    <span className="text-amber-300 font-semibold">UPCOMING</span>
                   </>
                 ) : (
                   <>
-                    <Calendar size={12} className="text-cyan-400" />
-                    <span className="text-cyan-400 font-medium">Scheduled</span>
+                    <Calendar size={12} className="text-slate-400" />
+                    <span className="text-slate-300 font-medium">Scheduled</span>
                   </>
                 )}
               </div>
 
-              {/* Functional Slot/Time/Weather on right */}
+              {/* Functional Slot/Time/Weather on right (Unified mature frosted styling) */}
               <div className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/35 text-[11px] tabular-nums backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
-                  <span className="text-slate-300 font-bold uppercase tracking-wider text-[10px]">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] tabular-nums backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
+                  <span className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
                     SLOT {heroClass.slotNumber}
                   </span>
-                  <span className="text-cyan-400/50 mx-1.5 font-bold">•</span>
-                  <span className="text-cyan-300 font-bold">
+                  <span className="text-white/30 mx-1.5 font-bold">•</span>
+                  <span className="text-white font-semibold">
                     {formatTime12h(heroClass.startTime)}
                   </span>
                 </span>
                 {weather && (
-                  <span className="px-2 py-1 rounded-full bg-black/40 border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1 whitespace-nowrap flex-shrink-0">
+                  <span className="px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1 whitespace-nowrap flex-shrink-0">
                     <span>{weather.isDay ? '☀️' : '🌙'}</span>
                     <span>{weather.temperature}°C</span>
                   </span>
@@ -180,7 +179,7 @@ export function Dashboard() {
 
               {/* Time display */}
               <div className="flex items-center gap-1.5 text-xs text-slate-300 pt-0.5">
-                <Clock size={13} className="text-cyan-400 flex-shrink-0" />
+                <Clock size={13} className="text-slate-400 flex-shrink-0" />
                 <span className="font-medium text-white tabular-nums whitespace-nowrap">
                   {formatTime12h(heroClass.startTime)} – {formatTime12h(heroClass.endTime)}
                 </span>
@@ -191,7 +190,7 @@ export function Dashboard() {
             <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2.5">
               <button
                 onClick={() => navigate(`/rooms?room=${encodeURIComponent(heroClass.room)}`)}
-                className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs tracking-wide shadow-md shadow-cyan-400/20 transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
+                className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs tracking-wide shadow-sm transition-all active:scale-95 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0"
               >
                 <BookOpen size={13} />
                 <span>Locate {formatRoomDisplay(heroClass.room)}</span>
@@ -221,18 +220,18 @@ export function Dashboard() {
       {/* 2.5 Quick Action Banner: Find Vacant Room Now */}
       <div
         onClick={() => setIsVacantModalOpen(true)}
-        className="glass-card p-3.5 rounded-2xl border border-white/10 hover:border-emerald-500/40 cursor-pointer transition-all active:scale-[0.99] group flex items-center justify-between gap-3 bg-[#0c1420]/80"
+        className="glass-card p-3.5 rounded-2xl border border-white/10 hover:border-white/20 cursor-pointer transition-all active:scale-[0.99] group flex items-center justify-between gap-3 bg-[#0c1420]/80"
       >
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-md shadow-emerald-500/10">
-            <DoorOpen size={20} />
+          <div className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/15 text-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+            <DoorOpen size={18} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">
+              <h3 className="text-sm font-bold text-white tracking-tight group-hover:text-slate-200 transition-colors">
                 Find Vacant Room Now
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-400 border border-emerald-400/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                 {roomSummary.available + roomSummary.upcoming} Free
               </span>
             </div>
@@ -242,7 +241,7 @@ export function Dashboard() {
           </div>
         </div>
 
-        <ChevronRight size={18} className="text-slate-400 group-hover:text-emerald-400 transition-colors flex-shrink-0" />
+        <ChevronRight size={18} className="text-slate-400 group-hover:text-white transition-colors flex-shrink-0" />
       </div>
 
       {/* 3. Horizontal Interactive Week Strip */}
@@ -250,7 +249,7 @@ export function Dashboard() {
         <div className="flex items-center justify-between text-xs px-1">
           <span className="font-bold text-sm text-white">Weekly Schedule</span>
           {currentDay && (
-            <span className="text-xs text-cyan-400 font-semibold">
+            <span className="text-xs text-slate-400 font-medium">
               Today is {currentDay}
             </span>
           )}
@@ -266,7 +265,7 @@ export function Dashboard() {
                 onClick={() => setActiveDay(day)}
                 className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
                   isSelected
-                    ? 'bg-white text-slate-950 shadow-lg scale-[1.02]'
+                    ? 'bg-white text-slate-950 shadow-md scale-[1.02]'
                     : 'bg-[#0c1420]/80 border border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
                 aria-pressed={isSelected}
@@ -281,10 +280,10 @@ export function Dashboard() {
                   {dayAbbr[day].label}
                 </span>
 
-                {/* Cyan dot indicator when selected */}
+                {/* Subtle dark dot indicator when selected */}
                 {isSelected && (
                   <span
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-cyan-500 shadow-[0_0_6px_#06b6d4]"
+                    className="w-1.5 h-1.5 rounded-full mt-1.5 bg-slate-900"
                     title="Active Selection"
                   />
                 )}
@@ -324,20 +323,22 @@ export function Dashboard() {
                 <div
                   key={entry.id}
                   className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all ${
-                    running || (isFirst && currentDay === activeDay)
-                      ? 'border border-cyan-400/90 bg-gradient-to-r from-cyan-950/40 via-[#0d1624] to-[#0c1420] shadow-[0_0_20px_rgba(6,182,212,0.2)]'
+                    running
+                      ? 'border border-rose-500/40 bg-rose-950/15 shadow-sm'
+                      : isFirst && currentDay === activeDay
+                      ? 'border border-white/20 bg-white/[0.05] shadow-sm'
                       : 'bg-[#0c1420]/80 border border-white/5 hover:border-white/10'
                   }`}
                 >
                   {/* Left: Circle Icon Indicator */}
                   <div className="flex items-center gap-3 min-w-0">
-                    {running || (isFirst && currentDay === activeDay) ? (
-                      <div className="w-8 h-8 rounded-full border-2 border-cyan-400 flex items-center justify-center text-cyan-400 flex-shrink-0 shadow-[0_0_8px_rgba(6,182,212,0.3)]">
-                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#06b6d4]" />
+                    {running ? (
+                      <div className="w-8 h-8 rounded-full border border-rose-500/40 bg-rose-500/10 flex items-center justify-center text-rose-400 flex-shrink-0">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-pulse" />
                       </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 flex-shrink-0">
-                        <CheckCircle2 size={16} />
+                      <div className="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-300 flex-shrink-0 text-[11px] font-bold">
+                        S{entry.slotNumber}
                       </div>
                     )}
 

@@ -36,7 +36,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 whitespace-nowrap">
               <span className="font-bold text-white text-xs sm:text-sm">Dept. of IRE</span>
-              <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold tracking-wider">
+              <span className="px-1.5 py-0.5 rounded bg-white/10 text-slate-300 text-[10px] font-bold tracking-wider border border-white/10">
                 UFTB
               </span>
             </div>
@@ -45,12 +45,12 @@ export function Header({ onOpenSearch }: HeaderProps) {
             <div className="relative mt-0.5">
               <button
                 onClick={() => setBatchMenuOpen(!batchMenuOpen)}
-                className="flex items-center gap-1.5 text-sm font-bold text-white hover:text-cyan-400 transition-colors py-0.5 focus:outline-none"
+                className="flex items-center gap-1.5 text-sm font-bold text-white hover:text-slate-200 transition-colors py-0.5 focus:outline-none"
                 aria-expanded={batchMenuOpen}
               >
                 <span>{getBatchName(selectedBatch)}</span>
                 <span className="text-[11px] font-normal text-slate-400">({selectedBatch})</span>
-                <ChevronDown size={14} className={`text-slate-400 transition-transform ${batchMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+                <ChevronDown size={14} className={`text-slate-400 transition-transform ${batchMenuOpen ? 'rotate-180 text-white' : ''}`} />
               </button>
 
               {/* Batch Selection Menu */}
@@ -75,7 +75,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                           }}
                           className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-colors ${
                             selectedBatch === batch
-                              ? 'bg-cyan-500/15 text-cyan-400 font-semibold border border-cyan-500/30'
+                              ? 'bg-white/15 text-white font-semibold border border-white/20'
                               : 'text-slate-300 hover:bg-white/5 hover:text-white'
                           }`}
                         >
@@ -83,7 +83,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                             <p className="font-medium text-left">{getBatchName(batch)}</p>
                             <p className="text-[10px] text-slate-400 text-left">Session {batch}</p>
                           </div>
-                          {selectedBatch === batch && <Check size={14} className="text-cyan-400" />}
+                          {selectedBatch === batch && <Check size={14} className="text-white" />}
                         </button>
                       ))}
                     </div>
@@ -111,7 +111,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
           {isInstallable && (
             <button
               onClick={installApp}
-              className="flex px-2.5 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 text-xs font-bold items-center gap-1.5 transition-all shadow-sm shadow-cyan-500/10 active:scale-95"
+              className="flex px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-bold items-center gap-1.5 transition-all shadow-sm active:scale-95"
               title="Install IRE Routine on Phone"
             >
               <Download size={13} />
