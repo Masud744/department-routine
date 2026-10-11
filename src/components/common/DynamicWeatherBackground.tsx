@@ -635,7 +635,7 @@ export function DynamicWeatherBackground() {
       <svg
         viewBox="0 0 440 180"
         className="absolute inset-0 w-full h-full"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMaxYMid slice"
         aria-hidden="true"
       >
         {/* Stars (Night only) */}

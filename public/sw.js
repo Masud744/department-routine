@@ -1,29 +1,41 @@
-const CACHE_NAME = 'ire-routine-v1';
+const CACHE_NAME = 'ire-routine-v2';
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/dept.png',
+  '/favicon.svg',
+  '/icons.svg',
   '/pwa-192.png',
-  '/pwa-512.png'
+  '/pwa-512.png',
 ];
 
-// Install: Cache core app shell and immediately activate
+// Install: Precache core app shell safely and activate immediately
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS);
+      // Use individual caching so one slow asset doesn't break the entire offline install
+      return Promise.allSettled(
+        PRECACHE_ASSETS.map((asset) =>
+          fetch(asset, { cache: 'no-cache' })
+            .then((res) => {
+              if (res.ok) return cache.put(asset, res);
+            })
+            .catch(() => {})
+        )
+      );
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate: Clean up older cache versions
+// Activate: Instantly clean up old caches (v1, etc.) and claim all clients
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('[SW] Purging outdated cache:', key);
             return caches.delete(key);
           }
         })
@@ -32,53 +44,73 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-while-revalidate for assets, Network-first with cache fallback for navigation
+// Fetch: Strategy depending on request type
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-
-  // Ignore non-GET and cross-origin requests that might fail
   if (request.method !== 'GET') return;
+
   const url = new URL(request.url);
 
-  // For SPA navigation requests (e.g. /rooms, /routines, /teachers)
+  // 1. Navigation requests (SPA routes like /rooms, /routines, /teachers):
+  // Network-first with short timeout, fallback to cached index.html
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => {
-        return caches.match('/index.html') || caches.match('/');
+      fetch(request)
+        .then((networkRes) => {
+          if (networkRes && networkRes.ok) {
+            const clone = networkRes.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put('/index.html', clone));
+          }
+          return networkRes;
+        })
+        .catch(() => {
+          return caches.match('/index.html').then((cached) => {
+            return cached || caches.match('/');
+          });
+        })
+    );
+    return;
+  }
+
+  // 2. Google Fonts (Inter font CSS & woff2 font files):
+  // Cache-first to guarantee offline typography remains 100% identical to online
+  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((networkRes) => {
+          if (networkRes && networkRes.ok) {
+            const clone = networkRes.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return networkRes;
+        }).catch(() => cached);
       })
     );
     return;
   }
 
-  // Same-origin assets: Cache first, fallback to network and update cache
+  // 3. Same-origin assets (JS bundles, CSS, images, icons):
+  // Stale-while-revalidate: instant cached response + background freshness check
   if (url.origin === self.location.origin) {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          // Asynchronously fetch update in background
-          fetch(request).then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse));
+      caches.match(request).then((cachedRes) => {
+        const fetchPromise = fetch(request)
+          .then((networkRes) => {
+            if (networkRes && networkRes.status === 200 && networkRes.type === 'basic') {
+              const clone = networkRes.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
             }
-          }).catch(() => {/* Offline, ignore */});
-          return cachedResponse;
-        }
-
-        return fetch(request).then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-            return networkResponse;
-          }
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache);
+            return networkRes;
+          })
+          .catch(() => {
+            // Offline fallback for images
+            if (request.destination === 'image') {
+              return caches.match('/dept.png');
+            }
           });
-          return networkResponse;
-        }).catch(() => {
-          // If asset request fails offline and is an image, fallback to dept.png if appropriate
-          if (request.destination === 'image') {
-            return caches.match('/dept.png');
-          }
-        });
+
+        return cachedRes || fetchPromise;
       })
     );
   }
