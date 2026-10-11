@@ -24,11 +24,11 @@ An authentic, production-grade academic management web application built for the
 
 | Dashboard & Atmosphere | Batch Routine Schedule | Real-Time Room Radar |
 |:---:|:---:|:---:|
-| <img src="screenshots/dashboard.jpeg" width="270" alt="Dashboard Screen" /> | <img src="screenshots/routine.jpeg" width="270" alt="Academic Routine Screen" /> | <img src="screenshots/room_radar.jpeg" width="270" alt="Room Radar Screen" /> |
+| <img src="screenshots/app_dashboard.jpeg" width="270" alt="Dashboard Screen" /> | <img src="screenshots/app_routine.jpeg" width="270" alt="Academic Routine Screen" /> | <img src="screenshots/app_room_radar.jpeg" width="270" alt="Room Radar Screen" /> |
 
 | Vacant Room Finder | Faculty Directory | Faculty Contact & Timetable |
 |:---:|:---:|:---:|
-| <img src="screenshots/vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> | <img src="screenshots/faculty_details.jpeg" width="270" alt="Faculty Contact & Timetable Screen" /> |
+| <img src="screenshots/app_vacant_rooms.jpeg" width="270" alt="Vacant Room Finder" /> | <img src="screenshots/app_faculty_directory.jpeg" width="270" alt="Faculty Directory Screen" /> | <img src="screenshots/app_faculty_details.jpeg" width="270" alt="Faculty Contact & Timetable Screen" /> |
 
 <br />
 
