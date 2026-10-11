@@ -3,6 +3,7 @@ import { getRoomStatus, getRoomSchedule, getVacantRoomsForStudy } from '../servi
 import { getRoutineForBatch, getRoutineCell, searchRoutine } from '../services/routineService';
 import { timeToMinutes, formatTime12h, timeDifference, isWorkingDay } from '../utils/timeUtils';
 import { ROUTINE_DATA, TEACHER_NAME_MAP } from '../data/routine';
+import { TEACHER_CONTACT_MAP } from '../data/teachers';
 import { ALL_ROOMS, getRoomMetadata, ROOM_METADATA } from '../data/rooms';
 import { BATCH_INFO, getBatchName, getBatchLabel } from '../types/routine';
 import type { Day } from '../types/routine';
@@ -427,6 +428,16 @@ describe('Data Integrity', () => {
     expect(TEACHER_NAME_MAP['MRI']).toBe('Md. Rafiqul Islam');
     expect(TEACHER_NAME_MAP['SS']).toBe('Suman Saha');
     expect(TEACHER_NAME_MAP['FA']).toBe('Farzana Akter');
+  });
+
+  it('correctly maps all 10 faculty member contact numbers and UFTB emails', () => {
+    const codes = ['MTA', 'FA', 'SS', 'SE', 'FAA', 'MAS', 'MRI', 'MM', 'SCD', 'MAH'];
+    for (const code of codes) {
+      const contact = TEACHER_CONTACT_MAP[code];
+      expect(contact).toBeDefined();
+      expect(contact.phone).toMatch(/^01\d{9}$/);
+      expect(contact.email).toMatch(/^[a-z0-9]+@uftb\.ac\.bd$/);
+    }
   });
 });
 

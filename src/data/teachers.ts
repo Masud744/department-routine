@@ -21,6 +21,27 @@ export const TEACHER_DESIGNATION_MAP: Record<string, string> = {
 };
 
 /**
+ * Official Faculty Contact Information (Phone & UFTB Email)
+ */
+export interface TeacherContact {
+  readonly phone: string;
+  readonly email: string;
+}
+
+export const TEACHER_CONTACT_MAP: Record<string, TeacherContact> = {
+  MTA: { phone: '01738039128', email: 'toukir0001@uftb.ac.bd' },
+  FA:  { phone: '01741582031', email: 'farzana0001@uftb.ac.bd' },
+  SS:  { phone: '01912127578', email: 'suman0001@uftb.ac.bd' },
+  SE:  { phone: '01986511690', email: 'sadia0001@uftb.ac.bd' },
+  FAA: { phone: '01924470784', email: 'fahmida0001@uftb.ac.bd' },
+  MAS: { phone: '01799776562', email: 'ashiqussalehin0001@uftb.ac.bd' },
+  MRI: { phone: '01521108404', email: 'rafiqul0001@uftb.ac.bd' },
+  MM:  { phone: '01732687621', email: 'mahbub0001@uftb.ac.bd' },
+  SCD: { phone: '01521434695', email: 'saurav0001@uftb.ac.bd' },
+  MAH: { phone: '01884307860', email: 'mostafiz0003@uftb.ac.bd' },
+};
+
+/**
  * Strict teacher sequence requested:
  * 1. Md. Toukir Ahmed
  * 2. Farzana Akter
@@ -48,7 +69,7 @@ export const TEACHER_ORDER: string[] = [
 
 /**
  * Build teacher directory from routine data.
- * Full names and official designations are attached to each faculty member.
+ * Full names, official designations, and contact info are attached to each faculty member.
  */
 export function getTeacherDirectory(): TeacherInfo[] {
   const teacherMap = new Map<string, TeacherInfo>();
@@ -56,6 +77,8 @@ export function getTeacherDirectory(): TeacherInfo[] {
   for (const entry of ROUTINE_DATA) {
     if (!entry.teacherCode) continue;
     const existing = teacherMap.get(entry.teacherCode);
+    const contact = TEACHER_CONTACT_MAP[entry.teacherCode];
+
     if (existing) {
       teacherMap.set(entry.teacherCode, {
         ...existing,
@@ -66,6 +89,8 @@ export function getTeacherDirectory(): TeacherInfo[] {
         code: entry.teacherCode,
         fullName: TEACHER_NAME_MAP[entry.teacherCode] ?? null,
         designation: TEACHER_DESIGNATION_MAP[entry.teacherCode] ?? 'Assistant Professor',
+        phone: contact?.phone,
+        email: contact?.email,
         classes: [entry],
       });
     }

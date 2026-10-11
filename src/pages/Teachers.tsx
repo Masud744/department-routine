@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, User, ChevronDown, Radio } from 'lucide-react';
+import { Search, User, ChevronDown, Radio, Phone, Mail, Copy, Check } from 'lucide-react';
 import { TEACHER_DIRECTORY } from '../data/teachers';
 import { DAYS, getBatchLabel, getBatchName } from '../types/routine';
 import { formatTime12h } from '../utils/timeUtils';
@@ -11,6 +11,17 @@ export function Teachers() {
   const now = useLiveTime();
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedTeacher, setExpandedTeacher] = useState<string | null>(null);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, key: string) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => {
+        setCopiedKey((curr) => (curr === key ? null : curr));
+      }, 2000);
+    }
+  };
 
   // Enriched teachers with unique rooms, batches, courses, and active teaching state
   const enrichedTeachers = useMemo(() => {
@@ -36,7 +47,9 @@ export function Teachers() {
     return enrichedTeachers.filter(
       (t) =>
         t.code.toLowerCase().includes(q) ||
-        (t.fullName && t.fullName.toLowerCase().includes(q))
+        (t.fullName && t.fullName.toLowerCase().includes(q)) ||
+        (t.phone && t.phone.includes(q)) ||
+        (t.email && t.email.toLowerCase().includes(q))
     );
   }, [enrichedTeachers, searchQuery]);
 
@@ -152,12 +165,114 @@ export function Teachers() {
                   </div>
                 </div>
 
-                {/* Expanded Weekly Schedule Accordion */}
+                {/* Expanded Weekly Schedule & Contact Accordion */}
                 {isExpanded && (
-                  <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-3">
-                    <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                      Weekly Timetable
-                    </h4>
+                  <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-4">
+                    {/* Faculty Direct Contact Actions */}
+                    {(teacher.phone || teacher.email) && (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">
+                            Contact Information
+                          </h4>
+                          <span className="text-[10px] text-slate-500">
+                            Tap to call or email directly
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                          {/* Phone Call & Copy */}
+                          {teacher.phone && (
+                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#111c2e] border border-cyan-500/20 hover:border-cyan-500/40 transition-colors">
+                              <a
+                                href={`tel:${teacher.phone}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center gap-2.5 min-w-0 group text-left flex-1"
+                                title={`Call ${teacher.fullName ?? teacher.code}`}
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-black transition-colors flex-shrink-0">
+                                  <Phone size={14} />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 block">
+                                    Phone Number
+                                  </span>
+                                  <span className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors tabular-nums truncate block">
+                                    {teacher.phone}
+                                  </span>
+                                </div>
+                              </a>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  copyToClipboard(teacher.phone!, `phone-${teacher.code}`);
+                                }}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/5 transition-colors flex-shrink-0 ml-1.5"
+                                title="Copy phone number"
+                              >
+                                {copiedKey === `phone-${teacher.code}` ? (
+                                  <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                                    <Check size={12} />
+                                    Copied
+                                  </span>
+                                ) : (
+                                  <Copy size={14} />
+                                )}
+                              </button>
+                            </div>
+                          )}
+
+                          {/* Email Direct & Copy */}
+                          {teacher.email && (
+                            <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#141824] border border-amber-500/20 hover:border-amber-500/40 transition-colors">
+                              <a
+                                href={`mailto:${teacher.email}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center gap-2.5 min-w-0 group text-left flex-1"
+                                title={`Email ${teacher.fullName ?? teacher.code}`}
+                              >
+                                <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:bg-amber-400 group-hover:text-black transition-colors flex-shrink-0">
+                                  <Mail size={14} />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 block">
+                                    Official Email
+                                  </span>
+                                  <span className="text-xs font-bold text-white group-hover:text-amber-200 transition-colors truncate block">
+                                    {teacher.email}
+                                  </span>
+                                </div>
+                              </a>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  copyToClipboard(teacher.email!, `email-${teacher.code}`);
+                                }}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-amber-300 hover:bg-white/5 transition-colors flex-shrink-0 ml-1.5"
+                                title="Copy email address"
+                              >
+                                {copiedKey === `email-${teacher.code}` ? (
+                                  <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                                    <Check size={12} />
+                                    Copied
+                                  </span>
+                                ) : (
+                                  <Copy size={14} />
+                                )}
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Weekly Timetable */}
+                    <div className="space-y-3 pt-1 border-t border-white/5">
+                      <h4 className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">
+                        Weekly Timetable
+                      </h4>
 
                     <div className="space-y-2.5">
                       {DAYS.map((day) => {
@@ -208,8 +323,9 @@ export function Teachers() {
                       })}
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
             );
           })
         )}
