@@ -414,11 +414,9 @@ body {
    enjoys open sky and beautiful background depth. */
 @media (max-width: 639px) {
   .campus-horizon-scenery {
-    transform-origin: 440px 180px;
-    transform: scale(0.72) translateY(6px);
+    transform: translateX(42px);
   }
   .campus-celestial-body {
-    transform-origin: 440px 20px;
-    transform: scale(0.82) translateX(12px);
+    transform: translateX(8px);
   }
 }
