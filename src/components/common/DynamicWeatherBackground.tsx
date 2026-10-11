@@ -26,7 +26,7 @@ import type { WeatherCondition } from '../../services/weatherService';
 function Sun({ x, y, elevation }: { x: number; y: number; elevation: number }) {
   if (elevation <= 0) return null;
 
-  const scale = 0.8 + elevation * 0.35;
+  const scale = 0.65 + elevation * 0.22;
   const opacity = Math.min(1, elevation * 1.5);
 
   const coreG = Math.round(210 + elevation * 45);
@@ -107,7 +107,7 @@ function Moon({ x, y, elevation, cloudCover }: {
   if (elevation <= 0) return null;
 
   const opacity = Math.min(1, elevation * 1.4) * (1 - (cloudCover / 100) * 0.45);
-  const scale = 0.85 + elevation * 0.3;
+  const scale = 0.65 + elevation * 0.18;
 
   return (
     <g

@@ -149,9 +149,9 @@ function computeMoonPosition(totalMinutes: number): CelestialPosition {
   const progress = elapsed / duration;
   const elevation = Math.sin(progress * Math.PI);
 
-  // Staged in right upper scenic window (0.74 - 0.81, y: 0.32 - 0.58)
-  const x = 0.74 + Math.sin(progress * Math.PI * 0.85) * 0.07;
-  const y = 0.58 - elevation * 0.26;
+  // Staged in right upper scenic window (x: 0.73 - 0.79, y: 0.26 - 0.52)
+  const x = 0.73 + Math.sin(progress * Math.PI * 0.85) * 0.06;
+  const y = 0.52 - elevation * 0.24;
 
   return { elevation, x, y, visible: true };
 }
