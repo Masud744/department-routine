@@ -240,7 +240,7 @@ export function Rooms() {
 
                 {/* Expanded Full Schedule Accordion */}
                 {isExpanded && (
-                  <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-3">
+                  <div className="border-t border-white/10 bg-[#121316] p-4 space-y-3">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                         {formatRoomDisplay(roomState.room)} Full Schedule

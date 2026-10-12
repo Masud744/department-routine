@@ -8,7 +8,7 @@ interface BottomNavProps {
 export function BottomNav({ onOpenSearch }: BottomNavProps) {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 bg-[#0A0F18]/90 backdrop-blur-xl border-t border-white/10 px-2 py-1.5 sm:max-w-md md:max-w-lg lg:max-w-xl sm:mx-auto sm:bottom-4 sm:rounded-2xl sm:border"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-[#0c0d10]/90 backdrop-blur-xl border-t border-white/10 px-2 py-1.5 sm:max-w-md md:max-w-lg lg:max-w-xl sm:mx-auto sm:bottom-4 sm:rounded-2xl sm:border"
       aria-label="Mobile Bottom Navigation"
     >
       <div className="flex items-center justify-around">

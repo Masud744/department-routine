@@ -6,14 +6,14 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --font-signature: 'Caveat', 'Dancing Script', cursive;
 
-  /* Sleek Dark Obsidian Theme (matching reference mobile design) */
-  --color-bg-base: #070B11;
-  --color-bg-primary: #0A0F18;
-  --color-bg-secondary: #0F1724;
-  --color-bg-tertiary: #162030;
-  --color-bg-card: rgba(22, 32, 48, 0.7);
-  --color-bg-card-hover: rgba(28, 41, 61, 0.85);
-  --color-bg-elevated: #1A2538;
+  /* Pure Neutral Charcoal Obsidian Theme (Linear / Vercel Style) */
+  --color-bg-base: #08090b;
+  --color-bg-primary: #0c0d10;
+  --color-bg-secondary: #111215;
+  --color-bg-tertiary: #16171b;
+  --color-bg-card: rgba(20, 21, 26, 0.75);
+  --color-bg-card-hover: rgba(28, 29, 36, 0.85);
+  --color-bg-elevated: #18191f;
 
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
@@ -56,7 +56,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  background-color: #070B11;
+  background-color: #08090b;
   color: #F8FAFC;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -64,7 +64,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #070B11;
+  background-color: #08090b;
   color: var(--color-text-primary);
   min-height: 100vh;
   margin: 0;
@@ -76,7 +76,7 @@ body {
 .app-container {
   width: 100%;
   min-height: 100vh;
-  background-color: #0A0F18;
+  background-color: #0c0d10;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@ body {
 
 /* Hero Live Class Card with Gradient Mesh */
 .hero-live-card {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(26, 37, 56, 0.9) 50%, rgba(13, 27, 42, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(18, 19, 24, 0.95) 0%, rgba(24, 25, 32, 0.9) 50%, rgba(16, 17, 22, 0.95) 100%);
   position: relative;
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.12);
