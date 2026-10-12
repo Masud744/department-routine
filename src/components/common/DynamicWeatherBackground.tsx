@@ -12,7 +12,7 @@
  * - Smooth frosted readability gradient on the left so foreground course details are 100% legible
  */
 
-import { useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useLiveTime } from '../../hooks/useLiveTime';
 import { useWeather } from '../../hooks/useWeather';
 import { computeEnvironment } from '../../services/environmentEngine';
@@ -805,6 +805,18 @@ export function DynamicWeatherBackground() {
   const now = useLiveTime();
   const weather = useWeather();
 
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 639px)');
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    setIsMobile(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
   const condition: WeatherCondition = weather?.condition ?? 'partly_cloudy';
   const cloudCover = weather?.cloudCover ?? 40;
 
@@ -827,7 +839,7 @@ export function DynamicWeatherBackground() {
         style={{ background: env.sky.skyGradient }}
       />
 
-      {/* Layer 2: Ambient Celestial Glow */}
+      {/* Layer 2: Ambient Celestial Glow (Dynamically tracks sun/moon in mobile and desktop frames) */}
       <div
         className="absolute inset-0 transition-all duration-[2500ms]"
         style={{
@@ -835,14 +847,20 @@ export function DynamicWeatherBackground() {
             const body = env.isDay ? env.sun : env.moon;
             if (!body.visible) return 'none';
             const glowOpStr = env.sky.glowColor.replace('VAR', String(env.sky.glowOpacity));
-            return `radial-gradient(ellipse 180px 140px at ${body.x * 100}% ${body.y * 100}%, ${glowOpStr}, transparent 75%)`;
+            // On mobile (viewBox 150-440), convert SVG coordinate (body.x * 440) to percentage of visible width
+            const glowXPercent = isMobile
+              ? Math.max(10, Math.min(95, ((body.x * 440 - 150) / 290) * 100))
+              : body.x * 100;
+            return `radial-gradient(ellipse 180px 140px at ${glowXPercent}% ${body.y * 100}%, ${glowOpStr}, transparent 75%)`;
           })(),
         }}
       />
 
-      {/* Layer 3–6: SVG Canvas (Stars, Celestial Bodies, Clouds, Campus Landscape) */}
+      {/* Layer 3–6: SVG Canvas (Stars, Celestial Bodies, Clouds, Campus Landscape)
+          On desktop: Wide panoramic frame 0 0 440 180
+          On mobile: Focused landscape frame 150 0 290 180 so trees, wing, building & sun all fit perfectly */}
       <svg
-        viewBox="0 0 440 180"
+        viewBox={isMobile ? '150 0 290 180' : '0 0 440 180'}
         className="absolute inset-0 w-full h-full"
         preserveAspectRatio="xMaxYMid slice"
         aria-hidden="true"
@@ -882,15 +900,15 @@ export function DynamicWeatherBackground() {
 
       {/* Layer 10: Smooth Frosted Readability Shield on Left —
            Ensures course code, faculty, room, and action buttons are 100% legible
-           while allowing the rich sky and campus scenery to shine on the right */}
+           while allowing the rich sky and campus scenery (trees + building) to shine on the right */}
       <div
-        className="absolute inset-y-0 left-0 w-[58%] pointer-events-none transition-all duration-1000"
+        className="absolute inset-y-0 left-0 w-[50%] sm:w-[58%] pointer-events-none transition-all duration-1000"
         style={{
           background: `linear-gradient(to right,
             rgba(6, 10, 18, 0.95) 0%,
             rgba(8, 14, 24, 0.90) 45%,
-            rgba(10, 18, 30, 0.55) 75%,
-            rgba(12, 20, 34, 0.15) 90%,
+            rgba(10, 18, 30, 0.50) 75%,
+            rgba(12, 20, 34, 0.10) 90%,
             transparent 100%)`,
           backdropFilter: 'blur(3px)',
           WebkitBackdropFilter: 'blur(3px)',

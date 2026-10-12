@@ -123,47 +123,46 @@ export function Dashboard() {
 
           {/* FOREGROUND CONTENT LAYER (Cleanly floating over frosted glass shield) */}
           <div className="relative z-10 flex flex-col justify-between h-full space-y-4">
-            {/* Top row: Status on left, Slot Pill, Time & Weather on right */}
+            {/* Top row: Status on left with Slot Pill in blurred zone, Weather on right */}
             <div className="flex items-center justify-between gap-1.5 sm:gap-2">
-              {/* Status indicator */}
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold whitespace-nowrap flex-shrink-0">
-                {isHeroLive ? (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                    <span className="text-rose-400 tracking-wide">LIVE NOW</span>
-                  </>
-                ) : heroClass === nextClass ? (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                    <span className="text-amber-300 font-semibold tracking-wide">UPCOMING</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                    <span className="text-slate-300 font-medium tracking-wide">SCHEDULED</span>
-                  </>
-                )}
-              </div>
+              {/* Left group: Status indicator + Slot Badge in blurred readability zone */}
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold whitespace-nowrap flex-shrink-0">
+                  {isHeroLive ? (
+                    <>
+                      <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                      <span className="text-rose-400 tracking-wide">LIVE NOW</span>
+                    </>
+                  ) : heroClass === nextClass ? (
+                    <>
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <span className="text-amber-300 font-semibold tracking-wide">UPCOMING</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                      <span className="text-slate-300 font-medium tracking-wide">SCHEDULED</span>
+                    </>
+                  )}
+                </div>
 
-              {/* Functional Slot/Time/Weather on right (Unified mature frosted styling) */}
-              <div className="flex items-center gap-1.5 flex-shrink-0">
-                {/* Slot Badge */}
+                {/* Slot Badge in blur zone */}
                 <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[10px] font-semibold text-slate-300 uppercase tracking-wider backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
                   SLOT {heroClass.slotNumber}
                 </span>
-
-                {/* Weather: Plain text & icon without card */}
-                {weather && (
-                  <div className="flex items-center gap-1 text-xs font-medium text-slate-200 drop-shadow-sm whitespace-nowrap flex-shrink-0">
-                    {weather.isDay ? (
-                      <Sun size={13} className="text-amber-400" />
-                    ) : (
-                      <Moon size={13} className="text-cyan-300" />
-                    )}
-                    <span>{weather.temperature}°C</span>
-                  </div>
-                )}
               </div>
+
+              {/* Weather on right: Plain text & icon floating cleanly in sky */}
+              {weather && (
+                <div className="flex items-center gap-1 text-xs font-medium text-slate-200 drop-shadow-sm whitespace-nowrap flex-shrink-0">
+                  {weather.isDay ? (
+                    <Sun size={13} className="text-amber-400" />
+                  ) : (
+                    <Moon size={13} className="text-cyan-300" />
+                  )}
+                  <span>{weather.temperature}°C</span>
+                </div>
+              )}
             </div>
 
             {/* Middle row: Course Title, Room & Faculty, Time */}
