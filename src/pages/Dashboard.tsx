@@ -273,7 +273,7 @@ export function Dashboard() {
                 className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
                   isSelected
                     ? 'bg-white text-slate-950 shadow-md scale-[1.02]'
-                    : 'bg-[#131418] border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.06]'
+                    : 'bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
                 }`}
                 aria-pressed={isSelected}
               >
@@ -329,12 +329,12 @@ export function Dashboard() {
               return (
                 <div
                   key={entry.id}
-                  className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all ${
+                  className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all backdrop-blur-xl ${
                     running
-                      ? 'border border-rose-500/40 bg-rose-950/20 shadow-sm'
+                      ? 'border border-rose-500/40 bg-rose-500/[0.08] shadow-[inset_0_1px_0_rgba(244,63,94,0.25)]'
                       : isFirst && currentDay === activeDay
-                      ? 'border border-cyan-500/40 bg-cyan-950/15'
-                      : 'bg-[#131418] border border-white/[0.08] hover:border-white/15'
+                      ? 'border border-cyan-500/40 bg-cyan-500/[0.06] shadow-[inset_0_1px_0_rgba(6,182,212,0.2)]'
+                      : 'bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.05] hover:border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
                   }`}
                 >
                   {/* Left: Circle Icon Indicator */}
