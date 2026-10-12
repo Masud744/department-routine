@@ -104,35 +104,35 @@ export function Teachers() {
                   className="p-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3 min-w-0">
-                      {/* Avatar with Initials */}
-                      <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center flex-shrink-0 text-cyan-400 font-bold text-sm shadow-sm">
-                        {teacher.code}
-                      </div>
-
-                      <div className="min-w-0">
-                        <h3 className="font-bold text-sm text-white truncate">
+                    <div className="min-w-0 flex-1 space-y-1">
+                      {/* Header: Teacher Full Name + Monospace Code Badge */}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-bold text-base text-white tracking-tight">
                           {teacher.fullName ?? teacher.code}
                         </h3>
-                        {teacher.designation && (
-                          <p className={`text-xs mt-0.5 truncate ${
-                            teacher.designation.includes('Chairman')
-                              ? 'text-emerald-400 font-semibold'
-                              : 'text-slate-400'
-                          }`}>
-                            {teacher.designation}
-                          </p>
-                        )}
+                        <span className="px-2 py-0.5 rounded-md bg-white/[0.06] border border-white/10 text-[10px] font-mono font-semibold text-slate-300 uppercase tracking-wider">
+                          {teacher.code}
+                        </span>
+                      </div>
 
-                        <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-slate-400">
-                          <span>Code: <span className="font-semibold text-cyan-400">{teacher.code}</span></span>
-                          <span>•</span>
-                          <span>{teacher.classes.length} classes</span>
-                          <span>•</span>
-                          <span>{teacher.uniqueCourses.length} courses</span>
-                          <span>•</span>
-                          <span>{teacher.uniqueBatches.map(b => getBatchName(b)).join(', ')}</span>
-                        </div>
+                      {/* Designation */}
+                      {teacher.designation && (
+                        <p className={`text-xs truncate ${
+                          teacher.designation.includes('Chairman')
+                            ? 'text-emerald-400 font-semibold'
+                            : 'text-slate-400'
+                        }`}>
+                          {teacher.designation}
+                        </p>
+                      )}
+
+                      {/* Metadata stats row */}
+                      <div className="pt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-slate-400">
+                        <span>{teacher.classes.length} classes</span>
+                        <span className="text-slate-600">•</span>
+                        <span>{teacher.uniqueCourses.length} courses</span>
+                        <span className="text-slate-600">•</span>
+                        <span>{teacher.uniqueBatches.map(b => getBatchName(b)).join(', ')}</span>
                       </div>
                     </div>
 
