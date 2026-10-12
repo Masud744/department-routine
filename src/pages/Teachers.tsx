@@ -161,7 +161,7 @@ export function Teachers() {
 
                 {/* Expanded Weekly Schedule & Contact Accordion */}
                 {isExpanded && (
-                  <div className="border-t border-white/10 bg-[#121316] p-4 space-y-4">
+                  <div className="border-t border-white/10 bg-[#0C1320] p-4 space-y-4">
                     {/* Faculty Direct Contact Actions */}
                     {(teacher.phone || teacher.email) && (
                       <div className="space-y-2">

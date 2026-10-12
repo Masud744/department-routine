@@ -227,7 +227,7 @@ export function Dashboard() {
       {/* 2.5 Quick Action Banner: Find Vacant Room Now */}
       <div
         onClick={() => setIsVacantModalOpen(true)}
-        className="glass-card p-3.5 rounded-2xl border border-white/10 hover:border-white/20 cursor-pointer transition-all active:scale-[0.99] group flex items-center justify-between gap-3"
+        className="glass-card p-3.5 rounded-2xl border border-white/10 hover:border-white/20 cursor-pointer transition-all active:scale-[0.99] group flex items-center justify-between gap-3 bg-[#0c1420]/80"
       >
         <div className="flex items-center gap-3 min-w-0">
           <div className="w-10 h-10 rounded-2xl bg-white/[0.06] border border-white/15 text-slate-200 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
@@ -273,7 +273,7 @@ export function Dashboard() {
                 className={`flex flex-col items-center justify-center py-3 px-1 rounded-2xl transition-all relative ${
                   isSelected
                     ? 'bg-white text-slate-950 shadow-md scale-[1.02]'
-                    : 'bg-white/[0.03] backdrop-blur-md border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.06] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
+                    : 'bg-[#0c1420]/80 border border-white/5 text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
                 aria-pressed={isSelected}
               >
@@ -329,12 +329,12 @@ export function Dashboard() {
               return (
                 <div
                   key={entry.id}
-                  className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all backdrop-blur-xl ${
+                  className={`rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all ${
                     running
-                      ? 'border border-rose-500/40 bg-rose-500/[0.08] shadow-[inset_0_1px_0_rgba(244,63,94,0.25)]'
+                      ? 'border border-rose-500/40 bg-rose-950/20 shadow-sm'
                       : isFirst && currentDay === activeDay
-                      ? 'border border-cyan-500/40 bg-cyan-500/[0.06] shadow-[inset_0_1px_0_rgba(6,182,212,0.2)]'
-                      : 'bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.05] hover:border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'
+                      ? 'border border-cyan-500/40 bg-cyan-950/15'
+                      : 'bg-[#0c1420]/80 border border-white/5 hover:border-white/10'
                   }`}
                 >
                   {/* Left: Circle Icon Indicator */}
