@@ -147,24 +147,21 @@ export function Dashboard() {
 
               {/* Functional Slot/Time/Weather on right (Unified mature frosted styling) */}
               <div className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] tabular-nums backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
-                  <span className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
-                    SLOT {heroClass.slotNumber}
-                  </span>
-                  <span className="text-white/30 mx-1.5 font-bold">•</span>
-                  <span className="text-white font-semibold">
-                    {formatTime12h(heroClass.startTime)}
-                  </span>
+                {/* Slot Badge */}
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[10px] font-semibold text-slate-300 uppercase tracking-wider backdrop-blur-md whitespace-nowrap flex-shrink-0 shadow-sm">
+                  SLOT {heroClass.slotNumber}
                 </span>
+
+                {/* Weather: Plain text & icon without card */}
                 {weather && (
-                  <span className="px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/15 text-[11px] sm:text-xs font-medium text-slate-200 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap flex-shrink-0">
+                  <div className="flex items-center gap-1 text-xs font-medium text-slate-200 drop-shadow-sm whitespace-nowrap flex-shrink-0">
                     {weather.isDay ? (
-                      <Sun size={12} className="text-amber-400" />
+                      <Sun size={13} className="text-amber-400" />
                     ) : (
-                      <Moon size={12} className="text-cyan-300" />
+                      <Moon size={13} className="text-cyan-300" />
                     )}
                     <span>{weather.temperature}°C</span>
-                  </span>
+                  </div>
                 )}
               </div>
             </div>
@@ -203,10 +200,6 @@ export function Dashboard() {
                 <span>Locate {formatRoomDisplay(heroClass.room)}</span>
                 <ChevronRight size={13} className="stroke-[2.5]" />
               </button>
-
-              <span className="text-xs font-semibold text-slate-300 whitespace-nowrap flex-shrink-0">
-                {getBatchName(heroClass.batch)}
-              </span>
             </div>
           </div>
         </div>

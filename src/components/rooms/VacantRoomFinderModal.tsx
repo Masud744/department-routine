@@ -203,8 +203,8 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
                   onClick={() => handleSelectRoom(roomInfo.room)}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer group hover:border-white/20 active:scale-[0.99] ${
                     isFreeNow
-                      ? 'bg-white/[0.03] border-emerald-500/25 hover:border-emerald-500/40'
-                      : 'bg-white/[0.01] border-white/10 opacity-75'
+                      ? 'bg-white/[0.03] border-white/10 hover:border-white/20'
+                      : 'bg-white/[0.01] border-white/5 opacity-75'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
