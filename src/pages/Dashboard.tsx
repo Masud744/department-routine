@@ -30,6 +30,8 @@ import { DynamicWeatherBackground } from '../components/common/DynamicWeatherBac
 import { useWeather } from '../hooks/useWeather';
 import { useLiveOnlineUsers } from '../hooks/useLiveOnlineUsers';
 import { VacantRoomFinderModal } from '../components/rooms/VacantRoomFinderModal';
+import { AcademicCalendarModal } from '../components/calendar/AcademicCalendarModal';
+import { getHolidayForDate, isExamRunning, getSemesterProgress } from '../utils/calendarEngine';
 
 export function Dashboard() {
   const now = useLiveTime();
@@ -40,7 +42,13 @@ export function Dashboard() {
   const currentDay = getCurrentDay();
   const [activeDay, setActiveDay] = useState<Day>(() => currentDay ?? 'Saturday');
   const [isVacantModalOpen, setIsVacantModalOpen] = useState(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const weather = useWeather();
+
+  // Academic Calendar & Phase calculations
+  const todayHoliday = useMemo(() => getHolidayForDate(now), [now]);
+  const examStatus = useMemo(() => isExamRunning(selectedBatch, now), [selectedBatch, now]);
+  const semesterProgress = useMemo(() => getSemesterProgress(selectedBatch, now), [selectedBatch, now]);
 
   // Recalculate driven by live clock
   const currentClass = useMemo(() => {
@@ -85,7 +93,7 @@ export function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* 1. Header Section: Title & Batch Info */}
+      {/* 1. Header Section: Title, Batch, Academic Week, & Actions */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
@@ -95,6 +103,14 @@ export function Dashboard() {
             <p className="text-slate-400">
               Routine for <span className="text-white font-semibold">{getBatchName(selectedBatch)}</span>
             </p>
+            {semesterProgress && !semesterProgress.notStarted && (
+              <>
+                <span className="text-slate-600">·</span>
+                <span className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/10 text-[10px] font-mono text-slate-300">
+                  W{semesterProgress.currentWeek}
+                </span>
+              </>
+            )}
             <span className="text-slate-600">·</span>
             <span
               className="inline-flex items-center gap-1.5 font-semibold text-emerald-400 whitespace-nowrap text-[11px]"
@@ -106,17 +122,92 @@ export function Dashboard() {
           </div>
         </div>
 
-        <Link
-          to="/routines"
-          className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 transition-colors flex-shrink-0 pt-1"
+        <button
+          onClick={() => setIsCalendarModalOpen(true)}
+          className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors flex-shrink-0 pt-1 group cursor-pointer"
         >
-          <span>Full Routine</span>
-          <ChevronRight size={14} className="stroke-[2.5]" />
-        </Link>
+          <Calendar size={13} className="text-slate-400 group-hover:text-slate-200 transition-colors" />
+          <span>Academic Calendar</span>
+          <ChevronRight size={13} className="stroke-[2.5] text-slate-500 group-hover:text-white transition-colors" />
+        </button>
       </div>
 
-      {/* 2. Featured Hero Card with Grand Dynamic Celestial Sky & Architecture */}
-      {heroClass ? (
+      {/* 1.8 Exam Notice Banner (If exams are running) */}
+      {examStatus.isExam && (
+        <div className="glass-card p-3.5 rounded-2xl border border-white/10 bg-[#0c1420]/80 flex items-start gap-3 shadow-md">
+          <div className="p-2 rounded-xl bg-white/[0.06] border border-white/10 text-cyan-400 flex-shrink-0 mt-0.5">
+            <Calendar size={16} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="text-xs font-semibold text-white tracking-wide uppercase">
+                {examStatus.phase?.name} Active
+              </h4>
+              <span className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/10 text-slate-300 text-[10px] font-mono">
+                {examStatus.phase?.startDate} — {examStatus.phase?.endDate}
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              Official examination period is currently in session for {getBatchName(selectedBatch)}. Regular daily class routines may be superseded by departmental exam schedules.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* 2. Featured Hero Card: Holiday Hero OR Live Class Card OR Empty State */}
+      {todayHoliday ? (
+        <div className="hero-live-card p-5 relative group overflow-hidden min-h-[210px] rounded-[26px] border border-white/10 shadow-2xl flex flex-col justify-between">
+          <DynamicWeatherBackground />
+          <div className="relative z-10 flex flex-col justify-between h-full space-y-4">
+            {/* Top row */}
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-white/[0.08] border border-white/15 text-[10px] font-mono font-semibold text-slate-300 uppercase tracking-wider backdrop-blur-md whitespace-nowrap shadow-sm">
+                Official Holiday
+              </span>
+              {weather && (
+                <div className="flex items-center gap-1 text-xs font-medium text-slate-200 drop-shadow-sm whitespace-nowrap flex-shrink-0">
+                  {weather.isDay ? (
+                    <Sun size={13} className="text-amber-400" />
+                  ) : (
+                    <Moon size={13} className="text-cyan-300" />
+                  )}
+                  <span>{weather.temperature}°C</span>
+                </div>
+              )}
+            </div>
+
+            {/* Middle row */}
+            <div className="space-y-1.5 max-w-[85%]">
+              <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight drop-shadow-md">
+                {todayHoliday.name}
+              </h3>
+              <p className="text-xs text-slate-300 font-normal pt-0.5">
+                {todayHoliday.startDate === todayHoliday.endDate
+                  ? `${todayHoliday.startDate} · University campus and academic activities are officially closed today.`
+                  : `${todayHoliday.startDate} to ${todayHoliday.endDate} (${todayHoliday.days} Days Break) · University campus is closed.`}
+              </p>
+            </div>
+
+            {/* Bottom action */}
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+              <button
+                onClick={() => setIsCalendarModalOpen(true)}
+                className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold text-xs tracking-wide transition-all active:scale-95 flex items-center gap-1.5"
+              >
+                <Calendar size={13} />
+                <span>Academic Calendar</span>
+              </button>
+              <button
+                onClick={() => setIsVacantModalOpen(true)}
+                className="px-4 py-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs tracking-wide shadow-sm transition-all active:scale-95 flex items-center gap-1.5"
+              >
+                <DoorOpen size={13} />
+                <span>Find Vacant Rooms</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : heroClass ? (
         <div className="hero-live-card p-5 relative group overflow-hidden min-h-[210px] rounded-[26px] border border-white/10 shadow-2xl flex flex-col justify-between">
           {/* FULL-CARD DYNAMIC WEATHER ENVIRONMENT */}
           <DynamicWeatherBackground />
@@ -454,6 +545,14 @@ export function Dashboard() {
       <VacantRoomFinderModal
         isOpen={isVacantModalOpen}
         onClose={() => setIsVacantModalOpen(false)}
+      />
+
+      {/* Academic Calendar Modal */}
+      <AcademicCalendarModal
+        isOpen={isCalendarModalOpen}
+        onClose={() => setIsCalendarModalOpen(false)}
+        selectedBatch={selectedBatch}
+        currentDate={now}
       />
     </div>
   );

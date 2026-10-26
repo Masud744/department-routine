@@ -57,7 +57,7 @@ export function VacantRoomFinderModal({ isOpen, onClose }: VacantRoomFinderModal
   if (!isOpen) return null;
 
   const handleCopyInvite = (info: VacantRoomStudyInfo) => {
-    let text = `📍 ${info.metadata.displayName} (${info.metadata.floor}) is vacant right now`;
+    let text = `${info.metadata.displayName} (${info.metadata.floor}) is vacant right now`;
     if (info.freeUntilTime === 'End of Day' || info.freeUntilTime === 'Off Day') {
       text += ` for the rest of the day!`;
     } else if (info.freeUntilTime) {
